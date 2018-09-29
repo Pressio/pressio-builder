@@ -1,8 +1,8 @@
 #!/bin/bash
 
-EXTRA_ARGS=
+EXTRA_ARGS=$@
 TRILINOS_SRC_DIR=/Users/fnrizzi/tpl/trilinos/Trilinos
-PFX=/Users/fnrizzi/tpl/trilinos/install_gcc640_ompi301
+PFX=/Users/fnrizzi/tpl/trilinos/install_debug_gcc640_ompi301
 MPIPATH=/Users/fnrizzi/tpl/openmpi/301/installgcc640
 
 cmake \
@@ -48,4 +48,3 @@ cmake \
     -D CMAKE_VERBOSE_MAKEFILE:BOOL=TRUE \
     ${TRILINOS_SRC_DIR} \
     $EXTRA_ARGS
-
