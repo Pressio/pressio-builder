@@ -1,24 +1,24 @@
 #!/bin/bash
 
 EXTRA_ARGS=$@
-SRC=/Users/fnrizzi/Desktop/work/ROM/codes/sources/rompp
-PFX=/Users/fnrizzi/Desktop/work/ROM/codes/installs/rompp_install
+SRC=/Users/fnrizzi/Desktop/work/ROM/sources/rompp
+PFX=/Users/fnrizzi/Desktop/work/ROM/installs/rompp_install
 
 MPIPATH=/Users/fnrizzi/tpl/openmpi/301/installgcc730
 TRILPATH=/Users/fnrizzi/tpl/trilinos/install_dyn_debug_gcc730_ompi301_static
 EIGENINCPATH=/Users/fnrizzi/tpl/eigen/3.3.5/install
 GTESTPATH=/Users/fnrizzi/tpl/gtest/installgcc730
-BLAZEINCPATH=/Users/fnrizzi/tpl/blaze/3.4/install/include
-ARMADILLOPATH=/Users/fnrizzi/tpl/armadillo/install_gcc730
+#BLAZEINCPATH=/Users/fnrizzi/tpl/blaze/3.4/install/include
+#ARMADILLOPATH=/Users/fnrizzi/tpl/armadillo/install_gcc730
 
 cmake \
     -D CMAKE_BUILD_TYPE:STRING=DEBUG \
     -D CMAKE_INSTALL_PREFIX:PATH=${PFX} \
     -D CMAKE_VERBOSE_MAKEFILE:BOOL=ON \
     \
-    -D BUILD_SHARED_LIBS:BOOL=OFF \
-    -D TPL_FIND_SHARED_LIBS=OFF \
-    -D rompp_LINK_SEARCH_START_STATIC=ON \
+    -D BUILD_SHARED_LIBS:BOOL=ON \
+    -D TPL_FIND_SHARED_LIBS=ON \
+    -D rompp_LINK_SEARCH_START_STATIC=OFF \
     \
     -D BLAS_LIBRARY_NAMES:STRING="openblas" \
     -D BLAS_LIBRARY_DIRS:PATH=/opt/local/lib \
@@ -38,11 +38,6 @@ cmake \
     -D TRILINOS_INCLUDE_DIRS:PATH=${TRILPATH}/include \
     -D TPL_ENABLE_EIGEN=ON \
     -D EIGEN_INCLUDE_DIRS:PATH=${EIGENINCPATH} \
-    -D TPL_ENABLE_BLAZE=OFF \
-    -D BLAZE_INCLUDE_DIRS:PATH=${BLAZEINCPATH} \
-    -D TPL_ENABLE_ARMADILLO=OFF \
-    -D ARMADILLO_INCLUDE_DIRS:PATH=${ARMADILLOPATH}/include \
-    -D ARMADILLO_LIBRARY_DIRS:PATH=${ARMADILLOPATH}/lib \
     -D TPL_ENABLE_GTEST=ON \
     -D GTEST_LIBRARY_DIRS:PATH=${GTESTPATH}/lib \
     -D GTEST_INCLUDE_DIRS:PATH=${GTESTPATH}/include \
@@ -62,3 +57,10 @@ cmake \
     \
     $EXTRA_ARGS \
     ${SRC}
+
+
+#     -D TPL_ENABLE_BLAZE=OFF \
+#     -D BLAZE_INCLUDE_DIRS:PATH=${BLAZEINCPATH} \
+#     -D TPL_ENABLE_ARMADILLO=OFF \
+#     -D ARMADILLO_INCLUDE_DIRS:PATH=${ARMADILLOPATH}/include \
+#     -D ARMADILLO_LIBRARY_DIRS:PATH=${ARMADILLOPATH}/lib \
