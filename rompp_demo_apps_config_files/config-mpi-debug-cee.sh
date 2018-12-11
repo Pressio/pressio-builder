@@ -1,5 +1,7 @@
 #!/bin/bash
 
+module load sparc-dev/gcc
+
 EXTRA_ARGS=$@
 
 SRC=/projects/rompp/sources/rompp_demo_apps
