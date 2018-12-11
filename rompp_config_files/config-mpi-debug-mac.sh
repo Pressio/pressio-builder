@@ -4,10 +4,10 @@ EXTRA_ARGS=$@
 SRC=/Users/fnrizzi/Desktop/work/ROM/sources/rompp
 PFX=/Users/fnrizzi/Desktop/work/ROM/installs/rompp_install
 
-MPIPATH=/Users/fnrizzi/tpl/openmpi/301/installgcc730
-TRILPATH=/Users/fnrizzi/tpl/trilinos/install_dyn_debug_gcc730_ompi301_static
+MPIPATH=/Users/fnrizzi/tpl/openmpi/4.0.0/install_gcc650
+TRILPATH=/Users/fnrizzi/tpl/trilinos/install_ompi400_gcc650_dbg_shared
 EIGENINCPATH=/Users/fnrizzi/tpl/eigen/3.3.5/install
-GTESTPATH=/Users/fnrizzi/tpl/gtest/installgcc730
+GTESTPATH=/Users/fnrizzi/tpl/gtest/install_gcc650
 #BLAZEINCPATH=/Users/fnrizzi/tpl/blaze/3.4/install/include
 #ARMADILLOPATH=/Users/fnrizzi/tpl/armadillo/install_gcc730
 
