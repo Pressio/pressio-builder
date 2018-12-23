@@ -4,12 +4,14 @@
 # step : test cline arguments
 
 n_args=$#
-if test $n_args -lt 4
+if test $n_args -lt 6
 then
     str+="[DEBUG/RELEASE] "
     str+="[dynamic/static] "
     str+="[numCoresForMake] "
-    str+="[tpls_path] "
+    str+="<eigen_full_path> "
+    str+="<gtest_full_path> "
+    str+="<trilinos_full_path> "
 
     echo "usage:"
     echo "$0 $str"
@@ -29,12 +31,11 @@ build(){
 
     local nCoreMake=$3
 
-    # where to find all tpls
-    local tpls_path=$4
-
-    local TRILPATH=${tpls_path}/trilinos/install
-    local GTESTPATH=${tpls_path}/gtest/install
-    local EIGENPATH=${tpls_path}/eigen/install
+    # # where to find all tpls
+    # local tpls_path=$4
+    local EIGENPATH=$4
+    local GTESTPATH=$5
+    local TRILPATH=$6
 
     #-----------------------------------
 
@@ -100,7 +101,7 @@ build(){
 }
 
 # see top
-build $1 $2 $3 $4
+build $1 $2 $3 $4 $5 $6
 
 
 

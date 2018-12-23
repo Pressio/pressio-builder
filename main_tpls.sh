@@ -33,7 +33,6 @@ EIGENCONFIGDIR=${BASEDIR}/tpls_config_files/eigen
 GTESTCONFIGDIR=${BASEDIR}/tpls_config_files/gtest
 TRILINOSCONFIGDIR=${BASEDIR}/tpls_config_files/trilinos
 
-
 declare -a tpl_names     # array tpl names
 declare -a tpl_scripts   # array tpl script names
 

@@ -6,26 +6,22 @@ echo "Bash version ${BASH_VERSION}"
 # step : test cline arguments
 
 n_args=$#
-if test $n_args -lt 7
+if test $n_args -lt 10
 then
     str="[linux/mac] "
     str+="<working-dir-full-path> "
     str+="[wipe_existing=0/1]"
     str+="[DEBUG/RELEASE] [dynamic/static] "
+    str+="<full-path-to-setenv.sh> "
     str+="[rompp_script_name] "
-    str+="[tpls_path] "
+    str+="[eigen] <eigen_full_path> "
+    str+="[gtest] <gtest_full_path> "
+    str+="[trilinos] <trilinos_full_path> "
 
     echo "usage:"
     echo "$0 $str"
     exit 1;
 fi
-
-#---------------------------------
-# step : load modules
-
-echo "setting up environment"
-source setenv.sh
-echo "PATH = $PATH"
 
 #----------------------------------
 # step : define global variables
@@ -36,6 +32,9 @@ PWD=`pwd`
 BASEDIR=$PWD
 
 ROMPPCONFIGDIR=${BASEDIR}/rompp_config_files
+
+declare -a tpl_names   # array tpl names
+declare -a tpl_paths   # array tpl paths
 
 #----------------------------------
 # step : parse cline arguments
@@ -60,28 +59,60 @@ MODEbuild=$4 && echo "you selected: $MODEbuild"
 # build/link shared or static lib
 MODElib=$5 && echo "you selected: $MODElib"
 
+# env script
+SETENVscript=$6
+
 # script name for rompp build
-ROMPPSCRIPT=$6 && echo "rompp script name: ${ROMPPSCRIPT}"
+ROMPPSCRIPT=$7 && echo "rompp script name: ${ROMPPSCRIPT}"
 
-# path to TPLS
-TPLSPATH=$7 && echo "path to tpls: ${TPLSPATH}"
+# store all tpl names
+for (( i=8; i<=$n_args-1; i+=2 ))
+do
+    # path comes after tpl name
+    j=$((i+1))
 
+    # append to arrays
+    tpl_names=("${tpl_names[@]}" "${!i}")
+    tpl_paths=("${tpl_paths[@]}" "${!j}")
+done
+
+echo "target tpls to build: ${tpl_names[@]}"
+echo "target paths: ${tpl_paths[@]}"
+
+#---------------------------------
+# step : load modules
+
+echo "setting up environment"
+source ${SETENVscript}
+echo "PATH = $PATH"
 
 #----------------------------------
 # step : source helper functions
 source help_fncs.sh
 
-
 #----------------------------------
 # step : start building rompp
 
 build_rompp() {
+    scriptname=${ROMPPCONFIGDIR}/${ROMPPSCRIPT}
     local DOBUILD=OFF
-    local scriptName=$1
-    [[ -d romppdir ]] && check_and_clean romppdir || DOBUILD=ON
+    local TRILINOS_PATH=/
+    local EIGEN_PATH=/
+    local GTEST_PATH=/
+    for ((i=0;i<${#tpl_names[@]};++i)); do
+        name=${tpl_names[i]}
+        currpath=${tpl_paths[i]}
+        [[ $name = "trilinos" ]] && TRILINOS_PATH=${currpath}
+        [[ $name = "eigen" ]] && EIGEN_PATH=${currpath}
+        [[ $name = "gtest" ]] && GTEST_PATH=${currpath}
+    done
+    echo $TRILINOS_PATH
+    echo $EIGEN_PATH
+    echo $GTEST_PATH
 
+    [[ -d romppdir ]] && check_and_clean romppdir || DOBUILD=ON
     if [ $DOBUILD = "ON" ]; then
-	bash ${ROMPPCONFIGDIR}/${scriptName}.sh $MODEbuild $MODElib 4 $TPLSPATH
+        bash ${scriptname}.sh $MODEbuild $MODElib 4 ${EIGEN_PATH} ${GTEST_PATH} ${TRILINOS_PATH}
     fi
 }
 # test is workdir exists if not create it
@@ -98,7 +129,7 @@ echo "**building rompp**"
 echo ""
 echo "using script = ${ROMPPCONFIGDIR}/${ROMPPSCRIPT}.sh"
 
-build_rompp ${ROMPPSCRIPT}
+build_rompp
 
 # return where we started from
 cd $BASEDIR
