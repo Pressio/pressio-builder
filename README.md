@@ -1,5 +1,4 @@
-This repo is meant as a placeholder to put all necessary code 
+This repo is meant to store all necessary scripts 
 and instructions to create an automated build system for TPLs and ROMPP. 
 
-It is WIP for now. 
-Will be developed over time. 
+Things are likely going to change quickly for a while here...
