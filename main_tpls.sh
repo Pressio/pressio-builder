@@ -10,8 +10,9 @@ if test $n_args -lt 7
 then
     str="[linux/mac] "
     str+="<working-dir-full-path> "
-    str+="[wipe_existing=0/1]"
+    str+="[wipe_existing=0/1] "
     str+="[DEBUG/RELEASE] [dynamic/static] "
+    str+="<full-path-to-setenv.sh> "
     str+="[libname1] [lib1_script_name] "
     str+="[libname2] [lib2_script_name] "
 
@@ -19,13 +20,6 @@ then
     echo "$0 $str"
     exit 1;
 fi
-
-#---------------------------------
-# step : load modules
-
-echo "setting up environment"
-source setenv.sh
-echo "PATH = $PATH"
 
 #----------------------------------
 # step : define global variables
@@ -66,8 +60,11 @@ MODEbuild=$4 && echo "you selected: $MODEbuild"
 # build/link shared or static lib
 MODElib=$5 && echo "you selected: $MODElib"
 
+# env script
+SETENVscript=$6
+
 # store all tpl names
-for (( i=6; i<=$n_args-1; i+=2 ))
+for (( i=7; i<=$n_args-1; i+=2 ))
 do
     # config file name comes after tpl name
     j=$((i+1))
@@ -76,6 +73,13 @@ do
     tpl_names=("${tpl_names[@]}" "${!i}")
     tpl_scripts=("${tpl_scripts[@]}" "${!j}")
 done
+
+#---------------------------------
+# step : load modules
+
+echo "setting up environment"
+source ${SETENVscript}
+echo "PATH = $PATH"
 
 #----------------------------------
 # step : source helper functions
