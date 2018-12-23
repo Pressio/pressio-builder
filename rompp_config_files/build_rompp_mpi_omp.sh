@@ -71,12 +71,12 @@ build(){
           -D CMAKE_CXX_FLAGS="-fopenmp" \
           \
           -D TPL_ENABLE_TRILINOS=ON \
-          -D TRILINOS_LIBRARY_DIRS:PATH=${TRILPATH}/lib \
+          -D TRILINOS_LIBRARY_DIRS="${TRILPATH}/lib64;${TRILPATH}/lib" \
           -D TRILINOS_INCLUDE_DIRS:PATH=${TRILPATH}/include \
           -D TPL_ENABLE_EIGEN=ON \
           -D EIGEN_INCLUDE_DIRS:PATH=${EIGENPATH} \
           -D TPL_ENABLE_GTEST=ON \
-          -D GTEST_LIBRARY_DIRS:PATH=${GTESTPATH}/lib \
+          -D GTEST_LIBRARY_DIRS="${GTESTPATH}/lib;${GTESTPATH}/lib64" \
           -D GTEST_INCLUDE_DIRS:PATH=${GTESTPATH}/include \
           \
           -D rompp_ENABLE_Fortran=OFF \
@@ -86,12 +86,12 @@ build(){
           -D rompp_ENABLE_ALL_OPTIONAL_PACKAGES:BOOL=OFF \
           \
           -D rompp_ENABLE_core:BOOL=ON \
-          -D rompp_ENABLE_qr:BOOL=OFF \
-          -D rompp_ENABLE_solvers:BOOL=OFF \
-          -D rompp_ENABLE_svd:BOOL=OFF \
-          -D rompp_ENABLE_ode:BOOL=OFF \
-          -D rompp_ENABLE_rom:BOOL=OFF \
-          -D DEBUG_PRINT::BOOL=OFF \
+          -D rompp_ENABLE_qr:BOOL=ON \
+          -D rompp_ENABLE_solvers:BOOL=ON \
+          -D rompp_ENABLE_svd:BOOL=ON \
+          -D rompp_ENABLE_ode:BOOL=ON \
+          -D rompp_ENABLE_rom:BOOL=ON \
+          -D DEBUG_PRINT::BOOL=ON \
           \
           ../rompp
 
