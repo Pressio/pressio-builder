@@ -4,7 +4,8 @@
 # step : test cline arguments
 
 n_args=$#
-if test $n_args -lt 1; then
+if test $n_args -lt 1
+then
     str+="[linux/mac] "
 
     echo "usage:"

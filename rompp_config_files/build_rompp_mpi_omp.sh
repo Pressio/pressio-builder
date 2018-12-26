@@ -4,8 +4,7 @@
 # step : test cline arguments
 
 n_args=$#
-if test $n_args -lt 6
-then
+if test $n_args -lt 6; then
     str+="[DEBUG/RELEASE] "
     str+="[dynamic/static] "
     str+="[numCoresForMake] "
