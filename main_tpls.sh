@@ -197,9 +197,11 @@ echo "env = $SETENVscript"
 #---------------------------------
 # step : load modules
 
-echo "setting up environment"
-source ${SETENVscript}
-echo "PATH = $PATH"
+if [[ ! -z ${SETENVscript} ]]; then
+    echo "setting up environment"
+    source ${SETENVscript}
+    echo "PATH = $PATH"
+fi
 
 #----------------------------------
 # step : source helper functions
