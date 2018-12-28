@@ -187,8 +187,9 @@ Configuration:
 					default = empty, if empty the repo will be cloned
 					under the directory set by --target-dir
 
---with-packages=list			comma-separated list of ROMPP package names.
-					default = core
+--with-packages=list			comma-separated list of ROMPP package names:
+					the current pacakges available: core, qr, solvers, svd, ode, rom
+					default = core.
 
 --with-cmake-fnc=			a name of one of the functions inside 'rompp_cmake_lines.sh'
 					default = cmake_rompp_mpi_omp
