@@ -12,10 +12,11 @@ check_and_clean(){
     local parentdir=$1
     if [ $WIPEEXISTING -eq 1 ]; then
 	echo "wiping $parentdir/build"
-    echo "wiping $parentdir/install"
+	echo "wiping $parentdir/install"
 	rm -rf $parentdir/build $parentdir/install
 	DOBUILD=ON
     else
 	echo "$parentdir exists: skipping"
+	exit 0
     fi
 }

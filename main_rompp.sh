@@ -2,8 +2,8 @@
 
 echo "Bash version ${BASH_VERSION}"
 
-#----------------------------------
-# step : define global variables
+#---------------------------------
+# step : global variables
 
 # PWD will be updated if we change directory
 PWD=`pwd`
@@ -14,15 +14,23 @@ THISDIR=$PWD
 # array storing packages
 declare -a pkg_names=(core)
 
+# path to dir where eigen is installed
 EIGENPATH=
+# path to dir where gtest is installed
 GTESTPATH=
+# path to dir where trilinos is installed
 TRILINOSPATH=
+# path to dir where all tpls are installed
+# structure must follow what main_tpls.sh does
 ALLTPLSPATH=
 
 # rompp git repo src
 ROMPPSRC=
 
-# store the working dir
+# name of the cmake configuring line
+CMAKECONFIGfnc=cmake_rompp_mpi_omp
+
+# the working dir
 ARCH=
 
 # store the target working dir
@@ -40,19 +48,40 @@ MODElib=shared
 # env script
 SETENVscript=
 
+echo ""
+echo "****************************************************************************************"
+echo " default global vars "
+echo "****************************************************************************************"
+echo ""
 
-#----------------------------------
-# step : parse cline arguments
+print_env_vars(){
+    echo "THISDIR        = $THISDIR"
+    echo "pkg_names      = ${pkg_names[@]}"
+    echo "EIGENPATH      = $EIGENPATH"
+    echo "GTESTPATH      = $GTESTPATH"
+    echo "TRILINOSPATH   = $TRILINOSPATH"
+    echo "ALLTPLSPATH    = $ALLTPLSPATH"
+    echo "ROMPPSRC       = $ROMPPSRC"
+    echo "CMAKECONFIGfnc = $CMAKECONFIGfnc"
+    echo "ARCH           = $ARCH"
+    echo "WORKDIR        = $WORKDIR"
+    echo "WIPEEXISTING   = ${WIPEEXISTING}"
+    echo "MODEbuild      = $MODEbuild"
+    echo "MODElib        = $MODElib"
+    echo "SETENVscript   = $SETENVscript"
+}
+print_env_vars
+
 
 echo ""
-echo "--------------------------------------------"
-echo "**parsing cline arguments**"
+echo "****************************************************************************************"
+echo " parsing cline arguments "
 echo ""
 
 for option; do
-    echo $option
+    #echo $option
     case $option in
-	# print help
+
 	-help | --help | -h)
 	    want_help=yes
 	    ;;
@@ -83,6 +112,10 @@ for option; do
 
 	-rompp-src=* | --rompp-src=* )
 	    ROMPPSRC=`expr "x$option" : "x-*rompp-src=\(.*\)"`
+	    ;;
+
+	-with-cmake-fnc=* | --with-cmake-fnc=* )
+	    CMAKECONFIGfnc=`expr "x$option" : "x-*with-cmake-fnc=\(.*\)"`
 	    ;;
 
 	-eigen-path=* | --eigen-path=* )
@@ -123,11 +156,14 @@ for option; do
 
     esac
 done
-
+# echo ""
+# echo " done parsing cline arguments "
+# echo "****************************************************************************************"
+# echo ""
 
 if test "$want_help" = yes; then
   cat <<EOF
-\`./main_rompp.sh' build tpls
+\`./main_rompp.sh'
 
 Usage: $0 [OPTION]...
 
@@ -139,36 +175,23 @@ Configuration:
 --arch=[mac/linux]			set which arch you are using.
 					default = NA, must be provided.
 
---with-packages=list			comma-separated list of ROMPP package names.
-					default = core
-
 --target-dir=				the target directory where ROMPP will be build/installed.
 					this has to be set, no default provided.
 					For example: if you use --target-dir=/home/user,
-					and you select core. Then, this script will
-					create the following structure:
+					then this script will create the following structure:
 					/home/uer/rompp/rompp     : contains the source
 					/home/uer/rompp/build     : contains the build
 					/home/uer/rompp/install   : contains the install
 
---rompp-src-dir=			the ROMPP source directory
+--rompp-srcr=				the ROMPP source directory
 					default = empty, if empty the repo will be cloned
 					under the directory set by --target-dir
 
---eigen-path=				the path to the eigen installation directory
-					default = NA, must be set
+--with-packages=list			comma-separated list of ROMPP package names.
+					default = core
 
---gtest-path=				the path to the gtest installation directory
-					default = NA, must be set
-
---trilinos-path=			the path to the trilinos installation directory
-					default = NA, must be set
-
---all-tpls-path=			set this to the dir containing all tpls, if they all
-					exist under the same location, e.g. as done by by main_tpls.sh.
-					the target dir with all tpls must have same form as created by main_tpls.sh
-					if set, then we don't need -eigen-path, -gtest-path, -trilinos-path
-					default = empty, either this must be set or all the single ones
+--with-cmake-fnc=			a name of one of the functions inside 'rompp_cmake_lines.sh'
+					default = cmake_rompp_mpi_omp
 
 --wipe-existing=[0/1]			if true, the build and installation subdirectories of the
 					destination folder set by --target-dir will be wiped and remade.
@@ -182,6 +205,22 @@ Configuration:
 
 --with-env-script=<path-to-file>	full path to script to set the environment.
 					default = assumes environment is set.
+
+To find TPLs:
+--eigen-path=				the path to the eigen installation directory
+					default = NA, must be set
+
+--gtest-path=				the path to the gtest installation directory
+					default = NA, must be set
+
+--trilinos-path=			the path to the trilinos installation directory
+					default = NA, must be set
+
+--all-tpls-path=			set this to the dir containing all tpls, if they all
+					exist under the same location, e.g. as done by by main_tpls.sh.
+					the dir with all tpls must have same form as created by main_tpls.sh
+					if set, then we don't need -eigen-path, -gtest-path, -trilinos-path
+					default = empty, either this must be set or all the single ones
 
 EOF
 fi
@@ -205,14 +244,9 @@ if [[ -z $ALLTPLSPATH && -z $EIGENPATH && -z $GTESTPATH && -z $TRILINOSPATH ]]; 
     exit 0
 fi
 
-echo "target ROMPP packages to build: ${pkg_names[@]}"
-
-echo "arch = $ARCH"
-echo "workdir = $WORKDIR"
-echo "wipe = $WIPEEXISTING"
-echo "build = $MODEbuild"
-echo "lib = $MODElib"
-echo "env = $SETENVscript"
+# print variables at this point
+echo "the env variables currently set are"
+print_env_vars
 
 
 #---------------------------------
@@ -259,81 +293,48 @@ fi
 # all scripts for each tpl MUST be run from within target dir
 cd $WORKDIR
 
-DOBUILD=OFF
-[[ -d rompp ]] && check_and_clean rompp || DOBUILD=ON
+# if rompp and rompp/install exist, check if they need to be wiped
+# or if nothing needs to be done (so script exists)
+[[ -d rompp && -d rompp/install ]] && check_and_clean rompp
 
-if [[ $DOBUILD = "ON" ]]; then
-    [[ " ${pkg_names[@]} " =~ "core" ]] && buildCORE=ON
-    [[ " ${pkg_names[@]} " =~ "qr" ]] && buildQR=ON
-    [[ " ${pkg_names[@]} " =~ "solvers" ]] && buildSOLVERS=ON
-    [[ " ${pkg_names[@]} " =~ "svd" ]] && buildSVD=ON
-    [[ " ${pkg_names[@]} " =~ "ode" ]] && buildODE=ON
-    [[ " ${pkg_names[@]} " =~ "rom" ]] && buildROM=ON
-fi
+# if we get here, it means that we need to build and install
+# so check which packages we need to build
+[[ " ${pkg_names[@]} " =~ "core" ]]    && buildCORE=ON
+[[ " ${pkg_names[@]} " =~ "qr" ]]      && buildQR=ON
+[[ " ${pkg_names[@]} " =~ "solvers" ]] && buildSOLVERS=ON
+[[ " ${pkg_names[@]} " =~ "svd" ]]     && buildSVD=ON
+[[ " ${pkg_names[@]} " =~ "ode" ]]     && buildODE=ON
+[[ " ${pkg_names[@]} " =~ "rom" ]]     && buildROM=ON
 
+# do some processing to pass to the cmake line
 is_shared=ON
 [[ $MODElib == static ]] && is_shared=OFF
 echo "is_shared = $is_shared"
 link_search_static=OFF
 [[ $MODElib == static ]] && link_search_static=ON
 
-# create dir
+# create dir if needed
 [[ ! -d rompp ]] && mkdir rompp
 cd rompp
 
-# clone repo
-if [ ! -d rompp ]; then
-    git clone --recursive git@gitlab.com:fnrizzi/rompp.git
+# if the source is NOT provided by user, then clone repo directly in here
+# and set ROMPPSRC to point to this newly cloned repo
+if [ -z ${ROMPPSRC} ]; then
+    [[ ! -d rompp ]] && git clone --recursive git@gitlab.com:fnrizzi/rompp.git
+    cd rompp && git checkout develop && cd ..
+    ROMPPSRC=${PWD}/rompp
 fi
-cd rompp && git checkout develop && cd ..
 
 # create build
-mkdir build && cd build
+[[ -d build ]] && rm -rf build/* || mkdir build
+cd build
 
-# todo: move the cmake command only to a separate place
-cmake -D CMAKE_BUILD_TYPE:STRING=$MODEbuild \
-      -D CMAKE_INSTALL_PREFIX:PATH=../install \
-      -D CMAKE_VERBOSE_MAKEFILE:BOOL=ON \
-      \
-      -D BUILD_SHARED_LIBS:BOOL=$is_shared \
-      -D TPL_FIND_SHARED_LIBS=$is_shared \
-      -D Trilinos_LINK_SEARCH_START_STATIC=$link_search_static \
-      \
-      -D TPL_ENABLE_MPI:BOOL=ON \
-      -D MPI_C_COMPILER:FILEPATH=${CC} \
-      -D MPI_CXX_COMPILER:FILEPATH=${CXX} \
-      -D MPI_EXEC:FILEPATH=${MPIRUNe} \
-      -D MPI_USE_COMPILER_WRAPPERS:BOOL=ON \
-      \
-      -D rompp_ENABLE_CXX11:BOOL=ON \
-      -D rompp_ENABLE_SHADOW_WARNINGS:BOOL=OFF \
-      -D CMAKE_CXX_FLAGS="-fopenmp" \
-      \
-      -D TPL_ENABLE_TRILINOS=ON \
-      -D TRILINOS_LIBRARY_DIRS="${TRILINOSPATH}/lib64;${TRILINOSPATH}/lib" \
-      -D TRILINOS_INCLUDE_DIRS:PATH=${TRILINOSPATH}/include \
-      -D TPL_ENABLE_EIGEN=ON \
-      -D EIGEN_INCLUDE_DIRS:PATH=${EIGENPATH} \
-      -D TPL_ENABLE_GTEST=ON \
-      -D GTEST_LIBRARY_DIRS="${GTESTPATH}/lib;${GTESTPATH}/lib64" \
-      -D GTEST_INCLUDE_DIRS:PATH=${GTESTPATH}/include \
-      \
-      -D rompp_ENABLE_Fortran=OFF \
-      -D rompp_ENABLE_TESTS:BOOL=ON \
-      -D rompp_ENABLE_EXAMPLES:BOOL=OFF \
-      -D rompp_ENABLE_ALL_PACKAGES:BOOL=OFF \
-      -D rompp_ENABLE_ALL_OPTIONAL_PACKAGES:BOOL=OFF \
-      \
-      -D rompp_ENABLE_core:BOOL=${buildCORE} \
-      -D rompp_ENABLE_qr:BOOL=${buildQR} \
-      -D rompp_ENABLE_solvers:BOOL=${buildSOLVERS} \
-      -D rompp_ENABLE_svd:BOOL=${buildSVD} \
-      -D rompp_ENABLE_ode:BOOL=${buildODE} \
-      -D rompp_ENABLE_rom:BOOL=${buildROM} \
-      -D DEBUG_PRINT::BOOL=ON \
-      \
-      ../rompp
+# source all functions containing cmake lines for configuring
+source ${THISDIR}/rompp_cmake_lines.sh
+# call function to configure
+$CMAKECONFIGfnc
 
+# build
 make -j 4 install
 
 # return where we started from
