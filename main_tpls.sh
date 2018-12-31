@@ -134,14 +134,15 @@ Configuration:
 --arch=[mac/linux]			set which arch you are using.
 					default = NA, must be provided.
 
---with-libraries=list			comma-separated list of library names.
-					default = gtest, eigen, trilinos
+--with-libraries=list			comma-separated list of library names. 
+					Note that there is no space after commas.
+					default = gtest,eigen,trilinos
 
---with-scripts=list			comma-separated list of script names to
-					use to build each tpl. The order should
-					match the order prodived in --with-libraries.
+--with-scripts=list			comma-separated (no space after commas) list of 
+					script names to	use to build each tpl. 
+					The order should match the one passed to --with-libraries.
 					Avaialble scripts must be in rompp_auto_build/tpls_config_files
-					default = build_gtest, build_eigen, build_trilinos_mpi_kokkos_omp
+					default = build_gtest,build_eigen,build_trilinos_mpi_kokkos_omp
 
 --target-dir=				the target directory where the tpls will be build/installed.
 					this has to be set, no default provided.
