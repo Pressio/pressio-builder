@@ -183,7 +183,7 @@ Configuration:
 					/home/uer/rompp/build     : contains the build
 					/home/uer/rompp/install   : contains the install
 
---rompp-srcr=				the ROMPP source directory
+--rompp-src=				the ROMPP source directory
 					default = empty, if empty the repo will be cloned
 					under the directory set by --target-dir
 

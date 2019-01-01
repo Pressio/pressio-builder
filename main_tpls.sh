@@ -19,9 +19,7 @@ GTESTCONFIGDIR=${THISDIR}/tpls_config_files
 TRILINOSCONFIGDIR=${THISDIR}/tpls_config_files/trilinos
 
 # array storing tpl script names
-declare -a tpl_scripts=(build_gtest
-			build_eigen
-			build_trilinos_mpi_kokkos_omp)
+declare -a tpl_scripts=(build_gtest build_eigen	build_trilinos_mpi_kokkos_omp)
 
 # store the working dir
 ARCH=
