@@ -8,7 +8,7 @@ cmake -D CMAKE_BUILD_TYPE:STRING=$MODEbuild \
       \
       -D BUILD_SHARED_LIBS:BOOL=$is_shared \
       -D TPL_FIND_SHARED_LIBS=$is_shared \
-      -D Trilinos_LINK_SEARCH_START_STATIC=$link_search_static \
+      -D rompp_LINK_SEARCH_START_STATIC=$link_search_static \
       \
       -D TPL_ENABLE_MPI:BOOL=ON \
       -D MPI_C_COMPILER:FILEPATH=${CC} \
