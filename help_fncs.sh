@@ -1,13 +1,5 @@
 #!/bin/bash
 
-check_tpl_names() {
-    echo "checking tpl names are admissible"
-    # todo: put here code to check that tpl names are admissible
-    # by comparing each name against a list of supported tpls
-    echo "done checking tpl names!"
-}
-
-
 check_and_clean(){
     local parentdir=$1
     if [ $WIPEEXISTING -eq 1 ]; then
@@ -18,5 +10,16 @@ check_and_clean(){
     else
 	echo "$parentdir exists: skipping"
 	exit 0
+    fi
+}
+
+
+call_env_script(){
+    if [[ ! -z ${SETENVscript} ]]; then
+	echo "loading environment from ${SETENVscript}"
+	source ${SETENVscript}
+	echo "PATH = $PATH"
+    else
+	echo "--with-env-script NOT set, so we assume env is set already"
     fi
 }
