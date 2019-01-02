@@ -39,7 +39,7 @@ ARCH=
 WORKDIR=
 
 # bool to wipe existing content of target directory
-WIPEEXISTING=ON
+WIPEEXISTING=1
 
 # build mode: DEBUG/RELEASE
 MODEbuild=DEBUG
