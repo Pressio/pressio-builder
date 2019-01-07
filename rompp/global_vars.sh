@@ -20,7 +20,7 @@ ALLTPLSPATH=
 ROMPPSRC=
 
 # name of the cmake configuring line
-CMAKECONFIGfnc=cmake_rompp_mpi_omp
+CMAKELINEGEN=
 
 print_global_vars(){
     print_shared_global_vars
@@ -30,7 +30,7 @@ print_global_vars(){
     echo "TRILINOSPATH   = $TRILINOSPATH"
     echo "ALLTPLSPATH    = $ALLTPLSPATH"
     echo "ROMPPSRC       = $ROMPPSRC"
-    echo "CMAKECONFIGfnc = $CMAKECONFIGfnc"
+    echo "CMAKELINEGEN	 = $CMAKELINEGEN"
 }
 
 check_minimum_vars_set(){
@@ -42,6 +42,11 @@ check_minimum_vars_set(){
 	echo "--all-tpls-path is empty, and all individual ones are empty"
 	echo "Either you set --all-tpls-path, or each "
 	echo "of -eigen-path, -gtest-path, -trilinos-path"
+	exit 0
+    fi
+
+    if [[ -z $CMAKELINEGEN ]]; then
+	echo "--with-cmake-fnc is empty, must be set"
 	exit 0
     fi
 }

@@ -1,6 +1,8 @@
 #!/bin/bash
 
 check_and_clean(){
+    echo "chec clean"
+
     local parentdir=$1
     if [ $WIPEEXISTING -eq 1 ]; then
 	echo "wiping $parentdir/build"
@@ -15,6 +17,8 @@ check_and_clean(){
 
 
 call_env_script(){
+    echo "call env"
+
     if [[ ! -z ${SETENVscript} ]]; then
 	echo "loading environment from ${SETENVscript}"
 	source ${SETENVscript}

@@ -42,7 +42,7 @@ for option; do
 	    ;;
 
 	-with-cmake-fnc=* | --with-cmake-fnc=* )
-	    CMAKECONFIGfnc=`expr "x$option" : "x-*with-cmake-fnc=\(.*\)"`
+	    CMAKELINEGEN=`expr "x$option" : "x-*with-cmake-fnc=\(.*\)"`
 	    ;;
 
 	-eigen-path=* | --eigen-path=* )
@@ -115,11 +115,11 @@ Configuration:
 					under the directory set by --target-dir
 
 --with-packages=list			comma-separated list of ROMPP package names:
-					the current pacakges available: core, qr, solvers, svd, ode, rom
+					current pkgs available: core, qr, solvers, svd, ode, rom
 					default = core.
 
---with-cmake-fnc=			a name of one of the functions inside 'rompp_cmake_lines.sh'
-					default = cmake_rompp_mpi_omp
+--with-cmake-fnc=			a name of one of the functions inside cmake_line_generator.sh
+					default = NA, must be provided
 
 --wipe-existing=[0/1]			if true, the build and installation subdirectories of the
 					destination folder set by --target-dir will be wiped and remade.

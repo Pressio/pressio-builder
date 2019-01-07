@@ -21,6 +21,10 @@ MODElib=shared
 # env script
 SETENVscript=
 
+# the var to store the cmake line to configure
+CMAKELINE=
+
+
 print_shared_global_vars(){
     echo "THISDIR        = $THISDIR"
     echo "ARCH           = $ARCH"
