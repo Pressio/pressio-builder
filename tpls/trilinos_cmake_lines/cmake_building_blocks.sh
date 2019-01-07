@@ -2,10 +2,10 @@
 
 general_options(){
     local is_shared=ON
-    [[ ${BUILDlib} == static ]] && is_shared=OFF
-    echo "is_shared = $is_shared"
     local link_search_static=OFF
-    [[ ${BUILDlib} == static ]] && link_search_static=ON
+    [[ ${MODElib} == static ]] && (is_shared=OFF && link_search_static=ON)
+    echo "is_shared = $is_shared"
+    echo "link_search_static = $link_search_static"
 
     CMAKELINE+="-D CMAKE_BUILD_TYPE:STRING=${MODEbuild} "
     CMAKELINE+="-D BUILD_SHARED_LIBS:BOOL=${is_shared} "

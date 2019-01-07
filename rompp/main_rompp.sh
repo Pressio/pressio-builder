@@ -102,13 +102,6 @@ if [[ " ${pkg_names[@]} " =~ "rom" ]]; then
     buildROM=ON
 fi
 
-# do some processing to pass to the cmake line
-is_shared=ON
-[[ $MODElib == static ]] && is_shared=OFF
-echo "is_shared = $is_shared"
-link_search_static=OFF
-[[ $MODElib == static ]] && link_search_static=ON
-
 # create dir if needed
 [[ ! -d rompp ]] && mkdir rompp
 cd rompp
@@ -148,8 +141,8 @@ echo -e "cmake $CMAKELINE"
 echo ""
 cmake eval ${CMAKELINE}
 
-# # build
-# make -j 4 install
+# build
+make -j 4 install
 
 # return where we started from
 cd ${THISDIR}

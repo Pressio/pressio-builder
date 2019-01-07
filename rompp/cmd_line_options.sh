@@ -123,7 +123,7 @@ Configuration:
 
 --wipe-existing=[0/1]			if true, the build and installation subdirectories of the
 					destination folder set by --target-dir will be wiped and remade.
-					default = OFF.
+					default = 1.
 
 --build-mode=[DEBUG/RELEASE]		the build type for each selected tpl.
 					default = DEBUG.

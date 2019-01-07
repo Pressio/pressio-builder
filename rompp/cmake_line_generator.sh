@@ -1,18 +1,29 @@
 #!/bin/bash
 
-rompp_mac_mpi_alltpls_allpackages() {
+#-------------------------------------
+# for cee sparc 
+#-------------------------------------
+rompp_cee_sparc_basic() {
     general_options
     mpi_compiler_options
     mpi_fortran_off
-    tests_off
     examples_off
+    cee_sparc_blas_options
+    cee_sparc_lapack_options
     enable_eigen
     enable_gtest
     enable_trilinos
     rompp_packages
+    enable_debug_print
 }
 
-frizzi_mac() {
+rompp_cee_sparc_tests_on() {
+    rompp_cee_sparc_basic
+    tests_on
+}
+#-------------------------------------
+
+frizzi_mpi_alltpls_mac() {
     general_options
     mpi_compiler_options
     mpi_fortran_off

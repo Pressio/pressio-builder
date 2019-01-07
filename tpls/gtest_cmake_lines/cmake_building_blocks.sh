@@ -2,7 +2,7 @@
 
 general_options(){
     local is_shared=ON
-    [[ ${BUILDlib} == static ]] && is_shared=OFF
+    [[ ${MODElib} == static ]] && is_shared=OFF
     echo "is_shared = $is_shared"
 
     CMAKELINE+="-D BUILD_SHARED_LIBS:BOOL=${is_shared} "
