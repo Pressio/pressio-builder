@@ -36,10 +36,12 @@ if [[ ! -z $ALLTPLSPATH ]]; then
     # this is because this the structure used by main_tpls.sh
     EIGENPATH=$ALLTPLSPATH/eigen/install
     GTESTPATH=$ALLTPLSPATH/gtest/install
-    TRILINOSPATH=$ALLTPLSPATH/trilinos/install
+
+    # if trilinos exists, set, otherwise leave empty
+    [[ -d $ALLTPLSPATH/trilinos ]] && TRILINOSPATH=$ALLTPLSPATH/trilinos/install
 fi
 
-# test is workdir exists if not create it
+# test if workdir exists if not create it
 [[ ! -d $WORKDIR ]] && (echo "creating $WORKDIR" && mkdir $WORKDIR)
 
 # enter working dir: make sure this happens because

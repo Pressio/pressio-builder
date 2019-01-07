@@ -1,12 +1,12 @@
 #!/bin/bash
 
 #-------------------------------------
-# for cee sparc 
+# for cee sparc
 #-------------------------------------
 rompp_cee_sparc_basic() {
     general_options
     mpi_compiler_options
-    mpi_fortran_off
+    fortran_off
     examples_off
     cee_sparc_blas_options
     cee_sparc_lapack_options
@@ -26,13 +26,28 @@ rompp_cee_sparc_tests_on() {
 frizzi_mpi_alltpls_mac() {
     general_options
     mpi_compiler_options
-    mpi_fortran_off
+    fortran_off
     with_omp_flag
     tests_on
     examples_off
     enable_eigen
     enable_gtest
     enable_trilinos
+    rompp_packages
+}
+
+frizzi_serial_mac() {
+    general_options
+    serial_compiler_options
+    fortran_off
+    with_omp_flag
+    tests_on
+    examples_off
+    enable_eigen
+    enable_gtest
+    if [[ ! -z ${TRILINOSPATH} ]]; then
+	enable_trilinos
+    fi
     rompp_packages
 }
 

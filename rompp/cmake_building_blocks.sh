@@ -4,7 +4,7 @@ general_options(){
     local is_shared=ON
     local link_search_static=OFF
     if [[ ${MODElib} == static ]]; then
-	is_shared=OFF 
+	is_shared=OFF
 	link_search_static=ON
     fi
     echo "is_shared = $is_shared"
@@ -42,9 +42,17 @@ mpi_fortran_on(){
     CMAKELINE+="-D MPI_Fortran_COMPILER:FILEPATH=${F90} "
 }
 
-mpi_fortran_off(){
+fortran_off(){
     CMAKELINE+="-D rompp_ENABLE_Fortran:BOOL=OFF "
 }
+
+
+serial_compiler_options(){
+    #CMAKELINE+="-D TPL_ENABLE_MPI:BOOL=OFF "
+    CMAKELINE+="-D CMAKE_C_COMPILER:FILEPATH=${CC} "
+    CMAKELINE+="-D CMAKE_CXX_COMPILER:FILEPATH=${CXX} "
+}
+
 
 tests_off(){
     CMAKELINE+="-D rompp_ENABLE_TESTS:BOOL=OFF "

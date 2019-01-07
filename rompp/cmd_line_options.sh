@@ -141,8 +141,8 @@ To find TPLs:
 --gtest-path=				the path to the gtest installation directory
 					default = NA, must be set
 
---trilinos-path=			the path to the trilinos installation directory
-					default = NA, must be set
+--trilinos-path=			the path to the (optional) trilinos installation directory
+					default = NA, if empty then trilinos is not linked.
 
 --all-tpls-path=			set this to the dir containing all tpls, if they all
 					exist under the same location, e.g. as done by by main_tpls.sh.
