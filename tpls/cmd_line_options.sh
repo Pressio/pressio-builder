@@ -45,21 +45,20 @@ for option; do
 	    [ ! -z "$library_list" ] && tpl_names=()
 	    # loop and store
 	    for library in $library_list; do
-		#LIBS="$LIBS --with-$library"
 		tpl_names=("${tpl_names[@]}" "${library}")
 	    done
 	    IFS=$old_IFS
 	    ;;
 
-	-with-scripts=* | --with-scripts=* )
-	    script_list=`expr "x$option" : "x-*with-scripts=\(.*\)"`
+	-with-cmake-line-fncs=* | --with-cmake-line-fncs=* )
+	    fncs_list=`expr "x$option" : "x-*with-cmake-line-fncs=\(.*\)"`
 	    old_IFS=$IFS
 	    IFS=,
 	    # if list not empty, then reset arrays and append the target libs
-	    [ ! -z "$script_list" ] && tpl_scripts=()
+	    [ ! -z "$fncs_list" ] && tpl_cmake_fncs=()
 	    # loop and store
-	    for script in $script_list; do
-		tpl_scripts=("${tpl_scripts[@]}" "${script}")
+	    for ifnc in $fncs_list; do
+		tpl_cmake_fncs=("${tpl_cmake_fncs[@]}" "${ifnc}")
 	    done
 	    IFS=$old_IFS
 	    ;;
@@ -93,11 +92,12 @@ Configuration:
 					Note that there is no space after commas.
 					default = gtest,eigen,trilinos
 
---with-scripts=list			comma-separated (no space after commas) list of
-					script names to	use to build each tpl.
+--with-cmake-line-fncs=list		comma-separated (no space after commas) list of
+					functions' names to use to generate the cmake line
+					for configuring each tpl.
 					The order should match the one passed to --with-libraries.
-					Avaialble scripts must be in rompp_auto_build/tpls_config_files
-					default = build_gtest,build_eigen,build_trilinos_mpi_kokkos_omp
+					The admissible functions can be found in <libname>_cmake_lines
+					default = default,default,default
 
 --target-dir=				the target directory where the tpls will be build/installed.
 					this has to be set, no default provided.
@@ -119,7 +119,7 @@ Configuration:
 					default = DEBUG.
 
 --target-type=[dynamic/static]		to build static or dynamic libraries.
-					default = shared.
+					default = dynamic
 
 --with-env-script=<path-to-file>	full path to script to set the environment.
 					default = assumes environment is set.
@@ -129,3 +129,13 @@ fi
 
 # if help, then exit
 test -n "$want_help" && exit 0
+
+
+
+
+
+# --with-cmake-fncs=list			comma-separated (no space after commas) list of
+# 					script names to	use to build each tpl.
+# 					The order should match the one passed to --with-libraries.
+# 					Avaialble scripts must be in rompp_auto_build/tpls_config_files
+# 					default = build_gtest,build_eigen,build_trilinos_mpi_kokkos_omp

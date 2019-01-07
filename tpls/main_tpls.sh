@@ -37,14 +37,10 @@ check_tpl_names() {
 # check that tpl names are admissible
 check_tpl_names
 
-echo "target tpls to build: ${tpl_names[@]}"
-echo "target scripts: ${tpl_scripts[@]}"
+print_target_tpl_names
+print_target_tpl_cmake_fncs
 
 
-#----------------------------------
-# step : start building tpls
-
-# do build
 echo ""
 echo "--------------------------------------------"
 echo "**building tpls**"
@@ -52,30 +48,50 @@ echo ""
 
 build_gtest() {
     local DOBUILD=OFF
-    local scriptName=$1
-    local myscript=${GTESTCONFIGDIR}/${scriptName}
-    echo "script = ${myscript}.sh"
+    local myfnc=$1
+    echo "target fnc = ${myfnc}.sh"
     [[ -d gtest ]] && check_and_clean gtest || DOBUILD=ON
-    [[ $DOBUILD = "ON" ]] && bash ${myscript}.sh $ARCH $MODElib
-}
-
-build_eigen() {
-    local DOBUILD=OFF
-    local scriptName=$1
-    local myscript=${EIGENCONFIGDIR}/${scriptName}
-    echo "script = ${myscript}.sh"
-    [[ -d eigen ]] && check_and_clean eigen || DOBUILD=ON
-    [[ $DOBUILD = "ON" ]] && bash ${myscript}.sh $ARCH
+    if [ $DOBUILD = "ON" ]; then
+	# source all generator functions
+	source ${THISDIR}/gtest_cmake_lines/cmake_building_blocks.sh
+	source ${THISDIR}/gtest_cmake_lines/cmake_line_generator.sh
+	# source and call build function
+	source ${THISDIR}/build_gtest.sh
+	build_gtest $myfnc
+    fi
 }
 
 build_trilinos() {
     local DOBUILD=OFF
-    local scriptName=$1
-    local myscript=${TRILINOSCONFIGDIR}/${scriptName}
-    echo "script = ${myscript}.sh"
+    local myfnc=$1
+    local nJmake=4
+    echo "target fnc = ${myfnc}.sh"
     [[ -d trilinos ]] && check_and_clean trilinos || DOBUILD=ON
-    [[ $DOBUILD = "ON" ]] && bash ${myscript}.sh $MODEbuild $MODElib 4
+    if [ $DOBUILD = "ON" ]; then
+	# source all generator functions
+	source ${THISDIR}/trilinos_cmake_lines/cmake_building_blocks.sh
+	source ${THISDIR}/trilinos_cmake_lines/cmake_line_generator.sh
+	# source and call build function
+	source ${THISDIR}/build_trilinos.sh
+	build_trilinos $myfnc $nJmake
+    fi
 }
+
+build_eigen() {
+    local DOBUILD=OFF
+    local myfnc=$1
+    echo "target fnc = ${myfnc}.sh"
+    [[ -d eigen ]] && check_and_clean eigen || DOBUILD=ON
+    if [ $DOBUILD = "ON" ]; then
+	# source all generator functions
+	source ${THISDIR}/eigen_cmake_lines/cmake_building_blocks.sh
+	source ${THISDIR}/eigen_cmake_lines/cmake_line_generator.sh
+	# source and call build function
+	source ${THISDIR}/build_eigen.sh
+	build_eigen $myfnc
+    fi
+}
+
 
 # test is workdir exists if not create it
 [[ ! -d $WORKDIR ]] && (echo "creating $WORKDIR" && mkdir $WORKDIR)
@@ -87,12 +103,12 @@ cd $WORKDIR
 # now loop through TPLS and build
 for ((i=0;i<${#tpl_names[@]};++i)); do
     name=${tpl_names[i]}
-    script=${tpl_scripts[i]}
+    fnc=${tpl_cmake_fncs[i]}
     echo "processing tpl = ${name}"
 
-    [[ ${name} = "gtest" ]] && build_gtest ${script}
-    [[ ${name} = "trilinos" ]] && build_trilinos ${script}
-    [[ ${name} = "eigen" ]] && build_eigen ${script}
+    [[ ${name} = "eigen" ]] && build_eigen ${fnc}
+    [[ ${name} = "gtest" ]] && build_gtest ${fnc}
+    [[ ${name} = "trilinos" ]] && build_trilinos ${fnc}
 done
 
 # return where we started from

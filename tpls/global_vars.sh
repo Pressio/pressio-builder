@@ -3,40 +3,27 @@
 # source the shared global vars
 source ../shared_global_vars.sh
 
-# THISDIR will always contain the folder we start from
-THISDIR=$PWD
-
 # array storing tpl names
 declare -a tpl_names=(gtest eigen trilinos)
 
-EIGENCONFIGDIR=${THISDIR}/config_files
-GTESTCONFIGDIR=${THISDIR}/config_files
-TRILINOSCONFIGDIR=${THISDIR}/config_files/trilinos
+# array storing the functions to generate cmake conf lines
+declare -a tpl_cmake_fncs=(default default default)
 
-# array storing tpl script names
-declare -a tpl_scripts=(build_gtest build_eigen	build_trilinos_mpi_kokkos_omp)
+print_target_tpl_names(){
+    echo "tpls = ${tpl_names[@]}"
+}
 
-# store the working dir
-ARCH=
-
-# store the working dir
-WORKDIR=
-
-# bool to wipe existing content of target directory
-WIPEEXISTING=ON
-
-# build mode: DEBUG/RELEASE
-MODEbuild=DEBUG
-
-# build/link shared or static lib
-MODElib=shared
-
-# env script
-SETENVscript=
+print_target_tpl_cmake_fncs(){
+    echo "cmake_gen_fncs = ${tpl_cmake_fncs[@]}"
+}
 
 print_global_vars(){
     print_shared_global_vars
+    print_target_tpl_names
+    print_target_tpl_cmake_fncs
+}
 
-    echo "target tpls    = ${tpl_names[@]}"
-    echo "target scripts = ${tpl_scripts[@]}"
+check_minimum_vars_set(){
+    # check for shared vars
+    check_minimum_shared_vars_set
 }
