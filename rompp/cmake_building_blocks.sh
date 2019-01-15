@@ -135,3 +135,7 @@ enable_debug_print(){
 all_packages(){
     CMAKELINE+="-D rompp_ENABLE_ALL_PACKAGES:BOOL=ON "
 }
+
+enable_anasazi_tsqr(){
+    CMAKELINE+="-D HAVE_ANASAZI_TSQR::BOOL=OFF "
+}

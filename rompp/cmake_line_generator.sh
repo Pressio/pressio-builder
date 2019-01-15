@@ -21,6 +21,12 @@ rompp_cee_sparc_tests_on() {
     rompp_cee_sparc_basic
     tests_on
 }
+
+rompp_cee_sparc_tsqr_tests_on() {
+    rompp_cee_sparc_basic
+    enable_anasazi_tsqr
+    tests_on
+}
 #-------------------------------------
 
 frizzi_mpi_alltpls_mac() {
