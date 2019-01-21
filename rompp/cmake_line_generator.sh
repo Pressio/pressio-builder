@@ -40,6 +40,7 @@ frizzi_mpi_alltpls_mac() {
     enable_gtest
     enable_trilinos
     rompp_packages
+    enable_debug_print
 }
 
 frizzi_serial_mac() {
