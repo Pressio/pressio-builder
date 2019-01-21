@@ -137,5 +137,5 @@ all_packages(){
 }
 
 enable_anasazi_tsqr(){
-    CMAKELINE+="-D HAVE_ANASAZI_TSQR::BOOL=OFF "
+    CMAKELINE+="-D HAVE_ANASAZI_TSQR::BOOL=ON "
 }
