@@ -29,6 +29,21 @@ rompp_cee_sparc_tsqr_tests_on() {
 }
 #-------------------------------------
 
+mrsteam_mpi_alltpls() {
+    general_options
+    mpi_compiler_options
+    fortran_off
+    tests_on
+    examples_off
+    enable_eigen
+    enable_gtest
+    enable_trilinos
+    rompp_packages
+    enable_anasazi_tsqr
+    enable_debug_print
+}
+#------------------------------------
+
 frizzi_mpi_alltpls_mac() {
     general_options
     mpi_compiler_options

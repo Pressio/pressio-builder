@@ -6,9 +6,8 @@ frizzi_mac(){
     mpi_fortran_off
     tests_off
     examples_off
-    kokkos_omp
+    kokkos_serial
     packages_for_rompp
-
     echo CMAKELINE
 }
 
