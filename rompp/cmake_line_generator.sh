@@ -74,7 +74,19 @@ frizzi_serial_mac() {
     rompp_packages
 }
 
-
+pblonig_mpi_alltpls_mac() {
+    general_options
+    mpi_compiler_options
+    fortran_off
+    tests_on
+    examples_off
+    enable_eigen
+    enable_gtest
+    enable_trilinos
+    rompp_packages
+    enable_anasazi_tsqr
+    enable_debug_print
+}
 
 # cmake -D CMAKE_BUILD_TYPE:STRING=$MODEbuild \
 #       -D CMAKE_INSTALL_PREFIX:PATH=../install \
