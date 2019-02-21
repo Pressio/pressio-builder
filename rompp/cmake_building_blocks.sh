@@ -37,6 +37,11 @@ with_omp_gfortran_flag(){
     CMAKELINE+="-D CMAKE_CXX_FLAGS=${FLAGScombo} "
 }
 
+with_gfortran_flag(){
+    local FLAGScombo="-gfortran"
+    CMAKELINE+="-D CMAKE_CXX_FLAGS=${FLAGScombo} "
+}
+
 mpi_fortran_on(){
     CMAKELINE+="-D rompp_ENABLE_Fortran:BOOL=ON "
     CMAKELINE+="-D MPI_Fortran_COMPILER:FILEPATH=${F90} "
@@ -138,4 +143,8 @@ all_packages(){
 
 enable_anasazi_tsqr(){
     CMAKELINE+="-D HAVE_ANASAZI_TSQR::BOOL=ON "
+}
+
+enable_belos_tsqr(){
+    CMAKELINE+="-D HAVE_BELOS_TSQR::BOOL=ON "
 }
