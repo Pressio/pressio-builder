@@ -51,19 +51,6 @@ build_gtest(){
 }
 
 
-# # run cmake
-# cmake -D BUILD_SHARED_LIBS=$is_shared \
-# 	  -D CMAKE_MACOSX_RPATH:BOOL=$is_mac \
-# 	  -D CMAKE_CXX_COMPILER:FILEPATH=${CXX} \
-# 	  -D CMAKE_C_COMPILER:FILEPATH=${CC} \
-# 	  -D CMAKE_INSTALL_PREFIX:PATH=../install \
-# 	  ../googletest
-
-
-
-# #----------------------------------
-# # step : test cline arguments
-
 # n_args=$#
 # if test $n_args -lt 1
 # then

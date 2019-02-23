@@ -2,17 +2,17 @@
 
 for_mac(){
     # this should work on any mac
-    general_options
+    always_needed
     mac_r_path
-    compiler_options
+    compilers
 
     echo CMAKELINE
 }
 
 for_linux(){
     # this should work on any linux
-    general_options
-    compiler_options
+    always_needed
+    compilers
 
     echo CMAKELINE
 }

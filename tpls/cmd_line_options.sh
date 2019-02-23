@@ -89,31 +89,32 @@ Configuration:
 					default = NA, must be provided.
 
 --with-libraries=list			comma-separated list of library names.
-					Note that there is no space after commas.
+					NOTE: there is no space after commas.
 					default = gtest,eigen,trilinos
 
 --with-cmake-line-fncs=list		comma-separated (no space after commas) list of
 					functions' names to use to generate the cmake line
 					for configuring each tpl.
-					The order should match the one passed to --with-libraries.
-					The admissible functions can be found in <libname>_cmake_lines
+					The order of these should match the list passed to --with-libraries.
+					The admissible functions can be found inside <libname>_cmake_lines
 					default = default,default,default
 
---target-dir=				the target directory where the tpls will be build/installed.
-					this has to be set, no default provided.
-					For example: if you use --target-dir=/home/user/tpls,
-					and you select eigen, gtest. Then, this script will
+--target-dir=				the target directory where the tpls are built/installed.
+					this has to be set, no default is provided.
+					For example: if you use
+					    --target-dir=/home/user/tpls
+					and you select eigen, gtest, then this script will
 					create the following structure:
-					/home/uer/tpls/eigen/eigen     : contains the source
-					/home/uer/tpls/eigen/build     : contains the build
-					/home/uer/tpls/eigen/install   : contains the install
-					/home/uer/tpls/gtest/gtest     : contains the source
-					/home/uer/tpls/gtest/build     : contains the build
-					/home/uer/tpls/gtest/install   : contains the install
+					    /home/user/tpls/eigen/eigen     : contains the source
+					    /home/user/tpls/eigen/build     : contains the build
+					    /home/user/tpls/eigen/install   : contains the install
+					    /home/user/tpls/gtest/gtest     : contains the source
+					    /home/user/tpls/gtest/build     : contains the build
+					    /home/user/tpls/gtest/install   : contains the install
 
---wipe-existing=[0/1]			if true, the build and installation subdirectories of the
+--wipe-existing=[0/1]			if =1 (true), the build and installation subdirectories of the
 					destination folder set by --target-dir will be wiped and remade.
-					default = OFF.
+					default = 1.
 
 --build-mode=[DEBUG/RELEASE]		the build type for each selected tpl.
 					default = DEBUG.
@@ -129,13 +130,3 @@ fi
 
 # if help, then exit
 test -n "$want_help" && exit 0
-
-
-
-
-
-# --with-cmake-fncs=list			comma-separated (no space after commas) list of
-# 					script names to	use to build each tpl.
-# 					The order should match the one passed to --with-libraries.
-# 					Avaialble scripts must be in rompp_auto_build/tpls_config_files
-# 					default = build_gtest,build_eigen,build_trilinos_mpi_kokkos_omp

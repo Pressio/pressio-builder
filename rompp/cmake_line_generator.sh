@@ -1,15 +1,15 @@
 #!/bin/bash
 
 #-------------------------------------
-# for cee sparc
+# cee sparc
 #-------------------------------------
 cee_sparc_basic() {
-    general_options
-    mpi_compiler_options
-    mpi_fortran_on
+    always_needed
+    mpi_c_cxx_compilers
+    fortran_off
     examples_off
-    cee_sparc_blas_options
-    cee_sparc_lapack_options
+    cee_sparc_blas
+    cee_sparc_lapack
     enable_eigen
     enable_gtest
     enable_trilinos
@@ -18,28 +18,30 @@ cee_sparc_basic() {
 }
 
 cee_sparc_tests_on() {
-    cee_sparc_basic
+    rompp_cee_sparc_basic
     tests_on
 }
 
 cee_sparc_anasazi_tsqr_tests_on() {
-    cee_sparc_basic
+    rompp_cee_sparc_basic
     enable_anasazi_tsqr
+    enable_belos_tsqr
     tests_on
 }
 
 cee_sparc_anasazi_belos_tsqr_tests_on() {
-    cee_sparc_basic
+    rompp_cee_sparc_basic
     enable_anasazi_tsqr
     enable_belos_tsqr
     tests_on
 }
 
 #-------------------------------------
-
+# mrsteam
+#-------------------------------------
 mrsteam_mpi_alltpls() {
-    general_options
-    mpi_compiler_options
+    always_needed
+    mpi_c_cxx_compilers
     fortran_off
     tests_on
     examples_off
@@ -50,13 +52,15 @@ mrsteam_mpi_alltpls() {
     enable_anasazi_tsqr
     enable_debug_print
 }
-#------------------------------------
 
+
+#-------------------------------------
+# frizzi mac
+#-------------------------------------
 frizzi_mpi_alltpls_mac() {
-    general_options
-    mpi_compiler_options
+    always_needed
+    mpi_c_cxx_compilers
     fortran_off
-    with_omp_flag
     tests_on
     examples_off
     enable_eigen
@@ -64,27 +68,31 @@ frizzi_mpi_alltpls_mac() {
     enable_trilinos
     rompp_packages
     enable_anasazi_tsqr
+    enable_belos_tsqr
     enable_debug_print
 }
 
-frizzi_serial_mac() {
-    general_options
-    serial_compiler_options
-    fortran_off
-    with_omp_flag
-    tests_on
-    examples_off
-    enable_eigen
-    enable_gtest
-    if [[ ! -z ${TRILINOSPATH} ]]; then
-	enable_trilinos
-    fi
-    rompp_packages
-}
+# frizzi_serial_mac() {
+#     always_needed
+#     serial_compiler_options
+#     fortran_off
+#     tests_on
+#     examples_off
+#     enable_eigen
+#     enable_gtest
+#     if [[ ! -z ${TRILINOSPATH} ]]; then
+# 	enable_trilinos
+#     fi
+#     rompp_packages
+# }
 
+
+#-------------------------------------
+# pblonigan mac
+#-------------------------------------
 pblonig_mpi_alltpls_mac() {
-    general_options
-    mpi_compiler_options
+    always_needed
+    mpi_c_cxx_compilers
     fortran_off
     tests_on
     examples_off
@@ -95,6 +103,19 @@ pblonig_mpi_alltpls_mac() {
     enable_anasazi_tsqr
     enable_debug_print
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # cmake -D CMAKE_BUILD_TYPE:STRING=$MODEbuild \
 #       -D CMAKE_INSTALL_PREFIX:PATH=../install \

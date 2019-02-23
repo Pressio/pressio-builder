@@ -104,11 +104,12 @@ Configuration:
 
 --target-dir=				the target directory where ROMPP will be build/installed.
 					this has to be set, no default provided.
-					For example: if you use --target-dir=/home/user,
+					For example: if you use
+					    --target-dir=/home/user,
 					then this script will create the following structure:
-					/home/uer/rompp/rompp     : contains the source
-					/home/uer/rompp/build     : contains the build
-					/home/uer/rompp/install   : contains the install
+					    /home/uer/rompp/rompp     : contains the source
+					    /home/uer/rompp/build     : contains the build
+					    /home/uer/rompp/install   : contains the install
 
 --rompp-src=				the ROMPP source directory
 					default = empty, if empty the repo will be cloned
@@ -116,9 +117,13 @@ Configuration:
 
 --with-packages=list			comma-separated list of ROMPP package names:
 					current pkgs available: core, qr, solvers, svd, ode, rom
+					If you specify a single package then all other needed
+					packages for this are built automatically.
+					For example, if you select 'ode', then 'core,qr,solvers' are on too.
 					default = core.
 
---with-cmake-fnc=			a name of one of the functions inside cmake_line_generator.sh
+--with-cmake-fnc=			the name of one of the functions inside cmake_line_generator.sh
+					This is used to generate the cmake line to configure.
 					default = NA, must be provided
 
 --wipe-existing=[0/1]			if true, the build and installation subdirectories of the
@@ -144,11 +149,11 @@ To find TPLs:
 --trilinos-path=			the path to the (optional) trilinos installation directory
 					default = NA, if empty then trilinos is not linked.
 
---all-tpls-path=			set this to the dir containing all tpls, if they all
+--all-tpls-path=			set this to the directory containing all tpls, if they all
 					exist under the same location, e.g. as done by by main_tpls.sh.
-					the dir with all tpls must have same form as created by main_tpls.sh
-					if set, then we don't need -eigen-path, -gtest-path, -trilinos-path
-					default = empty, either this must be set or all the single ones
+					the dir with all tpls must have the structure as obtained by main_tpls.sh
+					if you set --all-tpls, then you do not need -eigen-path, -gtest-path, -trilinos-path.
+					default = empty, either this must be set or all the individual ones.
 
 EOF
 fi

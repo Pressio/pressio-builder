@@ -1,8 +1,8 @@
 #!/bin/bash
 
 frizzi_mac(){
-    general_options
-    mpi_compiler_options
+    always_needed
+    mpi_compilers
     mpi_fortran_off
     tests_off
     examples_off
