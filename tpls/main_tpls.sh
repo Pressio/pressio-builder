@@ -36,10 +36,8 @@ check_tpl_names() {
 
 # check that tpl names are admissible
 check_tpl_names
-
 print_target_tpl_names
 print_target_tpl_cmake_fncs
-
 
 echo ""
 echo "--------------------------------------------"
@@ -91,7 +89,6 @@ build_eigen() {
 	build_eigen $myfnc
     fi
 }
-
 
 # test is workdir exists if not create it
 [[ ! -d $WORKDIR ]] && (echo "creating $WORKDIR" && mkdir $WORKDIR)

@@ -51,11 +51,6 @@ build_eigen(){
 }
 
 
-# echo `pwd`
-# mkdir -p install/Eigen
-# ls
-# cp -rf eigen-eigen-b3f3d4950030/Eigen/* install/Eigen
-
 # n_args=$#
 # if test $n_args -lt 1
 # then

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-general_options(){
+always_needed(){
     local is_shared=ON
     local link_search_static=OFF
     [[ ${MODElib} == static ]] && (is_shared=OFF && link_search_static=ON)
@@ -15,7 +15,7 @@ general_options(){
     CMAKELINE+="-D CMAKE_VERBOSE_MAKEFILE:BOOL=TRUE "
 }
 
-mpi_compiler_options(){
+mpi_compilers(){
     CMAKELINE+="-D TPL_ENABLE_MPI:BOOL=ON "
     CMAKELINE+="-D MPI_C_COMPILER:FILEPATH=${CC} "
     CMAKELINE+="-D MPI_CXX_COMPILER:FILEPATH=${CXX} "

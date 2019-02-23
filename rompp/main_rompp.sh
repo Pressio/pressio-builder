@@ -144,7 +144,7 @@ echo ""
 cmake eval ${CMAKELINE}
 
 # build
-make -j 4 install
+make -j 6 install
 
 # return where we started from
 cd ${THISDIR}

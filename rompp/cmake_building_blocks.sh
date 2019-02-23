@@ -1,6 +1,8 @@
 #!/bin/bash
 
-general_options(){
+# this is always needed, regardless of where we build
+# so don't change the name and always include it when customizing a build
+always_needed(){
     local is_shared=ON
     local link_search_static=OFF
     if [[ ${MODElib} == static ]]; then
@@ -12,19 +14,39 @@ general_options(){
 
     CMAKELINE+="-D CMAKE_BUILD_TYPE:STRING=${MODEbuild} "
     CMAKELINE+="-D BUILD_SHARED_LIBS:BOOL=${is_shared} "
-    CMAKELINE+="-D TPL_FIND_SHARED_LIBS=${is_shared} "
-    CMAKELINE+="-D rompp_LINK_SEARCH_START_STATIC=$link_search_static "
     CMAKELINE+="-D CMAKE_VERBOSE_MAKEFILE:BOOL=TRUE "
     CMAKELINE+="-D rompp_ENABLE_CXX11:BOOL=ON "
     CMAKELINE+="-D rompp_ENABLE_SHADOW_WARNINGS:BOOL=OFF "
+
+    # following lines cause issues for CEE, and are also not used
+    # e.g. by SPARC trilinos scripts, it seems we dont need them
+    #CMAKELINE+="-D rompp_LINK_SEARCH_START_STATIC=$link_search_static "
+    #CMAKELINE+="-D TPL_FIND_SHARED_LIBS=${is_shared} "
 }
 
-mpi_compiler_options(){
+# mpi compilers
+mpi_c_cxx_compilers(){
     CMAKELINE+="-D TPL_ENABLE_MPI:BOOL=ON "
     CMAKELINE+="-D MPI_C_COMPILER:FILEPATH=${CC} "
     CMAKELINE+="-D MPI_CXX_COMPILER:FILEPATH=${CXX} "
     CMAKELINE+="-D MPI_EXEC:FILEPATH=${MPIRUNe} "
     CMAKELINE+="-D MPI_USE_COMPILER_WRAPPERS:BOOL=ON "
+}
+
+mpi_fortran_on(){
+    CMAKELINE+="-D rompp_ENABLE_Fortran:BOOL=ON "
+    CMAKELINE+="-D MPI_Fortran_COMPILER:FILEPATH=${F90} "
+}
+
+# serial compilers (if you pick serial you should not pick mpi)
+serial_c_cxx_compilers(){
+    CMAKELINE+="-D CMAKE_C_COMPILER:FILEPATH=${CC} "
+    CMAKELINE+="-D CMAKE_CXX_COMPILER:FILEPATH=${CXX} "
+}
+
+
+fortran_off(){
+    CMAKELINE+="-D rompp_ENABLE_Fortran:BOOL=OFF "
 }
 
 with_omp_flag(){
@@ -37,23 +59,6 @@ with_omp_gfortran_flag(){
     CMAKELINE+="-D CMAKE_CXX_FLAGS=${FLAGScombo} "
 }
 
-mpi_fortran_on(){
-    CMAKELINE+="-D rompp_ENABLE_Fortran:BOOL=ON "
-    CMAKELINE+="-D MPI_Fortran_COMPILER:FILEPATH=${F90} "
-}
-
-fortran_off(){
-    CMAKELINE+="-D rompp_ENABLE_Fortran:BOOL=OFF "
-}
-
-
-serial_compiler_options(){
-    #CMAKELINE+="-D TPL_ENABLE_MPI:BOOL=OFF "
-    CMAKELINE+="-D CMAKE_C_COMPILER:FILEPATH=${CC} "
-    CMAKELINE+="-D CMAKE_CXX_COMPILER:FILEPATH=${CXX} "
-}
-
-
 tests_off(){
     CMAKELINE+="-D rompp_ENABLE_TESTS:BOOL=OFF "
 }
@@ -65,6 +70,7 @@ tests_on(){
 examples_off(){
     CMAKELINE+="-D rompp_ENABLE_EXAMPLES:BOOL=OFF "
 }
+
 
 enable_eigen(){
     CMAKELINE+="-D TPL_ENABLE_EIGEN=ON "
@@ -84,7 +90,7 @@ enable_trilinos(){
     CMAKELINE+="-D TRILINOS_LIBRARY_DIRS=${TRILLIBstiched} "
 }
 
-cee_sparc_blas_options(){
+cee_sparc_blas(){
     CMAKELINE+="-D TPL_ENABLE_BLAS=ON "
 
     # note that CBLAS_ROOT is set by environemnt on cee using the module
@@ -95,7 +101,7 @@ cee_sparc_blas_options(){
     CMAKELINE+="-D BLAS_LIBRARY_NAMES:STRING=${BLASNAMES} "
 }
 
-cee_sparc_lapack_options(){
+cee_sparc_lapack(){
     CMAKELINE+="-D TPL_ENABLE_LAPACK=ON "
 
     # note that CBLAS_ROOT is set by environemnt on cee using the module
@@ -116,10 +122,11 @@ enable_gtest(){
     CMAKELINE+="-D GTEST_LIBRARY_DIRS=${GTLIBstiched} "
 }
 
+# this should not change regardless of where we build because
+# it is driven by the list of packages passed to the main build file
 rompp_packages(){
     CMAKELINE+="-D rompp_ENABLE_ALL_PACKAGES:BOOL=OFF "
     CMAKELINE+="-D rompp_ENABLE_ALL_OPTIONAL_PACKAGES:BOOL=OFF "
-
     CMAKELINE+="-D rompp_ENABLE_core:BOOL=${buildCORE} "
     CMAKELINE+="-D rompp_ENABLE_qr:BOOL=${buildQR} "
     CMAKELINE+="-D rompp_ENABLE_solvers:BOOL=${buildSOLVERS} "
@@ -138,4 +145,8 @@ all_packages(){
 
 enable_anasazi_tsqr(){
     CMAKELINE+="-D HAVE_ANASAZI_TSQR::BOOL=ON "
+}
+
+enable_belos_tsqr(){
+    CMAKELINE+="-D HAVE_BELOS_TSQR::BOOL=ON "
 }
