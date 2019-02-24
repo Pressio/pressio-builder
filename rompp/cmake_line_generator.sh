@@ -18,19 +18,19 @@ cee_sparc_basic() {
 }
 
 cee_sparc_tests_on() {
-    rompp_cee_sparc_basic
+    cee_sparc_basic
     tests_on
 }
 
 cee_sparc_anasazi_tsqr_tests_on() {
-    rompp_cee_sparc_basic
+    cee_sparc_basic
     enable_anasazi_tsqr
     enable_belos_tsqr
     tests_on
 }
 
 cee_sparc_anasazi_belos_tsqr_tests_on() {
-    rompp_cee_sparc_basic
+    cee_sparc_basic
     enable_anasazi_tsqr
     enable_belos_tsqr
     tests_on
