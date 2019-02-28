@@ -62,8 +62,8 @@ packages_for_rompp(){
     CMAKELINE+="-D Tpetra_ENABLE_TSQR:BOOL=ON "
     CMAKELINE+="-D Trilinos_ENABLE_EpetraExt:BOOL=ON "
     CMAKELINE+="-D Trilinos_ENABLE_AztecOO:BOOL=ON "
-    CMAKELINE+="-D Trilinos_ENABLE_Anasazi:BOOL=ON "
-    CMAKELINE+="-D Anasazi_ENABLE_TSQR:BOOL=ON "
+    #CMAKELINE+="-D Trilinos_ENABLE_Anasazi:BOOL=ON "
+    #CMAKELINE+="-D Anasazi_ENABLE_TSQR:BOOL=ON "
     CMAKELINE+="-D Trilinos_ENABLE_Ifpack:BOOL=ON "
     CMAKELINE+="-D Trilinos_ENABLE_Ifpack2:BOOL=ON "
 }

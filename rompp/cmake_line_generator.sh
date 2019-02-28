@@ -24,15 +24,11 @@ cee_sparc_tests_on() {
 
 cee_sparc_anasazi_tsqr_tests_on() {
     cee_sparc_basic
-    enable_anasazi_tsqr
-    enable_belos_tsqr
     tests_on
 }
 
 cee_sparc_anasazi_belos_tsqr_tests_on() {
     cee_sparc_basic
-    enable_anasazi_tsqr
-    enable_belos_tsqr
     tests_on
 }
 
@@ -49,7 +45,6 @@ mrsteam_mpi_alltpls() {
     enable_gtest
     enable_trilinos
     rompp_packages
-    enable_anasazi_tsqr
     enable_debug_print
 }
 
@@ -67,8 +62,6 @@ frizzi_mpi_alltpls_mac() {
     enable_gtest
     enable_trilinos
     rompp_packages
-    enable_anasazi_tsqr
-    enable_belos_tsqr
     enable_debug_print
 }
 
@@ -100,7 +93,6 @@ pblonig_mpi_alltpls_mac() {
     enable_gtest
     enable_trilinos
     rompp_packages
-    enable_anasazi_tsqr
     enable_debug_print
 }
 

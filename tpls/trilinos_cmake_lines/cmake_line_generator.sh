@@ -1,6 +1,6 @@
 #!/bin/bash
 
-frizzi_mac(){
+default_mac(){
     always_needed
     mpi_compilers
     mpi_fortran_off
@@ -12,6 +12,6 @@ frizzi_mac(){
 }
 
 default(){
-    frizzi_mac
+    default_mac
     echo CMAKELINE
 }
