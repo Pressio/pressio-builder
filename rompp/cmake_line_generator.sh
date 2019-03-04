@@ -22,47 +22,34 @@ cee_sparc_tests_on() {
     tests_on
 }
 
-cee_sparc_anasazi_tsqr_tests_on() {
-    cee_sparc_basic
+#-------------------------------------
+# default, basic configurations
+#-------------------------------------
+default_alltpls() {
+    always_needed
+    mpi_c_cxx_compilers
+    fortran_off
     tests_on
-}
-
-cee_sparc_anasazi_belos_tsqr_tests_on() {
-    cee_sparc_basic
-    tests_on
+    examples_off
+    enable_eigen
+    enable_gtest
+    enable_trilinos
+    rompp_packages
+    enable_debug_print
 }
 
 #-------------------------------------
 # mrsteam
 #-------------------------------------
 mrsteam_mpi_alltpls() {
-    always_needed
-    mpi_c_cxx_compilers
-    fortran_off
-    tests_on
-    examples_off
-    enable_eigen
-    enable_gtest
-    enable_trilinos
-    rompp_packages
-    enable_debug_print
+    default_alltpls
 }
-
 
 #-------------------------------------
 # frizzi mac
 #-------------------------------------
 frizzi_mpi_alltpls_mac() {
-    always_needed
-    mpi_c_cxx_compilers
-    fortran_off
-    tests_on
-    examples_off
-    enable_eigen
-    enable_gtest
-    enable_trilinos
-    rompp_packages
-    enable_debug_print
+    default_alltpls
 }
 
 # frizzi_serial_mac() {
@@ -79,21 +66,11 @@ frizzi_mpi_alltpls_mac() {
 #     rompp_packages
 # }
 
-
 #-------------------------------------
 # pblonigan mac
 #-------------------------------------
 pblonig_mpi_alltpls_mac() {
-    always_needed
-    mpi_c_cxx_compilers
-    fortran_off
-    tests_on
-    examples_off
-    enable_eigen
-    enable_gtest
-    enable_trilinos
-    rompp_packages
-    enable_debug_print
+    default_alltpls
 }
 
 

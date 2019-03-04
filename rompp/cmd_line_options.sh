@@ -124,6 +124,14 @@ Configuration:
 
 --with-cmake-fnc=			the name of one of the functions inside cmake_line_generator.sh
 					This is used to generate the cmake line to configure.
+					List of admissible functions is in "cmake_line_generator.sh"
+					Currently available (if you add a generic one, make sure
+					you list it below. But do not add here those specific to users)
+						cee_sparc_basic
+						cee_sparc_tests_on
+						default_alltpls (try this as first attempt, should work in most cases)
+						mrsteam_mpi_alltpls
+
 					default = NA, must be provided
 
 --wipe-existing=[0/1]			if true, the build and installation subdirectories of the

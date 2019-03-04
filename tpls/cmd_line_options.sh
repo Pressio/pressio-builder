@@ -92,12 +92,18 @@ Configuration:
 					NOTE: there is no space after commas.
 					default = gtest,eigen,trilinos
 
---with-cmake-line-fncs=list		comma-separated (no space after commas) list of
-					functions' names to use to generate the cmake line
-					for configuring each tpl.
+--with-cmake-line-fncs=list		comma-separated (no space after commas) list of func
+					names generating the cmake line	for configuring each tpl.
 					The order of these should match the list passed to --with-libraries.
-					The admissible functions can be found inside <libname>_cmake_lines
+					List of admissible functions can be found in the file
+					"cmake_line_generator.sh" inside <libname>_cmake_lines.
+					Currently available (if you add one, make sure you list it below)
+						eigen: default
+						gtest: default, for_mac, for_linux
+						trilinos: default, default_mac
+
 					default = default,default,default
+
 
 --target-dir=				the target directory where the tpls are built/installed.
 					this has to be set, no default is provided.
