@@ -3,7 +3,10 @@
 always_needed(){
     local is_shared=ON
     local link_search_static=OFF
-    [[ ${MODElib} == static ]] && (is_shared=OFF && link_search_static=ON)
+    if [[ ${MODElib} == static ]]; then
+	is_shared=OFF
+	link_search_static=ON
+    fi
     echo "is_shared = $is_shared"
     echo "link_search_static = $link_search_static"
 
