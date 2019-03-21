@@ -133,6 +133,7 @@ rompp_packages(){
     CMAKELINE+="-D rompp_ENABLE_svd:BOOL=${buildSVD} "
     CMAKELINE+="-D rompp_ENABLE_ode:BOOL=${buildODE} "
     CMAKELINE+="-D rompp_ENABLE_rom:BOOL=${buildROM} "
+    CMAKELINE+="-D rompp_ENABLE_apps:BOOL=${buildAPPS} "
 }
 
 enable_debug_print(){

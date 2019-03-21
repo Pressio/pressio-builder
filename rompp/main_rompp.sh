@@ -60,6 +60,7 @@ cd $WORKDIR
 # svd	  : depends on core, qr, solvers
 # ode	  : depends on core, solvers
 # rom	  : depends on core, qr, solvers, svd, ode
+# apps	  : depends on core, qr, solvers, svd, ode, rom
 
 # core is always on
 buildCORE=ON
@@ -69,6 +70,7 @@ buildSOLVERS=OFF
 buildSVD=OFF
 buildODE=OFF
 buildROM=OFF
+buildAPPS=OFF
 
 # turn flags on/off according to choices
 if [[ " ${pkg_names[@]} " =~ "qr" ]]; then
@@ -102,6 +104,16 @@ if [[ " ${pkg_names[@]} " =~ "rom" ]]; then
     buildSVD=ON
     buildODE=ON
     buildROM=ON
+fi
+
+if [[ " ${pkg_names[@]} " =~ "apps" ]]; then
+    echo "apps on => turning on also core, qr, solvers, svd, ode, rom"
+    buildQR=ON
+    buildSOLVERS=ON
+    buildSVD=ON
+    buildODE=ON
+    buildROM=ON
+    buildAPPS=ON
 fi
 
 # create dir if needed
