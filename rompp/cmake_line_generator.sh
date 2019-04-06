@@ -17,10 +17,26 @@ cee_sparc_basic() {
     enable_debug_print
 }
 
-cee_sparc_tests_on() {
+cee_sparc_gcc_tests_on() {
     cee_sparc_basic
+    local ldlflag="-ldl"
+    CMAKELINE+="-D CMAKE_EXE_LINKER_FLAGS=${ldlflag} "
     tests_on
 }
+
+cee_sparc_clang_tests_on() {
+    cee_sparc_basic
+    local ldlflag="-ldl"
+    CMAKELINE+="-D CMAKE_EXE_LINKER_FLAGS=${ldlflag} "
+    tests_on
+}
+
+cee_sparc_intel_tests_on() {
+    cee_sparc_basic
+    CMAKELINE+="-D CMAKE_EXE_LINKER_FLAGS= "
+    tests_on
+}
+
 
 #-------------------------------------
 # default, basic configurations
