@@ -22,6 +22,9 @@ ROMPPSRC=
 # name of the cmake configuring line
 CMAKELINEGEN=
 
+# n to use for parallelizing make
+njmake=6
+
 print_global_vars(){
     print_shared_global_vars
     echo "pkg_names      = ${pkg_names[@]}"
@@ -31,6 +34,7 @@ print_global_vars(){
     echo "ALLTPLSPATH    = $ALLTPLSPATH"
     echo "ROMPPSRC       = $ROMPPSRC"
     echo "CMAKELINEGEN	 = $CMAKELINEGEN"
+    echo "# cpu for make = ${njmake}"
 }
 
 check_minimum_vars_set(){

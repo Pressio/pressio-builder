@@ -19,8 +19,8 @@ cee_sparc_basic() {
 
 cee_sparc_gcc_tests_on() {
     cee_sparc_basic
-    local ldlflag="-ldl"
-    CMAKELINE+="-D CMAKE_EXE_LINKER_FLAGS=${ldlflag} "
+    local flags="-ldl"
+    CMAKELINE+="-D CMAKE_EXE_LINKER_FLAGS:STRING=${flags} "
     tests_on
 }
 
@@ -28,6 +28,15 @@ cee_sparc_clang_tests_on() {
     cee_sparc_basic
     local ldlflag="-ldl"
     CMAKELINE+="-D CMAKE_EXE_LINKER_FLAGS=${ldlflag} "
+    tests_on
+}
+
+cee_sparc_cuda_tests_on() {
+    cee_sparc_basic
+    local ldlflag="-fopenmp -ldl"
+    CMAKELINE+="-D CMAKE_EXE_LINKER_FLAGS=${ldlflag} "
+    # needed to handle constexpr or a warning is issued by nvcc
+    #CMAKELINE+="-D CMAKE_CUDA_FLAGS=--expt-relaxed-constexpr "
     tests_on
 }
 

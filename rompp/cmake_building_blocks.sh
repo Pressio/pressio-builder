@@ -44,7 +44,6 @@ serial_c_cxx_compilers(){
     CMAKELINE+="-D CMAKE_CXX_COMPILER:FILEPATH=${CXX} "
 }
 
-
 fortran_off(){
     CMAKELINE+="-D rompp_ENABLE_Fortran:BOOL=OFF "
 }

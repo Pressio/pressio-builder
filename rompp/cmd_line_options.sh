@@ -61,6 +61,10 @@ for option; do
 	    ALLTPLSPATH=`expr "x$option" : "x-*all-tpls-path=\(.*\)"`
 	    ;;
 
+	-ncpu-for-make=* | --ncpu-for-make=* )
+	    njmake=`expr "x$option" : "x-*ncpu-for-make=\(.*\)"`
+	    ;;
+
 	-with-packages=* | --with-packages=* )
 	    pkg_list=`expr "x$option" : "x-*with-packages=\(.*\)"`
 	    old_IFS=$IFS
@@ -116,7 +120,7 @@ Configuration:
 					under the directory set by --target-dir
 
 --with-packages=list			comma-separated list of ROMPP package names:
-					current pkgs available: core, qr, solvers, svd, ode, rom
+					current pkgs available: core, qr, solvers, svd, ode, rom, apps
 					If you specify a single package then all other needed
 					packages for this are built automatically.
 					For example, if you select 'ode', then 'core,qr,solvers' are on too.
@@ -128,10 +132,12 @@ Configuration:
 					Currently available (if you add a generic one, make sure
 					you list it below. But do not add here those specific to users)
 						cee_sparc_basic
-						cee_sparc_tests_on
+						cee_sparc_gcc_tests_on
+						cee_sparc_clang_tests_on
+						cee_sparc_intel_tests_on
+						cee_sparc_cuda_tests_on
 						default_alltpls (try this as first attempt, should work in most cases)
 						mrsteam_mpi_alltpls
-
 					default = NA, must be provided
 
 --wipe-existing=[0/1]			if true, the build and installation subdirectories of the
@@ -146,6 +152,9 @@ Configuration:
 
 --with-env-script=<path-to-file>	full path to script to set the environment.
 					default = assumes environment is set.
+
+--ncpu-for-make=[n]			number of processes (n) to feed to run: make -j n
+					default = 6
 
 To find TPLs:
 --eigen-path=				the path to the eigen installation directory
