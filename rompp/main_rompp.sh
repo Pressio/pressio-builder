@@ -156,7 +156,16 @@ echo ""
 cmake eval ${CMAKELINE}
 
 # build
-make -j 6 install
+echo "build with" make -j ${njmake} install}
+make -j ${njmake} install
+
+# if we are on cee machines, change permissions
+if [ is_cee_build_machine ]; then
+    echo "changing SGID permissions to ${WORKDIR}/rompp/install"
+    chmod g+rxs ${WORKDIR} #not recursive on purpose
+    chmod g+rxs ${WORKDIR}/rompp #not recursive on purpose
+    chmod -R g+rxs ${WORKDIR}/rompp/install
+fi
 
 # return where we started from
 cd ${THISDIR}

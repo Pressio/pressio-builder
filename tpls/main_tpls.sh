@@ -108,5 +108,11 @@ for ((i=0;i<${#tpl_names[@]};++i)); do
     [[ ${name} = "trilinos" ]] && build_trilinos ${fnc}
 done
 
+# if we are on cee machines, change permissions
+if [ is_cee_build_machine ]; then
+    echo "changing SGID permissions to ${WORKDIR}"
+    chmod -R g+rxs ${WORKDIR}
+fi
+
 # return where we started from
 cd ${THISDIR}

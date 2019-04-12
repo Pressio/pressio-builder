@@ -28,3 +28,14 @@ call_env_script(){
 	echo "--with-env-script NOT set, so we assume env is set already"
     fi
 }
+
+is_cee_build_machine(){
+    myname=$(hostname)
+    if [ $myname == *"cee-build"* ];then
+	# 0 means no failure in bash, so found
+	return 0
+    else
+	# 1 means failure in bash, so not found
+	return 1
+    fi
+}
