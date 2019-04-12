@@ -10,6 +10,7 @@ cee_sparc_basic() {
     examples_off
     cee_sparc_blas
     cee_sparc_lapack
+    enable_binutils
     enable_eigen
     enable_gtest
     enable_trilinos
@@ -19,22 +20,40 @@ cee_sparc_basic() {
 
 cee_sparc_gcc_tests_on() {
     cee_sparc_basic
-    local ldlflag="-ldl"
-    CMAKELINE+="-D CMAKE_EXE_LINKER_FLAGS=${ldlflag} "
+    add_dl_link
     tests_on
 }
-
 cee_sparc_clang_tests_on() {
     cee_sparc_basic
-    local ldlflag="-ldl"
-    CMAKELINE+="-D CMAKE_EXE_LINKER_FLAGS=${ldlflag} "
+    add_dl_link
+    tests_on
+}
+cee_sparc_intel_tests_on() {
+    cee_sparc_basic
+    #CMAKELINE+="CMAKE_Fortran_FLAGS=-cpp "
     tests_on
 }
 
-cee_sparc_intel_tests_on() {
+cee_sparc_intel_tests_off() {
     cee_sparc_basic
-    CMAKELINE+="-D CMAKE_EXE_LINKER_FLAGS= "
-    tests_on
+    tests_off
+}
+cee_sparc_gcc_tests_off() {
+    cee_sparc_basic
+    tests_off
+}
+cee_sparc_clang_tests_off() {
+    cee_sparc_basic
+    tests_off
+}
+
+cee_sparc_cuda_tests_on() {
+    cee_sparc_basic
+    # local ldlflag="-fopenmp -ldl"
+    # CMAKELINE+="-D CMAKE_EXE_LINKER_FLAGS=${ldlflag} "
+    # # needed to handle constexpr or a warning is issued by nvcc
+    # #CMAKELINE+="-D CMAKE_CUDA_FLAGS=--expt-relaxed-constexpr "
+    # tests_on
 }
 
 

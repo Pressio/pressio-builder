@@ -148,12 +148,25 @@ cd build
 source ${THISDIR}/cmake_building_blocks.sh
 source ${THISDIR}/cmake_line_generator.sh
 
-# make sure the global var CMAKELINE is empty
+# global var CMAKELINE is empty
 CMAKELINE=""
+# we want to customize CMAKE_CXX_FLAGS, define it empty here
+CXXFLAGS=""
+# also, extra link flags to ROMPP if needed
+EXTRALINKFLAGS=""
 
-# call the generator to build the string for cmake line
-# this will append to the global var CMAKELINE
+# the generator function MUST be called here after
+# above vars have been defined.
+# calling the generator will build the string for cmake line
+# this will append to the global var CMAKELINE, and will
+# change the above flags too if needed
 ${CMAKELINEGEN}
+
+# after generator was called, now finalize cmakeline
+# append cxx flags
+CMAKELINE+="-D CMAKE_CXX_FLAGS:STRING='${CXXFLAGS}' "
+# append extra link flags
+CMAKELINE+="-D rompp_EXTRA_LINK_FLAGS:STRING='${EXTRALINKFLAGS}' "
 
 # append prefix
 CMAKELINE+="-D CMAKE_INSTALL_PREFIX:PATH=../install "
@@ -168,7 +181,16 @@ echo ""
 cmake eval ${CMAKELINE}
 
 # build
-make -j 6 install
+echo "build with" make -j ${njmake} install}
+make -j ${njmake} install
+
+# if we are on cee machines, change permissions
+if [ is_cee_build_machine ]; then
+    echo "changing SGID permissions to ${WORKDIR}/rompp/install"
+    chmod g+rxs ${WORKDIR} #not recursive on purpose
+    chmod g+rxs ${WORKDIR}/rompp #not recursive on purpose
+    chmod -R g+rxs ${WORKDIR}/rompp/install
+fi
 
 # return where we started from
 cd ${THISDIR}
