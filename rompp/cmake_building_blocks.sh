@@ -127,6 +127,7 @@ enable_gtest(){
 rompp_packages(){
     CMAKELINE+="-D rompp_ENABLE_ALL_PACKAGES:BOOL=OFF "
     CMAKELINE+="-D rompp_ENABLE_ALL_OPTIONAL_PACKAGES:BOOL=OFF "
+    CMAKELINE+="-D rompp_ENABLE_mpl:BOOL=${buildMPL} "
     CMAKELINE+="-D rompp_ENABLE_core:BOOL=${buildCORE} "
     CMAKELINE+="-D rompp_ENABLE_qr:BOOL=${buildQR} "
     CMAKELINE+="-D rompp_ENABLE_solvers:BOOL=${buildSOLVERS} "
