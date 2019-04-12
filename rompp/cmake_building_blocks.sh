@@ -48,35 +48,42 @@ fortran_off(){
     CMAKELINE+="-D rompp_ENABLE_Fortran:BOOL=OFF "
 }
 
-with_omp_flag(){
-    local FLAGScombo="-fopenmp"
-    CMAKELINE+="-D CMAKE_CXX_FLAGS=${FLAGScombo} "
+add_dl_link(){
+    # the semic ; is needed beccause it builds a string
+    EXTRALINKFLAGS+=";dl"
 }
 
-with_omp_gfortran_flag(){
-    local FLAGScombo="-fopenmp -gfortran"
-    CMAKELINE+="-D CMAKE_CXX_FLAGS=${FLAGScombo} "
+add_omp_cxx_flag(){
+    CXXFLAGS+="-fopenmp "
+}
+
+add_gfortran_cxx_flag(){
+    CXXFLAGS+="-gfortran "
 }
 
 tests_off(){
     CMAKELINE+="-D rompp_ENABLE_TESTS:BOOL=OFF "
 }
-
 tests_on(){
     CMAKELINE+="-D rompp_ENABLE_TESTS:BOOL=ON "
 }
-
 examples_off(){
     CMAKELINE+="-D rompp_ENABLE_EXAMPLES:BOOL=OFF "
 }
 
+enable_binutils(){
+    CMAKELINE+="-D TPL_ENABLE_BinUtils=ON "
+}
+
+enable_mkl(){
+    CMAKELINE+="-D TPL_ENABLE_MKL=ON "
+}
 
 enable_eigen(){
     CMAKELINE+="-D TPL_ENABLE_EIGEN=ON "
-    # the following is equivalent to doing:
-    #-D EIGEN_INCLUDE_DIRS:PATH="${EIGENPATH}; ${EIGENPATH}/include/eigen3"
-    local EIGINC="${EIGENPATH};${EIGENPATH}/include/eigen3 "
-    CMAKELINE+="-D EIGEN_INCLUDE_DIRS=${EIGINC} "
+
+    local LINE="${EIGENPATH};${EIGENPATH}/include/eigen3"
+    CMAKELINE+="-D EIGEN_INCLUDE_DIRS='${LINE}' "
 }
 
 enable_trilinos(){
@@ -86,7 +93,7 @@ enable_trilinos(){
     # the following is equivalent to doing:
     #-D TRILINOS_LIBRARY_DIRS="${TRILINOSPATH}/lib64;${TRILINOSPATH}/lib"
     local TRILLIBstiched="${TRILINOSPATH}/lib64;${TRILINOSPATH}/lib"
-    CMAKELINE+="-D TRILINOS_LIBRARY_DIRS=${TRILLIBstiched} "
+    CMAKELINE+="-D TRILINOS_LIBRARY_DIRS='${TRILLIBstiched}' "
 }
 
 cee_sparc_blas(){
@@ -94,10 +101,10 @@ cee_sparc_blas(){
 
     # note that CBLAS_ROOT is set by environemnt on cee using the module
     local BLASlibstich="${CBLAS_ROOT}/mkl/lib/intel64;${CBLAS_ROOT}/lib/intel64"
-    CMAKELINE+="-D BLAS_LIBRARY_DIRS:PATH=${BLASlibstich} "
+    CMAKELINE+="-D BLAS_LIBRARY_DIRS:PATH='${BLASlibstich}' "
 
     local BLASNAMES="mkl_intel_lp64;mkl_intel_thread;mkl_core;iomp5"
-    CMAKELINE+="-D BLAS_LIBRARY_NAMES:STRING=${BLASNAMES} "
+    CMAKELINE+="-D BLAS_LIBRARY_NAMES:STRING='${BLASNAMES}' "
 }
 
 cee_sparc_lapack(){
@@ -105,20 +112,18 @@ cee_sparc_lapack(){
 
     # note that CBLAS_ROOT is set by environemnt on cee using the module
     local LAPACKlibstich="${CBLAS_ROOT}/mkl/lib/intel64;${CBLAS_ROOT}/lib/intel64"
-    CMAKELINE+="-D LAPACK_LIBRARY_DIRS:PATH=${LAPACKlibstich} "
+    CMAKELINE+="-D LAPACK_LIBRARY_DIRS:PATH='${LAPACKlibstich}' "
 
     local LAPACKNAMES="mkl_intel_lp64;mkl_intel_thread;mkl_core;iomp5"
-    CMAKELINE+="-D LAPACK_LIBRARY_NAMES:STRING=${LAPACKNAMES} "
+    CMAKELINE+="-D LAPACK_LIBRARY_NAMES:STRING='${LAPACKNAMES}' "
 }
 
 enable_gtest(){
     CMAKELINE+="-D TPL_ENABLE_GTEST=ON "
     CMAKELINE+="-D GTEST_INCLUDE_DIRS:PATH=${GTESTPATH}/include "
 
-    # the following is equivalent to doing:
-    # -D GTEST_LIBRARY_DIRS="${GTESTPATH}/lib64;${GTESTPATH}/lib"
     local GTLIBstiched="${GTESTPATH}/lib;${GTESTPATH}/lib64"
-    CMAKELINE+="-D GTEST_LIBRARY_DIRS=${GTLIBstiched} "
+    CMAKELINE+="-D GTEST_LIBRARY_DIRS='${GTLIBstiched}' "
 }
 
 # this should not change regardless of where we build because
