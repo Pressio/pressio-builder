@@ -103,6 +103,7 @@ fi
 if [[ " ${pkg_names[@]} " =~ "ode" ]]; then
     echo "ode on => turning on also core, solvers"
     buildCORE=ON
+    buildQR=ON
     buildSOLVERS=ON
     buildODE=ON
 fi
