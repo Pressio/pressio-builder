@@ -76,24 +76,24 @@ buildAPPS=OFF
 
 # turn flags on/off according to choices
 if [[ " ${pkg_names[@]} " =~ "core" ]]; then
-    echo "core on"
+    echo "mpl and core on"
     buildCORE=ON
 fi
 if [[ " ${pkg_names[@]} " =~ "qr" ]]; then
-    echo "qr on => turning on also core"
+    echo "qr on => turning on also mpl, core"
     buildCORE=ON
     buildQR=ON
 fi
 
 if [[ " ${pkg_names[@]} " =~ "solvers" ]]; then
-    echo "solvers on => turning on also core, qr"
+    echo "solvers on => turning on also mpl, core, qr"
     buildCORE=ON
     buildQR=ON
     buildSOLVERS=ON
 fi
 
 if [[ " ${pkg_names[@]} " =~ "svd" ]]; then
-    echo "svd on => turning on also core, qr, solvers, svd"
+    echo "svd on => turning on also mpl, core, qr, solvers, svd"
     buildCORE=ON
     buildQR=ON
     buildSOLVERS=ON
@@ -101,7 +101,7 @@ if [[ " ${pkg_names[@]} " =~ "svd" ]]; then
 fi
 
 if [[ " ${pkg_names[@]} " =~ "ode" ]]; then
-    echo "ode on => turning on also core, solvers"
+    echo "ode on => turning on also mpl, core, solvers"
     buildCORE=ON
     buildQR=ON
     buildSOLVERS=ON
@@ -109,7 +109,7 @@ if [[ " ${pkg_names[@]} " =~ "ode" ]]; then
 fi
 
 if [[ " ${pkg_names[@]} " =~ "rom" ]]; then
-    echo "rom on => turning on also core, qr, solvers, svd, ode"
+    echo "rom on => turning on also mpl, core, qr, solvers, svd, ode"
     buildCORE=ON
     buildQR=ON
     buildSOLVERS=ON
@@ -119,7 +119,7 @@ if [[ " ${pkg_names[@]} " =~ "rom" ]]; then
 fi
 
 if [[ " ${pkg_names[@]} " =~ "apps" ]]; then
-    echo "apps on => turning on also core, qr, solvers, svd, ode, rom"
+    echo "apps on => turning on also mpl, core, qr, solvers, svd, ode, rom"
     buildCORE=ON
     buildQR=ON
     buildSOLVERS=ON
