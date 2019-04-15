@@ -186,7 +186,7 @@ echo "build with" make -j ${njmake} install}
 make -j ${njmake} install
 
 # if we are on cee machines, change permissions
-if [ is_cee_build_machine ]; then
+if [ is_cee_build_machine == 0 ]; then
     echo "changing SGID permissions to ${WORKDIR}/rompp/install"
     chmod g+rxs ${WORKDIR} #not recursive on purpose
     chmod g+rxs ${WORKDIR}/rompp #not recursive on purpose
