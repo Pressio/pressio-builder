@@ -42,7 +42,7 @@ if [[ ! -z $ALLTPLSPATH ]]; then
 fi
 
 # test if workdir exists if not create it
-[[ ! -d $WORKDIR ]] && (echo "creating $WORKDIR" && mkdir $WORKDIR)
+[[ ! -d $WORKDIR ]] && (echo "creating $WORKDIR" && mkdir -p $WORKDIR)
 
 # enter working dir: make sure this happens because
 # all scripts for each tpl MUST be run from within target dir
