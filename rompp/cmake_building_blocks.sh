@@ -70,6 +70,9 @@ tests_on(){
 examples_off(){
     CMAKELINE+="-D rompp_ENABLE_EXAMPLES:BOOL=OFF "
 }
+examples_on(){
+    CMAKELINE+="-D rompp_ENABLE_EXAMPLES:BOOL=ON "
+}
 
 enable_binutils(){
     CMAKELINE+="-D TPL_ENABLE_BinUtils=ON "

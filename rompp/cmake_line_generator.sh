@@ -84,7 +84,10 @@ mrsteam_mpi_alltpls() {
 # frizzi mac
 #-------------------------------------
 frizzi_mpi_alltpls_mac() {
+    default_alltpls}
+frizzi_mpi_alltpls_examples_mac() {
     default_alltpls
+    examples_on
 }
 
 # frizzi_serial_mac() {
