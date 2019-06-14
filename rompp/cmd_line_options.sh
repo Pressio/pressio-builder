@@ -111,9 +111,9 @@ Configuration:
 					For example: if you use
 					    --target-dir=/home/user,
 					then this script will create the following structure:
-					    /home/uer/rompp/rompp     : contains the source
-					    /home/uer/rompp/build     : contains the build
-					    /home/uer/rompp/install   : contains the install
+					    /home/user/rompp/rompp     : contains the source
+					    /home/user/rompp/build     : contains the build
+					    /home/user/rompp/install   : contains the install
 
 --rompp-src=				the ROMPP source directory
 					default = empty, if empty the repo will be cloned
