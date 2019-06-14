@@ -90,7 +90,7 @@ Configuration:
 
 --with-libraries=list			comma-separated list of library names.
 					NOTE: there is no space after commas.
-					default = gtest,eigen,trilinos
+					default = gtest,eigen,trilinos,pybind11
 
 --with-cmake-line-fncs=list		comma-separated (no space after commas) list of func
 					names generating the cmake line	for configuring each tpl.
@@ -101,8 +101,9 @@ Configuration:
 						eigen: default
 						gtest: default, for_mac, for_linux
 						trilinos: default, default_mac
+						pybind11: default
 
-					default = default,default,default
+					default = default,default,default,default
 
 
 --target-dir=				the target directory where the tpls are built/installed.

@@ -36,6 +36,7 @@ if [[ ! -z $ALLTPLSPATH ]]; then
     # this is because this the structure used by main_tpls.sh
     EIGENPATH=$ALLTPLSPATH/eigen/install
     GTESTPATH=$ALLTPLSPATH/gtest/install
+    PYBIND11PATH=$ALLTPLSPATH/pybind11/install
 
     # if trilinos exists, set, otherwise leave empty
     [[ -d $ALLTPLSPATH/trilinos ]] && TRILINOSPATH=$ALLTPLSPATH/trilinos/install

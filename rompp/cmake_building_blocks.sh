@@ -84,9 +84,13 @@ enable_mkl(){
 
 enable_eigen(){
     CMAKELINE+="-D TPL_ENABLE_EIGEN=ON "
-
     local LINE="${EIGENPATH};${EIGENPATH}/include/eigen3"
     CMAKELINE+="-D EIGEN_INCLUDE_DIRS='${LINE}' "
+}
+
+enable_pybind11(){
+    CMAKELINE+="-D TPL_ENABLE_PYBIND11=ON "
+    CMAKELINE+="-D PYBIND11_INCLUDE_DIRS:PATH=${PYBIND11PATH}/include/include "
 }
 
 enable_trilinos(){
