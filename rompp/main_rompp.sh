@@ -66,8 +66,9 @@ cd $WORKDIR
 
 # mpl, core always on
 buildMPL=ON
+buildUTILS=ON
 # the others are turned on depending on arguments
-buildCORE=OFF
+buildCONTAINERS=OFF
 buildQR=OFF
 buildSOLVERS=OFF
 buildSVD=OFF
@@ -76,42 +77,42 @@ buildROM=OFF
 buildAPPS=OFF
 
 # turn flags on/off according to choices
-if [[ " ${pkg_names[@]} " =~ "core" ]]; then
-    echo "mpl and core on"
-    buildCORE=ON
+if [[ " ${pkg_names[@]} " =~ "containers" ]]; then
+    echo "mpl, utils and containers on"
+    buildCONTAINERS=ON
 fi
 if [[ " ${pkg_names[@]} " =~ "qr" ]]; then
-    echo "qr on => turning on also mpl, core"
-    buildCORE=ON
+    echo "qr on => turning on also mpl, utils, containers"
+    buildCONTAINERS=ON
     buildQR=ON
 fi
 
 if [[ " ${pkg_names[@]} " =~ "solvers" ]]; then
-    echo "solvers on => turning on also mpl, core, qr"
-    buildCORE=ON
+    echo "solvers on => turning on also mpl, utils, containers, qr"
+    buildCONTAINERS=ON
     buildQR=ON
     buildSOLVERS=ON
 fi
 
 if [[ " ${pkg_names[@]} " =~ "svd" ]]; then
-    echo "svd on => turning on also mpl, core, qr, solvers, svd"
-    buildCORE=ON
+    echo "svd on => turning on also mpl, utils, containers, qr, solvers, svd"
+    buildCONTAINERS=ON
     buildQR=ON
     buildSOLVERS=ON
     buildSVD=ON
 fi
 
 if [[ " ${pkg_names[@]} " =~ "ode" ]]; then
-    echo "ode on => turning on also mpl, core, solvers"
-    buildCORE=ON
+    echo "ode on => turning on also mpl, utils, containers, solvers"
+    buildCONTAINERS=ON
     buildQR=ON
     buildSOLVERS=ON
     buildODE=ON
 fi
 
 if [[ " ${pkg_names[@]} " =~ "rom" ]]; then
-    echo "rom on => turning on also mpl, core, qr, solvers, svd, ode"
-    buildCORE=ON
+    echo "rom on => turning on also mpl, utils, containers, qr, solvers, svd, ode"
+    buildCONTAINERS=ON
     buildQR=ON
     buildSOLVERS=ON
     buildSVD=ON
@@ -120,8 +121,8 @@ if [[ " ${pkg_names[@]} " =~ "rom" ]]; then
 fi
 
 if [[ " ${pkg_names[@]} " =~ "apps" ]]; then
-    echo "apps on => turning on also mpl, core, qr, solvers, svd, ode, rom"
-    buildCORE=ON
+    echo "apps on => turning on also mpl, utils, containers, qr, solvers, svd, ode, rom"
+    buildCONTAINERS=ON
     buildQR=ON
     buildSOLVERS=ON
     buildSVD=ON
