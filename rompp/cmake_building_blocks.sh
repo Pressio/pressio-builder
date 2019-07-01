@@ -83,9 +83,13 @@ enable_mkl(){
 
 enable_eigen(){
     CMAKELINE+="-D TPL_ENABLE_EIGEN=ON "
-
     local LINE="${EIGENPATH};${EIGENPATH}/include/eigen3"
     CMAKELINE+="-D EIGEN_INCLUDE_DIRS='${LINE}' "
+}
+
+enable_pybind11(){
+    CMAKELINE+="-D TPL_ENABLE_PYBIND11=ON "
+    CMAKELINE+="-D PYBIND11_INCLUDE_DIRS:PATH=${PYBIND11PATH}/include/include "
 }
 
 enable_trilinos(){
@@ -134,7 +138,8 @@ rompp_packages(){
     CMAKELINE+="-D rompp_ENABLE_ALL_PACKAGES:BOOL=OFF "
     CMAKELINE+="-D rompp_ENABLE_ALL_OPTIONAL_PACKAGES:BOOL=OFF "
     CMAKELINE+="-D rompp_ENABLE_mpl:BOOL=${buildMPL} "
-    CMAKELINE+="-D rompp_ENABLE_core:BOOL=${buildCORE} "
+    CMAKELINE+="-D rompp_ENABLE_utils:BOOL=${buildUTILS} "
+    CMAKELINE+="-D rompp_ENABLE_containers:BOOL=${buildCONTAINERS} "
     CMAKELINE+="-D rompp_ENABLE_qr:BOOL=${buildQR} "
     CMAKELINE+="-D rompp_ENABLE_solvers:BOOL=${buildSOLVERS} "
     CMAKELINE+="-D rompp_ENABLE_svd:BOOL=${buildSVD} "

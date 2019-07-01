@@ -90,6 +90,21 @@ build_eigen() {
     fi
 }
 
+build_pybind11() {
+    local DOBUILD=OFF
+    local myfnc=$1
+    echo "target fnc = ${myfnc}.sh"
+    [[ -d pybind11 ]] && check_and_clean pybind11 || DOBUILD=ON
+    if [ $DOBUILD = "ON" ]; then
+	# source all generator functions
+	source ${THISDIR}/pybind11_cmake_lines/cmake_building_blocks.sh
+	source ${THISDIR}/pybind11_cmake_lines/cmake_line_generator.sh
+	# source and call build function
+	source ${THISDIR}/build_pybind11.sh
+	build_pybind11 $myfnc
+    fi
+}
+
 # test is workdir exists if not create it
 [[ ! -d $WORKDIR ]] && (echo "creating $WORKDIR" && mkdir -p $WORKDIR)
 
@@ -106,6 +121,7 @@ for ((i=0;i<${#tpl_names[@]};++i)); do
     [[ ${name} = "eigen" ]] && build_eigen ${fnc}
     [[ ${name} = "gtest" ]] && build_gtest ${fnc}
     [[ ${name} = "trilinos" ]] && build_trilinos ${fnc}
+    [[ ${name} = "pybind11" ]] && build_pybind11 ${fnc}
 done
 
 # if we are on cee machines, change permissions

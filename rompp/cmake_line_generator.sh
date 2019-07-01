@@ -56,11 +56,10 @@ cee_sparc_cuda_tests_on() {
     # tests_on
 }
 
-
 #-------------------------------------
 # default, basic configurations
 #-------------------------------------
-default_alltpls() {
+default() {
     always_needed
     mpi_c_cxx_compilers
     fortran_off
@@ -77,14 +76,33 @@ default_alltpls() {
 # mrsteam
 #-------------------------------------
 mrsteam_mpi_alltpls() {
-    default_alltpls
+    default
 }
 
 #-------------------------------------
 # frizzi mac
 #-------------------------------------
-frizzi_mpi_alltpls_mac() {
-    default_alltpls
+frizzi_mpi_mac_1() {
+    default
+}
+frizzi_mpi_mac_2() {
+    default
+    examples_on
+}
+frizzi_mpi_mac_3() {
+    always_needed
+    mpi_c_cxx_compilers
+    fortran_off
+    tests_on
+    examples_off
+    enable_eigen
+    enable_gtest
+    rompp_packages
+    enable_debug_print
+
+    CMAKELINE+="-D PYTHON_INCLUDE_DIR:PATH=/opt/local/Library/Frameworks/Python.framework/Versions/3.4/include/python3.4m/ "
+    CMAKELINE+="-D USE_PYTHON_INCLUDE_DIR:BOOL=OFF "
+    enable_pybind11
 }
 
 # frizzi_serial_mac() {
@@ -108,17 +126,6 @@ pblonig_mpi_alltpls_mac() {
     default_alltpls
     examples_on
 }
-
-
-
-
-
-
-
-
-
-
-
 
 
 

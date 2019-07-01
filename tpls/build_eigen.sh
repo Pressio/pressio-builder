@@ -7,9 +7,9 @@ build_eigen(){
 
     if [ -z $CMAKELINEGEN ]; then
 	echo ""
-	echo "build_gtest called without specifying cmake_line_generator_function"
+	echo "build_eigen called without specifying cmake_line_generator_function"
 	echo "usage:"
-	echo "build_gtest [name_of_cmake_line_generator_function]"
+	echo "build_eigen [name_of_cmake_line_generator_function]"
 	exit 0
     fi
     #-----------------------------------

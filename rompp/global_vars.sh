@@ -12,6 +12,8 @@ EIGENPATH=
 GTESTPATH=
 # path to dir where trilinos is installed
 TRILINOSPATH=
+# path to dir where pybind11 is installed
+PYBIND11PATH=
 # path to dir where all tpls are installed
 # structure must follow what main_tpls.sh does
 ALLTPLSPATH=
@@ -31,6 +33,7 @@ print_global_vars(){
     echo "EIGENPATH      = $EIGENPATH"
     echo "GTESTPATH      = $GTESTPATH"
     echo "TRILINOSPATH   = $TRILINOSPATH"
+    echo "PYBIND11PATH   = $PYBIND11PATH"
     echo "ALLTPLSPATH    = $ALLTPLSPATH"
     echo "ROMPPSRC       = $ROMPPSRC"
     echo "CMAKELINEGEN	 = $CMAKELINEGEN"
@@ -42,10 +45,10 @@ check_minimum_vars_set(){
     check_minimum_shared_vars_set
 
     if [[ -z $ALLTPLSPATH && -z $EIGENPATH && \
-	  -z $GTESTPATH && -z $TRILINOSPATH ]]; then
+	  -z $GTESTPATH && -z $TRILINOSPATH && -z $PYBIND11PATH ]]; then
 	echo "--all-tpls-path is empty, and all individual ones are empty"
 	echo "Either you set --all-tpls-path, or each "
-	echo "of -eigen-path, -gtest-path, -trilinos-path"
+	echo "of -eigen-path, -gtest-path, -trilinos-path, -pybind11-path"
 	exit 0
     fi
 
