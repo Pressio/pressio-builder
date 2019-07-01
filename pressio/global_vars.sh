@@ -18,7 +18,7 @@ PYBIND11PATH=
 # structure must follow what main_tpls.sh does
 ALLTPLSPATH=
 
-# rompp git repo src
+# pressio git repo src
 ROMPPSRC=
 
 # name of the cmake configuring line

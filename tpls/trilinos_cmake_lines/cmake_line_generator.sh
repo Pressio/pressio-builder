@@ -7,7 +7,7 @@ default_mac(){
     tests_off
     examples_off
     kokkos_serial
-    packages_for_rompp
+    packages_for_pressio
     echo CMAKELINE
 }
 

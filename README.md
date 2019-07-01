@@ -1,4 +1,4 @@
-Automated build system for TPLs and rompp and rompp_demo_apps
+Automated build system for TPLs and pressio and pressio_demo_apps
 
 Current versions of tpls used:
 

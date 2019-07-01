@@ -1,8 +1,8 @@
 #!/bin/bash
 
 EXTRA_ARGS=$@
-TRILINOS_SRC_DIR=/projects/rompp/tpls/trilinos/Trilinos
-PFX=/projects/rompp/tpls/trilinos/install-sierra
+TRILINOS_SRC_DIR=/projects/pressio/tpls/trilinos/Trilinos
+PFX=/projects/pressio/tpls/trilinos/install-sierra
 MPIPATH=/projects/sierra/linux_rh6/SDK/mpi/openmpi/1.10.2-gcc-7.2.0-RHEL6
 
 cmake \

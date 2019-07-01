@@ -4,14 +4,14 @@ module load sparc-dev/gcc
 
 EXTRA_ARGS=$@
 
-SRC=/projects/rompp/sources/rompp_demo_apps
-PFX=/projects/rompp/installs/rompp_demo_apps_install
+SRC=/projects/pressio/sources/pressio_demo_apps
+PFX=/projects/pressio/installs/pressio_demo_apps_install
 
 MPIPATH=/sierra/sntools/SDK/mpi/openmpi/1.10.2-gcc-7.2.0-RHEL6/bin
 TRILPATH=/projects/sparc/tpls/cee-rhel6-new/Trilinos/cee-cpu_gcc-7.2.0_serial_openmpi-1.10.2_shared_dbg
-EIGENINCPATH=/projects/rompp/tpls/eigen/3.3.5/install
-GTESTPATH=/projects/rompp/tpls/gtest/install-gcc720
-ROMPPPATH=/projects/rompp/installs/rompp_install
+EIGENINCPATH=/projects/pressio/tpls/eigen/3.3.5/install
+GTESTPATH=/projects/pressio/tpls/gtest/install-gcc720
+ROMPPPATH=/projects/pressio/installs/pressio_install
 
 cmake \
     -D CMAKE_BUILD_TYPE:STRING=DEBUG \
@@ -22,8 +22,8 @@ cmake \
     -D CMAKE_VERBOSE_MAKEFILE:BOOL=ON \
     \
     -D MPI_EXEC_MAX_NUMPROCS:STRING=8 \
-    -D rompp_demo_apps_ENABLE_CXX11:BOOL=ON\
-    -D rompp_demo_apps_ENABLE_SHADOW_WARNINGS:BOOL=OFF\
+    -D pressio_demo_apps_ENABLE_CXX11:BOOL=ON\
+    -D pressio_demo_apps_ENABLE_SHADOW_WARNINGS:BOOL=OFF\
     -D CMAKE_CXX_FLAGS="-fopenmp" \
     \
     -D TPL_ENABLE_ROMPP=ON \
@@ -44,14 +44,14 @@ cmake \
     -D GTEST_LIBRARY_DIRS:PATH=${GTESTPATH}/lib \
     -D GTEST_INCLUDE_DIRS:PATH=${GTESTPATH}/include \
     \
-    -D rompp_demo_apps_ENABLE_Fortran=OFF \
-    -D rompp_demo_apps_ENABLE_TESTS:BOOL=ON \
-    -D rompp_demo_apps_ENABLE_EXAMPLES:BOOL=OFF \
-    -D rompp_demo_apps_ENABLE_ALL_PACKAGES:BOOL=OFF \
-    -D rompp_demo_apps_ENABLE_ALL_OPTIONAL_PACKAGES:BOOL=OFF \
+    -D pressio_demo_apps_ENABLE_Fortran=OFF \
+    -D pressio_demo_apps_ENABLE_TESTS:BOOL=ON \
+    -D pressio_demo_apps_ENABLE_EXAMPLES:BOOL=OFF \
+    -D pressio_demo_apps_ENABLE_ALL_PACKAGES:BOOL=OFF \
+    -D pressio_demo_apps_ENABLE_ALL_OPTIONAL_PACKAGES:BOOL=OFF \
     \
-    -D rompp_demo_apps_ENABLE_oneD:BOOL=ON \
-    -D rompp_demo_apps_ENABLE_twoD:BOOL=OFF \
+    -D pressio_demo_apps_ENABLE_oneD:BOOL=ON \
+    -D pressio_demo_apps_ENABLE_twoD:BOOL=OFF \
     \
     $EXTRA_ARGS \
     ${SRC}

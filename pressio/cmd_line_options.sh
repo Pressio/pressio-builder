@@ -37,8 +37,8 @@ for option; do
 	    SETENVscript=`expr "x$option" : "x-*with-env-script=\(.*\)"`
 	    ;;
 
-	-rompp-src=* | --rompp-src=* )
-	    ROMPPSRC=`expr "x$option" : "x-*rompp-src=\(.*\)"`
+	-pressio-src=* | --pressio-src=* )
+	    ROMPPSRC=`expr "x$option" : "x-*pressio-src=\(.*\)"`
 	    ;;
 
 	-with-cmake-fnc=* | --with-cmake-fnc=* )
@@ -94,7 +94,7 @@ done
 
 if test "$want_help" = yes; then
   cat <<EOF
-\`./main_rompp.sh'
+\`./main_pressio.sh'
 
 Usage: $0 [OPTION]...
 
@@ -111,11 +111,11 @@ Configuration:
 					For example: if you use
 					    --target-dir=/home/user,
 					then this script will create the following structure:
-					    /home/user/rompp/rompp     : contains the source
-					    /home/user/rompp/build     : contains the build
-					    /home/user/rompp/install   : contains the install
+					    /home/user/pressio/pressio     : contains the source
+					    /home/user/pressio/build     : contains the build
+					    /home/user/pressio/install   : contains the install
 
---rompp-src=				the ROMPP source directory
+--pressio-src=				the ROMPP source directory
 					default = empty, if empty the repo will be cloned
 					under the directory set by --target-dir
 

@@ -26,7 +26,7 @@ TRILINOSPATH=
 # structure must follow what main_tpls.sh does
 ALLTPLSPATH=
 
-# rompp git repo src
+# pressio git repo src
 DEMOAPPSSRC=
 
 # name of the cmake configuring line
@@ -121,8 +121,8 @@ for option; do
 	    CMAKECONFIGfnc=`expr "x$option" : "x-*with-cmake-fnc=\(.*\)"`
 	    ;;
 
-	-rompp-path=* | --rompp-path=* )
-	    ROMPPPATH=`expr "x$option" : "x-*rompp-path=\(.*\)"`
+	-pressio-path=* | --pressio-path=* )
+	    ROMPPPATH=`expr "x$option" : "x-*pressio-path=\(.*\)"`
 	    ;;
 
 	-eigen-path=* | --eigen-path=* )
@@ -170,7 +170,7 @@ done
 
 if test "$want_help" = yes; then
   cat <<EOF
-\`./main_rompp_demp_apps.sh'
+\`./main_pressio_demp_apps.sh'
 
 Usage: $0 [OPTION]...
 
@@ -186,9 +186,9 @@ Configuration:
 					this has to be set, no default provided.
 					For example: if you use --target-dir=/home/user,
 					then this script will create the following structure:
-					/home/uer/rompp/rompp     : contains the source
-					/home/uer/rompp/build     : contains the build
-					/home/uer/rompp/install   : contains the install
+					/home/uer/pressio/pressio     : contains the source
+					/home/uer/pressio/build     : contains the build
+					/home/uer/pressio/install   : contains the install
 
 --demo-apps-src=			the location of the source directory
 					default = empty, if empty the repo will be cloned
@@ -198,8 +198,8 @@ Configuration:
 					the current pacakges available: core, qr, solvers, svd, ode, rom
 					default = core.
 
---with-cmake-fnc=			a name of one of the functions inside 'rompp_cmake_lines.sh'
-					default = cmake_rompp_mpi_omp
+--with-cmake-fnc=			a name of one of the functions inside 'pressio_cmake_lines.sh'
+					default = cmake_pressio_mpi_omp
 
 --wipe-existing=[0/1]			if true, the build and installation subdirectories of the
 					destination folder set by --target-dir will be wiped and remade.
@@ -215,7 +215,7 @@ Configuration:
 					default = assumes environment is set.
 
 To find TPLs:
---rompp-path=				the path to the rompp installation directory
+--pressio-path=				the path to the pressio installation directory
 					default = NA, must be set
 
 --eigen-path=				the path to the eigen installation directory
@@ -251,7 +251,7 @@ fi
 
 if [[ -z $ALLTPLSPATH && -z $ROMPPAPTH && -z $EIGENPATH && -z $GTESTPATH && -z $TRILINOSPATH ]]; then
     echo "--all-tpls-path is empty, and all individual ones are empty"
-    echo "Either you set --all-tpls-path, or each of -rompp-path, -eigen-path, -gtest-path, -trilinos-path"
+    echo "Either you set --all-tpls-path, or each of -pressio-path, -eigen-path, -gtest-path, -trilinos-path"
     exit 0
 fi
 
@@ -287,7 +287,7 @@ buildTwoD=OFF
 # if all tpls can be found under single dir, then we have
 if [[ ! -z $ALLTPLSPATH ]]; then
     # this is because this the structure used by main_tpls.sh
-    ROMPPPATH=$ALLTPLSPATH/rompp/install
+    ROMPPPATH=$ALLTPLSPATH/pressio/install
     EIGENPATH=$ALLTPLSPATH/eigen/install
     GTESTPATH=$ALLTPLSPATH/gtest/install
     TRILINOSPATH=$ALLTPLSPATH/trilinos/install
@@ -300,9 +300,9 @@ fi
 # all scripts for each tpl MUST be run from within target dir
 cd $WORKDIR
 
-# if rompp and rompp/install exist, check if they need to be wiped
+# if pressio and pressio/install exist, check if they need to be wiped
 # or if nothing needs to be done (so script exists)
-[[ -d rompp && -d rompp/install ]] && check_and_clean rompp
+[[ -d pressio && -d pressio/install ]] && check_and_clean pressio
 
 # if we get here, it means that we need to build and install
 # so check which packages we need to build
@@ -317,15 +317,15 @@ link_search_static=OFF
 [[ $MODElib == static ]] && link_search_static=ON
 
 # create dir if needed
-[[ ! -d rompp ]] && mkdir rompp
-cd rompp
+[[ ! -d pressio ]] && mkdir pressio
+cd pressio
 
 # if the source is NOT provided by user, then clone repo directly in here
 # and set ROMPPSRC to point to this newly cloned repo
 if [ -z ${ROMPPSRC} ]; then
-    [[ ! -d rompp ]] && git clone --recursive git@gitlab.com:fnrizzi/rompp_demo_apps.git
-    cd rompp_demo_apps && git checkout develop && cd ..
-    DEMOAPPSSRC=${PWD}/rompp_demo_apps
+    [[ ! -d pressio ]] && git clone --recursive git@gitlab.com:fnrizzi/pressio_demo_apps.git
+    cd pressio_demo_apps && git checkout develop && cd ..
+    DEMOAPPSSRC=${PWD}/pressio_demo_apps
 fi
 
 # create build
