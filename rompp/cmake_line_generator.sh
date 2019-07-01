@@ -106,6 +106,7 @@ frizzi_mpi_alltpls_mac() {
 #-------------------------------------
 pblonig_mpi_alltpls_mac() {
     default_alltpls
+    examples_on
 }
 
 
