@@ -56,7 +56,7 @@ kokkos_serial(){
     CMAKELINE+="-D KOKKOS_ENABLE_OPENMP:BOOL=OFF "
 }
 
-packages_for_rompp(){
+packages_for_pressio(){
     CMAKELINE+="-D Trilinos_ENABLE_ALL_PACKAGES:BOOL=OFF "
     CMAKELINE+="-D Trilinos_ENABLE_ALL_OPTIONAL_PACKAGES:BOOL=OFF "
     CMAKELINE+="-D Trilinos_ENABLE_Teuchos:BOOL=ON "

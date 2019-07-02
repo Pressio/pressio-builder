@@ -49,12 +49,12 @@ fi
 # all scripts for each tpl MUST be run from within target dir
 cd $WORKDIR
 
-# if rompp and rompp/install exist, check if they need to be wiped
+# if pressio and pressio/install exist, check if they need to be wiped
 # or if nothing needs to be done (so script exists)
-[[ -d rompp && -d rompp/install ]] && check_and_clean rompp
+[[ -d pressio && -d pressio/install ]] && check_and_clean pressio
 
 # if we get here, we need to build/install, keeping in mind dependencies.
-# make sure these dependencies are updated as they change in rompp
+# make sure these dependencies are updated as they change in pressio
 # mpl	  : always needed
 # core	  : depends on mpl
 # qr	  : depends on mpl, core
@@ -132,15 +132,15 @@ if [[ " ${pkg_names[@]} " =~ "apps" ]]; then
 fi
 
 # create dir if needed
-[[ ! -d rompp ]] && mkdir rompp
-cd rompp
+[[ ! -d pressio ]] && mkdir pressio
+cd pressio
 
 # if the source is NOT provided by user, then clone repo directly in here
 # and set ROMPPSRC to point to this newly cloned repo
 if [ -z ${ROMPPSRC} ]; then
-    [[ ! -d rompp ]] && git clone --recursive git@gitlab.com:fnrizzi/rompp.git
-    cd rompp && git checkout develop && cd ..
-    ROMPPSRC=${PWD}/rompp
+    [[ ! -d pressio ]] && git clone --recursive git@gitlab.com:fnrizzi/pressio.git
+    cd pressio && git checkout develop && cd ..
+    ROMPPSRC=${PWD}/pressio
 fi
 
 # create build
@@ -169,7 +169,7 @@ ${CMAKELINEGEN}
 # append cxx flags
 CMAKELINE+="-D CMAKE_CXX_FLAGS:STRING='${CXXFLAGS}' "
 # append extra link flags
-CMAKELINE+="-D rompp_EXTRA_LINK_FLAGS:STRING='${EXTRALINKFLAGS}' "
+CMAKELINE+="-D pressio_EXTRA_LINK_FLAGS:STRING='${EXTRALINKFLAGS}' "
 
 # append prefix
 CMAKELINE+="-D CMAKE_INSTALL_PREFIX:PATH=../install "
@@ -189,10 +189,10 @@ make -j ${njmake} install
 
 # if we are on cee machines, change permissions
 if [ is_cee_build_machine == 0 ]; then
-    echo "changing SGID permissions to ${WORKDIR}/rompp/install"
+    echo "changing SGID permissions to ${WORKDIR}/pressio/install"
     chmod g+rxs ${WORKDIR} #not recursive on purpose
-    chmod g+rxs ${WORKDIR}/rompp #not recursive on purpose
-    chmod -R g+rxs ${WORKDIR}/rompp/install
+    chmod g+rxs ${WORKDIR}/pressio #not recursive on purpose
+    chmod -R g+rxs ${WORKDIR}/pressio/install
 fi
 
 # return where we started from

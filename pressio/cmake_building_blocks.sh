@@ -15,12 +15,12 @@ always_needed(){
     CMAKELINE+="-D CMAKE_BUILD_TYPE:STRING=${MODEbuild} "
     CMAKELINE+="-D BUILD_SHARED_LIBS:BOOL=${is_shared} "
     CMAKELINE+="-D CMAKE_VERBOSE_MAKEFILE:BOOL=TRUE "
-    CMAKELINE+="-D rompp_ENABLE_CXX11:BOOL=ON "
-    CMAKELINE+="-D rompp_ENABLE_SHADOW_WARNINGS:BOOL=OFF "
+    CMAKELINE+="-D pressio_ENABLE_CXX11:BOOL=ON "
+    CMAKELINE+="-D pressio_ENABLE_SHADOW_WARNINGS:BOOL=OFF "
 
     # following lines cause issues for CEE, and are also not used
     # e.g. by SPARC trilinos scripts, it seems we dont need them
-    #CMAKELINE+="-D rompp_LINK_SEARCH_START_STATIC=$link_search_static "
+    #CMAKELINE+="-D pressio_LINK_SEARCH_START_STATIC=$link_search_static "
     #CMAKELINE+="-D TPL_FIND_SHARED_LIBS=${is_shared} "
 }
 
@@ -34,7 +34,7 @@ mpi_c_cxx_compilers(){
 }
 
 mpi_fortran_on(){
-    CMAKELINE+="-D rompp_ENABLE_Fortran:BOOL=ON "
+    CMAKELINE+="-D pressio_ENABLE_Fortran:BOOL=ON "
     CMAKELINE+="-D MPI_Fortran_COMPILER:FILEPATH=${F90} "
 }
 
@@ -45,7 +45,7 @@ serial_c_cxx_compilers(){
 }
 
 fortran_off(){
-    CMAKELINE+="-D rompp_ENABLE_Fortran:BOOL=OFF "
+    CMAKELINE+="-D pressio_ENABLE_Fortran:BOOL=OFF "
 }
 
 add_dl_link(){
@@ -62,16 +62,16 @@ add_gfortran_cxx_flag(){
 }
 
 tests_off(){
-    CMAKELINE+="-D rompp_ENABLE_TESTS:BOOL=OFF "
+    CMAKELINE+="-D pressio_ENABLE_TESTS:BOOL=OFF "
 }
 tests_on(){
-    CMAKELINE+="-D rompp_ENABLE_TESTS:BOOL=ON "
+    CMAKELINE+="-D pressio_ENABLE_TESTS:BOOL=ON "
 }
 examples_off(){
-    CMAKELINE+="-D rompp_ENABLE_EXAMPLES:BOOL=OFF "
+    CMAKELINE+="-D pressio_ENABLE_EXAMPLES:BOOL=OFF "
 }
 examples_on(){
-    CMAKELINE+="-D rompp_ENABLE_EXAMPLES:BOOL=ON "
+    CMAKELINE+="-D pressio_ENABLE_EXAMPLES:BOOL=ON "
 }
 enable_binutils(){
     CMAKELINE+="-D TPL_ENABLE_BinUtils=ON "
@@ -134,18 +134,18 @@ enable_gtest(){
 
 # this should not change regardless of where we build because
 # it is driven by the list of packages passed to the main build file
-rompp_packages(){
-    CMAKELINE+="-D rompp_ENABLE_ALL_PACKAGES:BOOL=OFF "
-    CMAKELINE+="-D rompp_ENABLE_ALL_OPTIONAL_PACKAGES:BOOL=OFF "
-    CMAKELINE+="-D rompp_ENABLE_mpl:BOOL=${buildMPL} "
-    CMAKELINE+="-D rompp_ENABLE_utils:BOOL=${buildUTILS} "
-    CMAKELINE+="-D rompp_ENABLE_containers:BOOL=${buildCONTAINERS} "
-    CMAKELINE+="-D rompp_ENABLE_qr:BOOL=${buildQR} "
-    CMAKELINE+="-D rompp_ENABLE_solvers:BOOL=${buildSOLVERS} "
-    CMAKELINE+="-D rompp_ENABLE_svd:BOOL=${buildSVD} "
-    CMAKELINE+="-D rompp_ENABLE_ode:BOOL=${buildODE} "
-    CMAKELINE+="-D rompp_ENABLE_rom:BOOL=${buildROM} "
-    CMAKELINE+="-D rompp_ENABLE_apps:BOOL=${buildAPPS} "
+pressio_packages(){
+    CMAKELINE+="-D pressio_ENABLE_ALL_PACKAGES:BOOL=OFF "
+    CMAKELINE+="-D pressio_ENABLE_ALL_OPTIONAL_PACKAGES:BOOL=OFF "
+    CMAKELINE+="-D pressio_ENABLE_mpl:BOOL=${buildMPL} "
+    CMAKELINE+="-D pressio_ENABLE_utils:BOOL=${buildUTILS} "
+    CMAKELINE+="-D pressio_ENABLE_containers:BOOL=${buildCONTAINERS} "
+    CMAKELINE+="-D pressio_ENABLE_qr:BOOL=${buildQR} "
+    CMAKELINE+="-D pressio_ENABLE_solvers:BOOL=${buildSOLVERS} "
+    CMAKELINE+="-D pressio_ENABLE_svd:BOOL=${buildSVD} "
+    CMAKELINE+="-D pressio_ENABLE_ode:BOOL=${buildODE} "
+    CMAKELINE+="-D pressio_ENABLE_rom:BOOL=${buildROM} "
+    CMAKELINE+="-D pressio_ENABLE_apps:BOOL=${buildAPPS} "
 }
 
 enable_debug_print(){
@@ -153,5 +153,5 @@ enable_debug_print(){
 }
 
 all_packages(){
-    CMAKELINE+="-D rompp_ENABLE_ALL_PACKAGES:BOOL=ON "
+    CMAKELINE+="-D pressio_ENABLE_ALL_PACKAGES:BOOL=ON "
 }

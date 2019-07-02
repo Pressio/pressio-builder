@@ -8,7 +8,7 @@ cmake -D CMAKE_BUILD_TYPE:STRING=$MODEbuild \
       \
       -D BUILD_SHARED_LIBS:BOOL=$is_shared \
       -D TPL_FIND_SHARED_LIBS=$is_shared \
-      -D rompp_LINK_SEARCH_START_STATIC=$link_search_static \
+      -D pressio_LINK_SEARCH_START_STATIC=$link_search_static \
       \
       -D TPL_ENABLE_MPI:BOOL=ON \
       -D MPI_C_COMPILER:FILEPATH=${CC} \
@@ -16,8 +16,8 @@ cmake -D CMAKE_BUILD_TYPE:STRING=$MODEbuild \
       -D MPI_EXEC:FILEPATH=${MPIRUNe} \
       -D MPI_USE_COMPILER_WRAPPERS:BOOL=ON \
       \
-      -D rompp_ENABLE_CXX11:BOOL=ON \
-      -D rompp_ENABLE_SHADOW_WARNINGS:BOOL=OFF \
+      -D pressio_ENABLE_CXX11:BOOL=ON \
+      -D pressio_ENABLE_SHADOW_WARNINGS:BOOL=OFF \
       -D CMAKE_CXX_FLAGS="-fopenmp" \
       \
       -D TPL_ENABLE_TRILINOS=ON \
@@ -29,14 +29,14 @@ cmake -D CMAKE_BUILD_TYPE:STRING=$MODEbuild \
       -D GTEST_LIBRARY_DIRS="${GTESTPATH}/lib;${GTESTPATH}/lib64" \
       -D GTEST_INCLUDE_DIRS:PATH=${GTESTPATH}/include \
       \
-      -D rompp_ENABLE_Fortran=OFF \
-      -D rompp_ENABLE_TESTS:BOOL=ON \
-      -D rompp_ENABLE_EXAMPLES:BOOL=OFF \
-      -D rompp_ENABLE_ALL_PACKAGES:BOOL=OFF \
-      -D rompp_ENABLE_ALL_OPTIONAL_PACKAGES:BOOL=OFF \
+      -D pressio_ENABLE_Fortran=OFF \
+      -D pressio_ENABLE_TESTS:BOOL=ON \
+      -D pressio_ENABLE_EXAMPLES:BOOL=OFF \
+      -D pressio_ENABLE_ALL_PACKAGES:BOOL=OFF \
+      -D pressio_ENABLE_ALL_OPTIONAL_PACKAGES:BOOL=OFF \
       \
-      -D rompp_ENABLE_oneD:BOOL=${buildOneD} \
-      -D rompp_ENABLE_twoD:BOOL=${buildTwoD} \
+      -D pressio_ENABLE_oneD:BOOL=${buildOneD} \
+      -D pressio_ENABLE_twoD:BOOL=${buildTwoD} \
       \
       ${ROMPPSRC}
 }

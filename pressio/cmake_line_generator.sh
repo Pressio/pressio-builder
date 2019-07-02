@@ -14,7 +14,7 @@ cee_sparc_basic() {
     enable_eigen
     enable_gtest
     enable_trilinos
-    rompp_packages
+    pressio_packages
     enable_debug_print
 }
 
@@ -68,7 +68,7 @@ default() {
     enable_eigen
     enable_gtest
     enable_trilinos
-    rompp_packages
+    pressio_packages
     enable_debug_print
 }
 
@@ -97,7 +97,7 @@ frizzi_mpi_mac_3() {
     examples_off
     enable_eigen
     enable_gtest
-    rompp_packages
+    pressio_packages
     enable_debug_print
 
     CMAKELINE+="-D PYTHON_INCLUDE_DIR:PATH=/opt/local/Library/Frameworks/Python.framework/Versions/3.4/include/python3.4m/ "
@@ -116,7 +116,7 @@ frizzi_mpi_mac_3() {
 #     if [[ ! -z ${TRILINOSPATH} ]]; then
 # 	enable_trilinos
 #     fi
-#     rompp_packages
+#     pressio_packages
 # }
 
 #-------------------------------------
@@ -135,7 +135,7 @@ pblonig_mpi_alltpls_mac() {
 #       \
 #       -D BUILD_SHARED_LIBS:BOOL=$is_shared \
 #       -D TPL_FIND_SHARED_LIBS=$is_shared \
-#       -D rompp_LINK_SEARCH_START_STATIC=$link_search_static \
+#       -D pressio_LINK_SEARCH_START_STATIC=$link_search_static \
 #       \
 #       -D TPL_ENABLE_MPI:BOOL=ON \
 #       -D MPI_C_COMPILER:FILEPATH=${CC} \
@@ -143,8 +143,8 @@ pblonig_mpi_alltpls_mac() {
 #       -D MPI_EXEC:FILEPATH=${MPIRUNe} \
 #       -D MPI_USE_COMPILER_WRAPPERS:BOOL=ON \
 #       \
-#       -D rompp_ENABLE_CXX11:BOOL=ON \
-#       -D rompp_ENABLE_SHADOW_WARNINGS:BOOL=OFF \
+#       -D pressio_ENABLE_CXX11:BOOL=ON \
+#       -D pressio_ENABLE_SHADOW_WARNINGS:BOOL=OFF \
 #       -D CMAKE_CXX_FLAGS="-fopenmp" \
 #       \
 #       -D TPL_ENABLE_TRILINOS=ON \
@@ -156,18 +156,18 @@ pblonig_mpi_alltpls_mac() {
 #       -D GTEST_LIBRARY_DIRS="${GTESTPATH}/lib;${GTESTPATH}/lib64" \
 #       -D GTEST_INCLUDE_DIRS:PATH=${GTESTPATH}/include \
 #       \
-#       -D rompp_ENABLE_Fortran=OFF \
-#       -D rompp_ENABLE_TESTS:BOOL=ON \
-#       -D rompp_ENABLE_EXAMPLES:BOOL=OFF \
-#       -D rompp_ENABLE_ALL_PACKAGES:BOOL=OFF \
-#       -D rompp_ENABLE_ALL_OPTIONAL_PACKAGES:BOOL=OFF \
+#       -D pressio_ENABLE_Fortran=OFF \
+#       -D pressio_ENABLE_TESTS:BOOL=ON \
+#       -D pressio_ENABLE_EXAMPLES:BOOL=OFF \
+#       -D pressio_ENABLE_ALL_PACKAGES:BOOL=OFF \
+#       -D pressio_ENABLE_ALL_OPTIONAL_PACKAGES:BOOL=OFF \
 #       \
-#       -D rompp_ENABLE_core:BOOL=${buildCORE} \
-#       -D rompp_ENABLE_qr:BOOL=${buildQR} \
-#       -D rompp_ENABLE_solvers:BOOL=${buildSOLVERS} \
-#       -D rompp_ENABLE_svd:BOOL=${buildSVD} \
-#       -D rompp_ENABLE_ode:BOOL=${buildODE} \
-#       -D rompp_ENABLE_rom:BOOL=${buildROM} \
+#       -D pressio_ENABLE_core:BOOL=${buildCORE} \
+#       -D pressio_ENABLE_qr:BOOL=${buildQR} \
+#       -D pressio_ENABLE_solvers:BOOL=${buildSOLVERS} \
+#       -D pressio_ENABLE_svd:BOOL=${buildSVD} \
+#       -D pressio_ENABLE_ode:BOOL=${buildODE} \
+#       -D pressio_ENABLE_rom:BOOL=${buildROM} \
 #       -D DEBUG_PRINT::BOOL=ON \
 #       -D HAVE_ANASAZI_TSQR::BOOL=ON \
 #       \

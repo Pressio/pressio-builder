@@ -2,10 +2,10 @@
 
 EXTRA_ARGS=$@
 
-SRC=/Users/fnrizzi/Desktop/work/ROM/sources/rompp_demo_apps
-PFX=/Users/fnrizzi/Desktop/work/ROM/installs/rompp_demo_apps_install
+SRC=/Users/fnrizzi/Desktop/work/ROM/sources/pressio_demo_apps
+PFX=/Users/fnrizzi/Desktop/work/ROM/installs/pressio_demo_apps_install
 
-ROMPPPATH=/Users/fnrizzi/Desktop/work/ROM/installs/rompp_install
+ROMPPPATH=/Users/fnrizzi/Desktop/work/ROM/installs/pressio_install
 MPIPATH=/Users/fnrizzi/tpl/openmpi/4.0.0/install_gcc650
 TRILPATH=/Users/fnrizzi/tpl/trilinos/install_ompi400_gcc650_dbg_shared
 EIGENINCPATH=/Users/fnrizzi/tpl/eigen/3.3.5/install
@@ -18,7 +18,7 @@ cmake \
     \
     -D BUILD_SHARED_LIBS:BOOL=ON \
     -D TPL_FIND_SHARED_LIBS=ON \
-    -D rompp_demo_apps_LINK_SEARCH_START_STATIC=OFF \
+    -D pressio_demo_apps_LINK_SEARCH_START_STATIC=OFF \
     \
     -D BLAS_LIBRARY_NAMES:STRING="openblas" \
     -D BLAS_LIBRARY_DIRS:PATH=/opt/local/lib \
@@ -26,8 +26,8 @@ cmake \
     -D LAPACK_LIBRARY_DIRS:PATH=/opt/local/lib \
     \
     -D MPI_EXEC_MAX_NUMPROCS:STRING=8 \
-    -D rompp_demo_apps_ENABLE_CXX11:BOOL=ON\
-    -D rompp_demo_apps_ENABLE_SHADOW_WARNINGS:BOOL=OFF\
+    -D pressio_demo_apps_ENABLE_CXX11:BOOL=ON\
+    -D pressio_demo_apps_ENABLE_SHADOW_WARNINGS:BOOL=OFF\
     \
     -D CMAKE_CXX_FLAGS="-fopenmp" \
     \
@@ -46,14 +46,14 @@ cmake \
     -D GTEST_LIBRARY_DIRS:PATH=${GTESTPATH}/lib \
     -D GTEST_INCLUDE_DIRS:PATH=${GTESTPATH}/include \
     \
-    -D rompp_demo_apps_ENABLE_Fortran=OFF \
-    -D rompp_demo_apps_ENABLE_TESTS:BOOL=ON \
-    -D rompp_demo_apps_ENABLE_EXAMPLES:BOOL=OFF \
-    -D rompp_demo_apps_ENABLE_ALL_PACKAGES:BOOL=OFF \
-    -D rompp_demo_apps_ENABLE_ALL_OPTIONAL_PACKAGES:BOOL=OFF \
+    -D pressio_demo_apps_ENABLE_Fortran=OFF \
+    -D pressio_demo_apps_ENABLE_TESTS:BOOL=ON \
+    -D pressio_demo_apps_ENABLE_EXAMPLES:BOOL=OFF \
+    -D pressio_demo_apps_ENABLE_ALL_PACKAGES:BOOL=OFF \
+    -D pressio_demo_apps_ENABLE_ALL_OPTIONAL_PACKAGES:BOOL=OFF \
     \
-    -D rompp_demo_apps_ENABLE_oneD:BOOL=ON \
-    -D rompp_demo_apps_ENABLE_twoD:BOOL=OFF \
+    -D pressio_demo_apps_ENABLE_oneD:BOOL=ON \
+    -D pressio_demo_apps_ENABLE_twoD:BOOL=OFF \
     \
     $EXTRA_ARGS \
     ${SRC}
@@ -61,5 +61,5 @@ cmake \
     # -D TPL_ENABLE_KOKKOS=ON \
     # -D KOKKOS_LIBRARY_DIRS:PATH=${KOKKOSPATH}/lib \
     # -D KOKKOS_INCLUDE_DIRS:PATH=${KOKKOSPATH}/include \
-    #-D rompp_ENABLE_CXX11:BOOL=ON\
+    #-D pressio_ENABLE_CXX11:BOOL=ON\
     #-D CMAKE_CXX_FLAGS="-std=c++11 -fopenmp"\
