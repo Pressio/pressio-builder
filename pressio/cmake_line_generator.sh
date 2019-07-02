@@ -126,7 +126,7 @@ frizzi_mpi_mac_3() {
 # pblonigan mac
 #-------------------------------------
 pblonig_mpi_alltpls_mac() {
-    default_alltpls
+    default
     examples_on
 }
 
