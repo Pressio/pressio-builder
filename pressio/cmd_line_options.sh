@@ -136,7 +136,11 @@ Configuration:
 						cee_sparc_clang_tests_on
 						cee_sparc_intel_tests_on
 						cee_sparc_cuda_tests_on
-						default_alltpls (try this as first attempt, should work in most cases)
+						cee_sparc_gcc_tests_off
+						cee_sparc_clang_tests_off
+						cee_sparc_intel_tests_off
+						cee_sparc_cuda_tests_off
+						default (try this as first attempt, should work in most cases)
 						mrsteam_mpi_alltpls
 					default = NA, must be provided
 
