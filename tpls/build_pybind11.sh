@@ -24,6 +24,9 @@ build_pybind11(){
     # clone repo
     if [ ! -d pybind11 ]; then
 	git clone git@github.com:pybind/pybind11.git
+	cd pybind11
+	git checkout origin/v2.3
+	cd ..
     fi
 
     # I don't need to make a build, just copy source to install
@@ -33,9 +36,32 @@ build_pybind11(){
 	rm -rf install
     fi
 
-    echo "installing Pybind11 by copying source files to target install directory"
-    mkdir -p ./install/include
-    cp -rf ./pybind11/* ./install/include
+    echo "installing Pybind11"
+    # mkdir -p ./install/include
+    # cp -rf ./pybind11/* ./install/include
+
+    # create build
+    mkdir build && cd build
+
+    # make sure the global var CMAKELINE is empty
+    CMAKELINE=""
+
+    # call the generator to build the string for cmake line
+    # this will append to the global var CMAKELINE
+    ${CMAKELINEGEN}
+
+    # append prefix
+    CMAKELINE+="-D CMAKE_INSTALL_PREFIX:PATH=../install "
+    # append the location of the source
+    CMAKELINE+="../pybind11"
+
+    # run the cmake commnad
+    echo "cmake command for gtest: "
+    echo "cmake ${CMAKELINE}"
+    echo ""
+    cmake eval ${CMAKELINE}
+
+    make -j4 install
 
     cd ${PARENTDIR}
 }
