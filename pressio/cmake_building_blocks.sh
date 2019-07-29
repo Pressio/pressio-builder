@@ -89,7 +89,7 @@ enable_eigen(){
 
 enable_pybind11(){
     CMAKELINE+="-D TPL_ENABLE_PYBIND11=ON "
-    CMAKELINE+="-D PYBIND11_INCLUDE_DIRS:PATH=${PYBIND11PATH}/include/include "
+    CMAKELINE+="-D PYBIND11_INCLUDE_DIRS:PATH=${PYBIND11PATH}/include "
 }
 
 enable_trilinos(){

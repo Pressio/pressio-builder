@@ -100,12 +100,10 @@ frizzi_mpi_mac_3() {
     examples_off
     enable_eigen
     enable_gtest
+    enable_pybind11
     pressio_packages
     enable_debug_print
-
-    CMAKELINE+="-D PYTHON_INCLUDE_DIR:PATH=/opt/local/Library/Frameworks/Python.framework/Versions/3.4/include/python3.4m/ "
-    CMAKELINE+="-D USE_PYTHON_INCLUDE_DIR:BOOL=OFF "
-    enable_pybind11
+    CMAKELINE+="-D PYTHON_INCLUDE_PATH:PATH=/opt/local/Library/Frameworks/Python.framework/Versions/3.4/include/python3.4m/ "
 }
 
 # frizzi_serial_mac() {
