@@ -12,8 +12,8 @@ WORKDIR=
 # bool to wipe existing content of target directory
 WIPEEXISTING=1
 
-# build mode: DEBUG/RELEASE
-MODEbuild=DEBUG
+# build mode: Debug/Release
+MODEbuild=Debug
 
 # build/link shared or static lib
 MODElib=shared

@@ -106,19 +106,15 @@ frizzi_mpi_mac_3() {
     CMAKELINE+="-D PYTHON_INCLUDE_PATH:PATH=/opt/local/Library/Frameworks/Python.framework/Versions/3.4/include/python3.4m/ "
 }
 
-# frizzi_serial_mac() {
-#     always_needed
-#     serial_compiler_options
-#     fortran_off
-#     tests_on
-#     examples_off
-#     enable_eigen
-#     enable_gtest
-#     if [[ ! -z ${TRILINOSPATH} ]]; then
-# 	enable_trilinos
-#     fi
-#     pressio_packages
-# }
+sisc_paper_burgcpp(){
+    always_needed
+    mpi_c_cxx_compilers
+    fortran_off
+    tests_off
+    examples_off
+    enable_eigen
+    pressio_packages
+}
 
 #-------------------------------------
 # pblonigan mac
