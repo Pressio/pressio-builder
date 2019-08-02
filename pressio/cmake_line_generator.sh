@@ -108,7 +108,7 @@ frizzi_mpi_mac_3() {
 
 sisc_paper_burgcpp(){
     always_needed
-    mpi_c_cxx_compilers
+    serial_c_cxx_compilers
     fortran_off
     tests_off
     examples_off
@@ -118,7 +118,7 @@ sisc_paper_burgcpp(){
 
 sisc_paper_burgpython(){
     always_needed
-    mpi_c_cxx_compilers
+    serial_c_cxx_compilers
     fortran_off
     tests_off
     examples_off
