@@ -116,6 +116,17 @@ sisc_paper_burgcpp(){
     pressio_packages
 }
 
+sisc_paper_burgpython(){
+    always_needed
+    mpi_c_cxx_compilers
+    fortran_off
+    tests_off
+    examples_off
+    enable_eigen
+    enable_pybind11
+    pressio_packages
+}
+
 #-------------------------------------
 # pblonigan mac
 #-------------------------------------
