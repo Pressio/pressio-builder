@@ -148,8 +148,8 @@ Configuration:
 					destination folder set by --target-dir will be wiped and remade.
 					default = 1.
 
---build-mode=[DEBUG/RELEASE]		the build type for each selected tpl.
-					default = DEBUG.
+--build-mode=[Debug/Release]		the build type for each selected tpl.
+					default = Debug
 
 --target-type=[dynamic/static]		to build static or dynamic libraries.
 					default = shared.
