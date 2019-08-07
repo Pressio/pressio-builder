@@ -90,7 +90,8 @@ Configuration:
 
 --with-libraries=list			comma-separated list of library names.
 					NOTE: there is no space after commas.
-					default = gtest,eigen,trilinos,pybind11
+					default = gtest,eigen,trilinos,kokkos,pybind11
+					Note: if building trilinos with kokkos, no need to build kokkos separately
 
 --with-cmake-line-fncs=list		comma-separated (no space after commas) list of func
 					names generating the cmake line	for configuring each tpl.
@@ -101,17 +102,17 @@ Configuration:
 						eigen: default
 						gtest: default, for_mac, for_linux
 						trilinos: default, default_mac
+						kokkos: default
 						pybind11: default
 
-					default = default,default,default,default
-
+					default = default,default,default,default,default
 
 --target-dir=				the target directory where the tpls are built/installed.
 					this has to be set, no default is provided.
 					For example: if you use
 					    --target-dir=/home/user/tpls
 					and you select eigen, gtest, then this script will
-					create the following structure:
+					create a structure like so:
 					    /home/user/tpls/eigen/eigen     : contains the source
 					    /home/user/tpls/eigen/build     : contains the build
 					    /home/user/tpls/eigen/install   : contains the install

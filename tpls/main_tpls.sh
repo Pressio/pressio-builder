@@ -75,6 +75,22 @@ build_trilinos() {
     fi
 }
 
+build_kokkos() {
+    local DOBUILD=OFF
+    local myfnc=$1
+    local nJmake=4
+    echo "target fnc = ${myfnc}.sh"
+    [[ -d kokkos ]] && check_and_clean kokkos || DOBUILD=ON
+    if [ $DOBUILD = "ON" ]; then
+    	# source all generator functions
+    	source ${THISDIR}/kokkos_cmake_lines/cmake_building_blocks.sh
+    	source ${THISDIR}/kokkos_cmake_lines/cmake_line_generator.sh
+    	# source and call build function
+    	source ${THISDIR}/build_kokkos.sh
+    	build_kokkos $myfnc $nJmake
+    fi
+}
+
 build_eigen() {
     local DOBUILD=OFF
     local myfnc=$1
@@ -121,11 +137,12 @@ for ((i=0;i<${#tpl_names[@]};++i)); do
     [[ ${name} = "eigen" ]] && build_eigen ${fnc}
     [[ ${name} = "gtest" ]] && build_gtest ${fnc}
     [[ ${name} = "trilinos" ]] && build_trilinos ${fnc}
+    [[ ${name} = "kokkos" ]] && build_kokkos ${fnc}
     [[ ${name} = "pybind11" ]] && build_pybind11 ${fnc}
 done
 
 # if we are on cee machines, change permissions
-if [ is_cee_build_machine ]; then
+if [ is_cee_build_machine == 0 ]; then
     echo "changing SGID permissions to ${WORKDIR}"
     chmod -R g+rxs ${WORKDIR}
 fi
