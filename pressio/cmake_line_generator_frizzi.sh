@@ -60,7 +60,6 @@ sisc_paper_adr2dcpp(){
     openblas
     openblaslapack
     enable_eigen
-    enable_gtest
     enable_trilinos
     pressio_packages
 }
