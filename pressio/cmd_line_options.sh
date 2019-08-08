@@ -91,10 +91,8 @@ for option; do
 
     esac
 done
-# echo ""
-# echo " done parsing cline arguments "
-# echo "****************************************************************************************"
-# echo ""
+echo " done parsing cline arguments "
+echo ""
 
 if test "$want_help" = yes; then
   cat <<EOF
@@ -183,7 +181,5 @@ To find TPLs:
 					default = empty, either this must be set or all the individual ones.
 
 EOF
+  exit 0
 fi
-
-# if help, then exit
-test -n "$want_help" && exit 0

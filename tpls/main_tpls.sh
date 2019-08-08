@@ -1,6 +1,8 @@
 #!/bin/bash
 
 echo "Bash version ${BASH_VERSION}"
+set -e
+
 
 # PWD will be updated if we change directory
 PWD=`pwd`

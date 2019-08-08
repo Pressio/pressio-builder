@@ -134,7 +134,5 @@ Configuration:
 					default = assumes environment is set.
 
 EOF
+  exit 0
 fi
-
-# if help, then exit
-test -n "$want_help" && exit 0

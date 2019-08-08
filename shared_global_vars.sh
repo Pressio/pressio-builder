@@ -38,10 +38,10 @@ print_shared_global_vars(){
 check_minimum_shared_vars_set(){
     if [ -z $ARCH ]; then
 	echo "--arch is empty, must be set: exiting"
-	exit 0
+	exit 11
     fi
     if [ -z $WORKDIR ]; then
 	echo "--target-dir is empty, must be set: exiting"
-	exit 0
+	exit 12
     fi
 }

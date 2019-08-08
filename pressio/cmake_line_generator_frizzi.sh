@@ -1,8 +1,8 @@
 #!/bin/bash
 
-frizzi_mrsteam_mpi() {
-    default
-}
+#frizzi_mrsteam_mpi() {
+#    default
+#}
 
 #-------------------------------------
 # frizzi mac
@@ -10,7 +10,7 @@ frizzi_mrsteam_mpi() {
 frizzi_mac_mpi_testson_trilinos() {
     always_needed
     mpi_c_cxx_compilers
-    fortran_on
+    mpi_fortran_on
     tests_on
     examples_off
     openblas

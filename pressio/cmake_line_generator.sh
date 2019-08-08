@@ -6,7 +6,7 @@
 default() {
     always_needed
     mpi_c_cxx_compilers
-    fortran_on
+    mpi_fortran_on
     tests_on
     examples_off
     enable_eigen

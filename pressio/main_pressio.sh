@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 echo "Bash version ${BASH_VERSION}"
 
 # PWD will be updated if we change directory
@@ -191,7 +193,7 @@ EXTRALINKFLAGS=""
 # change the above flags too if needed
 if [[ -z ${CMAKELINEGEN} ]]; then
     echo "${CMAKELINEGEN} cannot be empty, need to set one, exiting"
-    exit 0
+    exit 1
 fi
 ${CMAKELINEGEN}
 

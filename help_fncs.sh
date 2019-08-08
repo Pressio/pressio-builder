@@ -35,8 +35,5 @@ is_cee_build_machine(){
     if [ $myname == *"cee-build"* ];then
 	# 0 means no failure in bash, so found
 	echo 0
-    else
-	# 1 means failure in bash, so not found
-	echo 1
     fi
 }
