@@ -51,6 +51,20 @@ frizzi_mac_mpi_testson_trilinos() {
 #     CMAKELINE+="-D PYTHON_INCLUDE_PATH:PATH=/opt/local/Library/Frameworks/Python.framework/Versions/3.4/include/python3.4m/ "
 # }
 
+sisc_paper_adr2dcpp(){
+    always_needed
+    mpi_c_cxx_compilers
+    mpi_fortran_on
+    tests_off
+    examples_off
+    openblas
+    openblaslapack
+    enable_eigen
+    enable_gtest
+    enable_trilinos
+    pressio_packages
+}
+
 sisc_paper_burgcpp(){
     always_needed
     serial_c_cxx_compilers
