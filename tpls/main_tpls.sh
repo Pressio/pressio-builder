@@ -31,11 +31,11 @@ echo "checking tpl names are admissible"
 for ((i=0;i<${#tpl_names[@]};++i)); do
     name=${tpl_names[i]}
 
-    if [[ ${name} != eigen ] &&\
+    if [ ${name} != eigen ] &&\
 	   [ ${name} != gtest ] &&\
 	   [ ${name} != trilinos ] &&\
 	   [ ${name} != kokkos ] &&\
-	   [ ${name} != pybind11 ]];
+	   [ ${name} != pybind11 ];
     then
 	echo "non-admissible tpl name passed"
 	echo "valid choices: eigen, gtest, trilinos, kokkos, pybind11"
