@@ -38,7 +38,7 @@ for option; do
 	    ;;
 
 	-pressio-src=* | --pressio-src=* )
-	    ROMPPSRC=`expr "x$option" : "x-*pressio-src=\(.*\)"`
+	    PRESSIOSRC=`expr "x$option" : "x-*pressio-src=\(.*\)"`
 	    ;;
 
 	-with-cmake-fnc=* | --with-cmake-fnc=* )
@@ -55,6 +55,10 @@ for option; do
 
 	-trilinos-path=* | --trilinos-path=* )
 	    TRILINOSPATH=`expr "x$option" : "x-*trilinos-path=\(.*\)"`
+	    ;;
+
+	-kokkos-path=* | --kokkos-path=* )
+	    KOKKOSPATH=`expr "x$option" : "x-*kokkos-path=\(.*\)"`
 	    ;;
 
 	-all-tpls-path=* | --all-tpls-path=* )
@@ -106,7 +110,7 @@ Configuration:
 --arch=[mac/linux]			set which arch you are using.
 					default = NA, must be provided.
 
---target-dir=				the target directory where ROMPP will be build/installed.
+--target-dir=				the target directory where PRESSIO will be build/installed.
 					this has to be set, no default provided.
 					For example: if you use
 					    --target-dir=/home/user,
@@ -115,16 +119,15 @@ Configuration:
 					    /home/user/pressio/build     : contains the build
 					    /home/user/pressio/install   : contains the install
 
---pressio-src=				the ROMPP source directory
+--pressio-src=				the PRESSIO source directory
 					default = empty, if empty the repo will be cloned
 					under the directory set by --target-dir
 
---with-packages=list			comma-separated list of ROMPP package names:
-					current pkgs available: core, qr, solvers, svd, ode, rom, apps
+--with-packages=list			comma-separated list of PRESSIO package names:
+					current pkgs available: mpl, utils, containers, qr, solvers, svd, ode, rom, apps
 					If you specify a single package then all other needed
 					packages for this are built automatically.
-					For example, if you select 'ode', then 'core,qr,solvers' are on too.
-					default = core.
+					default = apps
 
 --with-cmake-fnc=			the name of one of the functions inside cmake_line_generator.sh
 					This is used to generate the cmake line to configure.
@@ -170,10 +173,13 @@ To find TPLs:
 --trilinos-path=			the path to the (optional) trilinos installation directory
 					default = NA, if empty then trilinos is not linked.
 
+--kokkos-path=				the path to the (optional) kokkos installation directory
+					default = NA, if empty then kokkos is not linked.
+
 --all-tpls-path=			set this to the directory containing all tpls, if they all
 					exist under the same location, e.g. as done by by main_tpls.sh.
 					the dir with all tpls must have the structure as obtained by main_tpls.sh
-					if you set --all-tpls, then you do not need -eigen-path, -gtest-path, -trilinos-path.
+					if you set --all-tpls, you do not need -eigen-path, -gtest-path, -trilinos-path, -kokkos-path.
 					default = empty, either this must be set or all the individual ones.
 
 EOF

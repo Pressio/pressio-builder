@@ -28,7 +28,7 @@ mpi_compilers(){
 
 mpi_fortran_on(){
     CMAKELINE+="-D Trilinos_ENABLE_Fortran:BOOL=ON "
-    CMAKELINE+="-D MPI_Fortran_COMPILER:FILEPATH=${FCC} "
+    CMAKELINE+="-D MPI_Fortran_COMPILER:FILEPATH=${FC} "
 }
 
 mpi_fortran_off(){
@@ -73,4 +73,27 @@ packages_for_pressio(){
 
 all_packages_on(){
     CMAKELINE+="-D Trilinos_ENABLE_ALL_PACKAGES:BOOL=ON "
+}
+
+
+openblas(){
+    CMAKELINE+="-D TPL_ENABLE_BLAS=ON "
+    # note that BLAS_ROOT needs to be set by environemnt
+    if [ -z ${BLAS_ROOT} ]; then
+	echo "BLAS_ROOT needs to be set in the environment"
+	exit 0
+    fi
+    CMAKELINE+="-D BLAS_LIBRARY_DIRS:PATH='${BLAS_ROOT}/lib' "
+    CMAKELINE+="-D BLAS_LIBRARY_NAMES:STRING='openblas' "
+}
+
+openblaslapack(){
+    CMAKELINE+="-D TPL_ENABLE_LAPACK=ON "
+    # note that LAPACK_ROOT needs to be set by environemnt
+    if [ -z ${LAPACK_ROOT} ]; then
+	echo "LAPACK_ROOT needs to be set in the environment"
+	exit 0
+    fi
+    CMAKELINE+="-D LAPACK_LIBRARY_DIRS:PATH='${LAPACK_ROOT}/lib' "
+    CMAKELINE+="-D LAPACK_LIBRARY_NAMES:STRING='openblas' "
 }

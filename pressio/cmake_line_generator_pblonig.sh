@@ -1,12 +1,9 @@
 #!/bin/bash
 
-#-------------------------------------
-# default, basic configurations
-#-------------------------------------
-default() {
+pblonig_mpi_alltpls_mac() {
     always_needed
     mpi_c_cxx_compilers
-    fortran_on
+    fortran_off
     tests_on
     examples_off
     enable_eigen

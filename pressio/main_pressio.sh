@@ -28,18 +28,25 @@ call_env_script
 
 echo ""
 echo "--------------------------------------------"
-echo "**building ROMPP**"
+echo "**building PRESSIO**"
 echo ""
 
 # if all tpls can be found under single dir, then we have
 if [[ ! -z $ALLTPLSPATH ]]; then
-    # this is because this the structure used by main_tpls.sh
     EIGENPATH=$ALLTPLSPATH/eigen/install
-    GTESTPATH=$ALLTPLSPATH/gtest/install
-    PYBIND11PATH=$ALLTPLSPATH/pybind11/install
 
-    # if trilinos exists, set, otherwise leave empty
+    # if exists, set, otherwise leave empty
+    [[ -d $ALLTPLSPATH/gtest ]] && GTESTPATH=$ALLTPLSPATH/gtest/install
+    [[ -d $ALLTPLSPATH/pybind11 ]] && PYBIND11PATH=$ALLTPLSPATH/pybind11/install
     [[ -d $ALLTPLSPATH/trilinos ]] && TRILINOSPATH=$ALLTPLSPATH/trilinos/install
+
+    # if trilinos exists, force using Kokkos inside that
+    if [[ -d $ALLTPLSPATH/trilinos ]]; then
+	KOKKOSPATH=$ALLTPLSPATH/trilinos/install
+    else
+	# find the kokkos installation
+	[[ -d $ALLTPLSPATH/kokkos ]] && KOKKOSPATH=$ALLTPLSPATH/kokkos/install
+    fi
 fi
 
 # test if workdir exists if not create it
@@ -136,26 +143,45 @@ fi
 cd pressio
 
 # if the source is NOT provided by user, then clone repo directly in here
-# and set ROMPPSRC to point to this newly cloned repo
-if [ -z ${ROMPPSRC} ]; then
+# and set PRESSIOSRC to point to this newly cloned repo
+echo "PRESSIOSRC = ${PRESSIOSRC}"
+if [[ -z ${PRESSIOSRC} ]]; then
     [[ ! -d pressio ]] && git clone --recursive git@gitlab.com:fnrizzi/pressio.git
     cd pressio && git checkout develop && cd ..
-    ROMPPSRC=${PWD}/pressio
+    PRESSIOSRC=${PWD}/pressio
 fi
 
 # create build
 [[ -d build ]] && rm -rf build/* || mkdir build
 cd build
 
-# source all generator functions
+#----------------------------------------------
+# source building blocks: this is needed always
 source ${THISDIR}/cmake_building_blocks.sh
+
+# the basic/default generatos are always loaded
 source ${THISDIR}/cmake_line_generator.sh
+
+# if we are on cee machines, load cee_sparc generators
+if [[ is_cee_build_machine == 0 ]]; then
+    source ${THISDIR}/cmake_line_generator_cee_sparc.sh
+fi
+
+# if username is *rizzi, load mine
+echo $USER
+if [[ $USER == *"rizzi"* ]]; then
+    echo "loading cmake lines for frizzi"
+    source ${THISDIR}/cmake_line_generator_frizzi.sh
+elif [[ "$USER" == *"blonig" ]]; then
+    source ${THISDIR}/cmake_line_generator_pblonig.sh
+fi
+#----------------------------------------------
 
 # global var CMAKELINE is empty
 CMAKELINE=""
 # we want to customize CMAKE_CXX_FLAGS, define it empty here
 CXXFLAGS=""
-# also, extra link flags to ROMPP if needed
+# also, extra link flags to PRESSIO if needed
 EXTRALINKFLAGS=""
 
 # the generator function MUST be called here after
@@ -163,6 +189,10 @@ EXTRALINKFLAGS=""
 # calling the generator will build the string for cmake line
 # this will append to the global var CMAKELINE, and will
 # change the above flags too if needed
+if [[ -z ${CMAKELINEGEN} ]]; then
+    echo "${CMAKELINEGEN} cannot be empty, need to set one, exiting"
+    exit 0
+fi
 ${CMAKELINEGEN}
 
 # after generator was called, now finalize cmakeline
@@ -174,7 +204,7 @@ CMAKELINE+="-D pressio_EXTRA_LINK_FLAGS:STRING='${EXTRALINKFLAGS}' "
 # append prefix
 CMAKELINE+="-D CMAKE_INSTALL_PREFIX:PATH=../install "
 # append the location of the source
-CMAKELINE+="${ROMPPSRC}"
+CMAKELINE+="${PRESSIOSRC}"
 
 # run the cmake commnad
 echo ""
@@ -188,7 +218,7 @@ echo "build with" make -j ${njmake} install}
 make -j ${njmake} install
 
 # if we are on cee machines, change permissions
-if [ is_cee_build_machine == 0 ]; then
+if [[ is_cee_build_machine == 0 ]]; then
     echo "changing SGID permissions to ${WORKDIR}/pressio/install"
     chmod g+rxs ${WORKDIR} #not recursive on purpose
     chmod g+rxs ${WORKDIR}/pressio #not recursive on purpose

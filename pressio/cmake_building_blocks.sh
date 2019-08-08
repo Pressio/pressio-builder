@@ -24,6 +24,28 @@ always_needed(){
     #CMAKELINE+="-D TPL_FIND_SHARED_LIBS=${is_shared} "
 }
 
+openblas(){
+    CMAKELINE+="-D TPL_ENABLE_BLAS=ON "
+    # note that BLAS_ROOT needs to be set by environemnt
+    if [ -z ${BLAS_ROOT} ]; then
+	echo "BLAS_ROOT needs to be set in the environment"
+	exit 0
+    fi
+    CMAKELINE+="-D BLAS_LIBRARY_DIRS:PATH='${BLAS_ROOT}/lib' "
+    CMAKELINE+="-D BLAS_LIBRARY_NAMES:STRING='openblas' "
+}
+
+openblaslapack(){
+    CMAKELINE+="-D TPL_ENABLE_LAPACK=ON "
+    # note that LAPACK_ROOT needs to be set by environemnt
+    if [ -z ${LAPACK_ROOT} ]; then
+	echo "LAPACK_ROOT needs to be set in the environment"
+	exit 0
+    fi
+    CMAKELINE+="-D LAPACK_LIBRARY_DIRS:PATH='${LAPACK_ROOT}/lib' "
+    CMAKELINE+="-D LAPACK_LIBRARY_NAMES:STRING='openblas' "
+}
+
 # mpi compilers
 mpi_c_cxx_compilers(){
     CMAKELINE+="-D TPL_ENABLE_MPI:BOOL=ON "
@@ -90,6 +112,16 @@ enable_eigen(){
 enable_pybind11(){
     CMAKELINE+="-D TPL_ENABLE_PYBIND11=ON "
     CMAKELINE+="-D PYBIND11_INCLUDE_DIRS:PATH=${PYBIND11PATH}/include "
+}
+
+enable_kokkos(){
+    CMAKELINE+="-D TPL_ENABLE_KOKKOS=ON "
+    CMAKELINE+="-D KOKKOS_INCLUDE_DIRS:PATH=${KOKKOSPATH}/include "
+
+    # the following is equivalent to doing:
+    #-D KOKKOS_LIBRARY_DIRS="${KOKKOSPATH}/lib64;${KOKKOSPATH}/lib"
+    local stiched="${KOKKOSPATH}/lib64;${KOKKOSPATH}/lib"
+    CMAKELINE+="-D KOKKOS_LIBRARY_DIRS='${stiched}' "
 }
 
 enable_trilinos(){

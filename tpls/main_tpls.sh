@@ -26,16 +26,23 @@ source ../help_fncs.sh
 # set env if not already set
 call_env_script
 
-# check admissible tpl names
-check_tpl_names() {
-    echo "checking tpl names are admissible"
-    # todo: put here code to check that tpl names are admissible
-    # by comparing each name against a list of supported tpls
-    echo "done checking tpl names!"
-}
-
 # check that tpl names are admissible
-check_tpl_names
+echo "checking tpl names are admissible"
+for ((i=0;i<${#tpl_names[@]};++i)); do
+    name=${tpl_names[i]}
+
+    if [[ ${name} != eigen ] &&\
+	   [ ${name} != gtest ] &&\
+	   [ ${name} != trilinos ] &&\
+	   [ ${name} != kokkos ] &&\
+	   [ ${name} != pybind11 ]];
+    then
+	echo "non-admissible tpl name passed"
+	echo "valid choices: eigen, gtest, trilinos, kokkos, pybind11"
+	exit 0
+    fi
+done
+echo "done checking tpl names!"
 print_target_tpl_names
 print_target_tpl_cmake_fncs
 
@@ -142,7 +149,7 @@ for ((i=0;i<${#tpl_names[@]};++i)); do
 done
 
 # if we are on cee machines, change permissions
-if [ is_cee_build_machine == 0 ]; then
+if [[ is_cee_build_machine == 0 ]]; then
     echo "changing SGID permissions to ${WORKDIR}"
     chmod -R g+rxs ${WORKDIR}
 fi

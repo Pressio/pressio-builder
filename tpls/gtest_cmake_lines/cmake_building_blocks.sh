@@ -15,8 +15,8 @@ compilers(){
 }
 
 mac_r_path(){
-    local is_mac=OFF
-    [[ ${ARCH} == mac ]] && is_mac=ON
-    echo "is_mac = $is_mac"
+    #local is_mac=OFF
+    #[[ ${ARCH} == mac ]] && is_mac=ON
+    #echo "is_mac = $is_mac"
     CMAKELINE+="-D CMAKE_MACOSX_RPATH:BOOL=${is_mac} "
 }

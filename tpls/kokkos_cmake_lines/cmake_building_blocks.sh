@@ -51,6 +51,10 @@ kokkos_serial(){
     CMAKELINE+="-D Trilinos_ENABLE_ALL_OPTIONAL_PACKAGES:BOOL=OFF "
 
     CMAKELINE+="-D Trilinos_ENABLE_Kokkos=ON "
+    CMAKELINE+="-D Trilinos_ENABLE_KokkosKernels=ON "
+    CMAKELINE+="-D TPL_ENABLE_BLAS=ON "
+    CMAKELINE+="-D TPL_ENABLE_LAPACK=ON "
+
     CMAKELINE+="-D Kokkos_ENABLE_Serial=ON "
     CMAKELINE+="-D Kokkos_ENABLE_OpenMP=OFF "
     CMAKELINE+="-D Kokkos_ENABLE_Pthread=OFF "
