@@ -3,7 +3,6 @@
 echo "Bash version ${BASH_VERSION}"
 set -e
 
-
 # PWD will be updated if we change directory
 PWD=`pwd`
 
@@ -53,7 +52,7 @@ echo "--------------------------------------------"
 echo "**building tpls**"
 echo ""
 
-build_gtest() {
+function build_gtest() {
     local DOBUILD=OFF
     local myfnc=$1
     echo "target fnc = ${myfnc}.sh"
@@ -68,7 +67,7 @@ build_gtest() {
     fi
 }
 
-build_trilinos() {
+function build_trilinos() {
     local DOBUILD=OFF
     local myfnc=$1
     local nJmake=4
@@ -84,7 +83,7 @@ build_trilinos() {
     fi
 }
 
-build_kokkos() {
+function build_kokkos() {
     local DOBUILD=OFF
     local myfnc=$1
     local nJmake=4
@@ -100,7 +99,7 @@ build_kokkos() {
     fi
 }
 
-build_eigen() {
+function build_eigen() {
     local DOBUILD=OFF
     local myfnc=$1
     echo "target fnc = ${myfnc}.sh"
@@ -115,7 +114,7 @@ build_eigen() {
     fi
 }
 
-build_pybind11() {
+function build_pybind11() {
     local DOBUILD=OFF
     local myfnc=$1
     echo "target fnc = ${myfnc}.sh"
@@ -136,6 +135,17 @@ build_pybind11() {
 # enter working dir: make sure this happens because
 # all scripts for each tpl MUST be run from within target dir
 cd $WORKDIR
+
+# if we need to build cmake
+#need_to_build_cmake
+#res=$?
+#if [[ "$res" == "0" ]]; then
+#    source ${THISDIR}/build_cmake.sh
+#    build_cmake
+#    export PATH=$WORKDIR/cmake/install:$PATH
+#else
+#    echo "no need to build cmake"
+#fi
 
 # now loop through TPLS and build
 for ((i=0;i<${#tpl_names[@]};++i)); do

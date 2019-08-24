@@ -1,6 +1,6 @@
 #!/bin/bash
 
-build_kokkos(){
+function build_kokkos(){
     local PWD=`pwd`
     local PARENTDIR=$PWD
 

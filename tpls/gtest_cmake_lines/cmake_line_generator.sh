@@ -1,6 +1,6 @@
 #!/bin/bash
 
-default(){
+function default(){
     always_needed
     compilers
 

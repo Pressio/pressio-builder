@@ -7,7 +7,7 @@
 #-------------------------------------
 # frizzi mac
 #-------------------------------------
-frizzi_mac_mpi_testson_trilinos() {
+function frizzi_mac_mpi_testson_trilinos() {
     always_needed
     mpi_c_cxx_compilers
     mpi_fortran_on
@@ -51,7 +51,7 @@ frizzi_mac_mpi_testson_trilinos() {
 #     CMAKELINE+="-D PYTHON_INCLUDE_PATH:PATH=/opt/local/Library/Frameworks/Python.framework/Versions/3.4/include/python3.4m/ "
 # }
 
-sisc_paper_adr2dcpp(){
+function sisc_paper_adr2dcpp(){
     always_needed
     mpi_c_cxx_compilers
     mpi_fortran_on
@@ -64,7 +64,7 @@ sisc_paper_adr2dcpp(){
     pressio_packages
 }
 
-sisc_paper_burgcpp(){
+function sisc_paper_burgcpp(){
     always_needed
     serial_c_cxx_compilers
     fortran_off
@@ -74,7 +74,7 @@ sisc_paper_burgcpp(){
     pressio_packages
 }
 
-sisc_paper_burgpython(){
+function sisc_paper_burgpython(){
     always_needed
     serial_c_cxx_compilers
     fortran_off

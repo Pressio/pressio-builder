@@ -1,6 +1,6 @@
 #!/bin/bash
 
-default(){
+function default(){
     # Note: the C compiler is not forgotten, it is NOT used by pybind11
     #CMAKELINE+="-D CMAKE_C_COMPILER:FILEPATH=${CC} "
 

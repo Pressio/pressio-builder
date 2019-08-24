@@ -1,6 +1,6 @@
 #!/bin/bash
 
-default_mac(){
+function default_mac(){
     always_needed
     mpi_compilers
     mpi_fortran_on
@@ -11,12 +11,12 @@ default_mac(){
     echo CMAKELINE
 }
 
-default(){
+function default(){
     default_mac
     echo CMAKELINE
 }
 
-frizzi_mac_kokkos_serial(){
+function frizzi_mac_kokkos_serial(){
     always_needed
     mpi_compilers
     mpi_fortran_on
@@ -29,7 +29,7 @@ frizzi_mac_kokkos_serial(){
     echo CMAKELINE
 }
 
-sisc_paper_adrcpp_mac(){
+function sisc_paper_adrcpp_mac(){
     always_needed
     mpi_compilers
     mpi_fortran_on

@@ -2,7 +2,7 @@
 
 # this is always needed, regardless of where we build
 # so don't change the name and always include it when customizing a build
-always_needed(){
+function always_needed(){
     local is_shared=ON
     local link_search_static=OFF
     if [[ ${MODElib} == static ]]; then
@@ -24,7 +24,7 @@ always_needed(){
     #CMAKELINE+="-D TPL_FIND_SHARED_LIBS=${is_shared} "
 }
 
-openblas(){
+function openblas(){
     CMAKELINE+="-D TPL_ENABLE_BLAS=ON "
     # note that BLAS_ROOT needs to be set by environemnt
     if [ -z ${BLAS_ROOT} ]; then
@@ -35,7 +35,7 @@ openblas(){
     CMAKELINE+="-D BLAS_LIBRARY_NAMES:STRING='openblas' "
 }
 
-openblaslapack(){
+function openblaslapack(){
     CMAKELINE+="-D TPL_ENABLE_LAPACK=ON "
     # note that LAPACK_ROOT needs to be set by environemnt
     if [ -z ${LAPACK_ROOT} ]; then
@@ -47,7 +47,7 @@ openblaslapack(){
 }
 
 # mpi compilers
-mpi_c_cxx_compilers(){
+function mpi_c_cxx_compilers(){
     CMAKELINE+="-D TPL_ENABLE_MPI:BOOL=ON "
     CMAKELINE+="-D MPI_C_COMPILER:FILEPATH=${CC} "
     CMAKELINE+="-D MPI_CXX_COMPILER:FILEPATH=${CXX} "
@@ -55,66 +55,66 @@ mpi_c_cxx_compilers(){
     CMAKELINE+="-D MPI_USE_COMPILER_WRAPPERS:BOOL=ON "
 }
 
-mpi_fortran_on(){
+function mpi_fortran_on(){
     CMAKELINE+="-D pressio_ENABLE_Fortran:BOOL=ON "
     CMAKELINE+="-D MPI_Fortran_COMPILER:FILEPATH=${F90} "
 }
 
 # serial compilers (if you pick serial you should not pick mpi)
-serial_c_cxx_compilers(){
+function serial_c_cxx_compilers(){
     CMAKELINE+="-D CMAKE_C_COMPILER:FILEPATH=${CC} "
     CMAKELINE+="-D CMAKE_CXX_COMPILER:FILEPATH=${CXX} "
 }
 
-fortran_off(){
+function fortran_off(){
     CMAKELINE+="-D pressio_ENABLE_Fortran:BOOL=OFF "
 }
 
-add_dl_link(){
+function add_dl_link(){
     # the semic ; is needed beccause it builds a string
     EXTRALINKFLAGS+=";dl"
 }
 
-add_omp_cxx_flag(){
+function add_omp_cxx_flag(){
     CXXFLAGS+="-fopenmp "
 }
 
-add_gfortran_cxx_flag(){
+function add_gfortran_cxx_flag(){
     CXXFLAGS+="-gfortran "
 }
 
-tests_off(){
+function tests_off(){
     CMAKELINE+="-D pressio_ENABLE_TESTS:BOOL=OFF "
 }
-tests_on(){
+function tests_on(){
     CMAKELINE+="-D pressio_ENABLE_TESTS:BOOL=ON "
 }
-examples_off(){
+function examples_off(){
     CMAKELINE+="-D pressio_ENABLE_EXAMPLES:BOOL=OFF "
 }
-examples_on(){
+function examples_on(){
     CMAKELINE+="-D pressio_ENABLE_EXAMPLES:BOOL=ON "
 }
-enable_binutils(){
+function enable_binutils(){
     CMAKELINE+="-D TPL_ENABLE_BinUtils=ON "
 }
 
-enable_mkl(){
+function enable_mkl(){
     CMAKELINE+="-D TPL_ENABLE_MKL=ON "
 }
 
-enable_eigen(){
+function enable_eigen(){
     CMAKELINE+="-D TPL_ENABLE_EIGEN=ON "
     local LINE="${EIGENPATH};${EIGENPATH}/include/eigen3"
     CMAKELINE+="-D EIGEN_INCLUDE_DIRS='${LINE}' "
 }
 
-enable_pybind11(){
+function enable_pybind11(){
     CMAKELINE+="-D TPL_ENABLE_PYBIND11=ON "
     CMAKELINE+="-D PYBIND11_INCLUDE_DIRS:PATH=${PYBIND11PATH}/include "
 }
 
-enable_kokkos(){
+function enable_kokkos(){
     CMAKELINE+="-D TPL_ENABLE_KOKKOS=ON "
     CMAKELINE+="-D KOKKOS_INCLUDE_DIRS:PATH=${KOKKOSPATH}/include "
 
@@ -124,7 +124,7 @@ enable_kokkos(){
     CMAKELINE+="-D KOKKOS_LIBRARY_DIRS='${stiched}' "
 }
 
-enable_trilinos(){
+function enable_trilinos(){
     CMAKELINE+="-D TPL_ENABLE_TRILINOS=ON "
     CMAKELINE+="-D TRILINOS_INCLUDE_DIRS:PATH=${TRILINOSPATH}/include "
 
@@ -134,7 +134,7 @@ enable_trilinos(){
     CMAKELINE+="-D TRILINOS_LIBRARY_DIRS='${TRILLIBstiched}' "
 }
 
-cee_sparc_blas(){
+function cee_sparc_blas(){
     CMAKELINE+="-D TPL_ENABLE_BLAS=ON "
 
     # note that CBLAS_ROOT is set by environemnt on cee using the module
@@ -145,7 +145,7 @@ cee_sparc_blas(){
     CMAKELINE+="-D BLAS_LIBRARY_NAMES:STRING='${BLASNAMES}' "
 }
 
-cee_sparc_lapack(){
+function cee_sparc_lapack(){
     CMAKELINE+="-D TPL_ENABLE_LAPACK=ON "
 
     # note that CBLAS_ROOT is set by environemnt on cee using the module
@@ -156,7 +156,7 @@ cee_sparc_lapack(){
     CMAKELINE+="-D LAPACK_LIBRARY_NAMES:STRING='${LAPACKNAMES}' "
 }
 
-enable_gtest(){
+function enable_gtest(){
     CMAKELINE+="-D TPL_ENABLE_GTEST=ON "
     CMAKELINE+="-D GTEST_INCLUDE_DIRS:PATH=${GTESTPATH}/include "
 
@@ -166,7 +166,7 @@ enable_gtest(){
 
 # this should not change regardless of where we build because
 # it is driven by the list of packages passed to the main build file
-pressio_packages(){
+function pressio_packages(){
     CMAKELINE+="-D pressio_ENABLE_ALL_PACKAGES:BOOL=OFF "
     CMAKELINE+="-D pressio_ENABLE_ALL_OPTIONAL_PACKAGES:BOOL=OFF "
     CMAKELINE+="-D pressio_ENABLE_mpl:BOOL=${buildMPL} "
@@ -180,10 +180,10 @@ pressio_packages(){
     CMAKELINE+="-D pressio_ENABLE_apps:BOOL=${buildAPPS} "
 }
 
-enable_debug_print(){
+function enable_debug_print(){
     CMAKELINE+="-D DEBUG_PRINT::BOOL=ON "
 }
 
-all_packages(){
+function all_packages(){
     CMAKELINE+="-D pressio_ENABLE_ALL_PACKAGES:BOOL=ON "
 }

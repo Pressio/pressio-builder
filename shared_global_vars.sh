@@ -24,8 +24,12 @@ SETENVscript=
 # the var to store the cmake line to configure
 CMAKELINE=
 
+# needed minimum cmake version
+CMAKEVERSIONMIN=3.11.0
+# version number of cmake detected
+CMAKEVERSIONDETECTED=
 
-print_shared_global_vars(){
+function print_shared_global_vars(){
     echo "THISDIR        = $THISDIR"
     echo "ARCH           = $ARCH"
     echo "WORKDIR        = $WORKDIR"
@@ -35,7 +39,7 @@ print_shared_global_vars(){
     echo "SETENVscript   = $SETENVscript"
 }
 
-check_minimum_shared_vars_set(){
+function check_minimum_shared_vars_set(){
     if [ -z $ARCH ]; then
 	echo "--arch is empty, must be set: exiting"
 	exit 11

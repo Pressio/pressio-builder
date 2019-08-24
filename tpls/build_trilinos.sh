@@ -1,6 +1,6 @@
 #!/bin/bash
 
-build_trilinos(){
+function build_trilinos(){
     local PWD=`pwd`
     local PARENTDIR=$PWD
 

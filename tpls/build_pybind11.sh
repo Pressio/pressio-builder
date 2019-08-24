@@ -1,6 +1,6 @@
 #!/bin/bash
 
-build_pybind11(){
+function build_pybind11(){
     local PWD=`pwd`
     local PARENTDIR=$PWD
     local CMAKELINEGEN=$1

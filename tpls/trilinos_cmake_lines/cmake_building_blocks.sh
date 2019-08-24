@@ -1,6 +1,6 @@
 #!/bin/bash
 
-always_needed(){
+function always_needed(){
     local is_shared=ON
     local link_search_static=OFF
     if [[ ${MODElib} == static ]]; then
@@ -18,7 +18,7 @@ always_needed(){
     CMAKELINE+="-D CMAKE_VERBOSE_MAKEFILE:BOOL=TRUE "
 }
 
-mpi_compilers(){
+function mpi_compilers(){
     CMAKELINE+="-D TPL_ENABLE_MPI:BOOL=ON "
     CMAKELINE+="-D MPI_C_COMPILER:FILEPATH=${CC} "
     CMAKELINE+="-D MPI_CXX_COMPILER:FILEPATH=${CXX} "
@@ -26,37 +26,37 @@ mpi_compilers(){
     CMAKELINE+="-D MPI_USE_COMPILER_WRAPPERS:BOOL=ON "
 }
 
-mpi_fortran_on(){
+function mpi_fortran_on(){
     CMAKELINE+="-D Trilinos_ENABLE_Fortran:BOOL=ON "
     CMAKELINE+="-D MPI_Fortran_COMPILER:FILEPATH=${FC} "
 }
 
-mpi_fortran_off(){
+function mpi_fortran_off(){
     CMAKELINE+="-D Trilinos_ENABLE_Fortran:BOOL=OFF "
 }
 
-tests_off(){
+function tests_off(){
     CMAKELINE+="-D Trilinos_ENABLE_TESTS:BOOL=OFF "
 }
 
-examples_off(){
+function examples_off(){
     CMAKELINE+="-D Trilinos_ENABLE_EXAMPLES:BOOL=OFF "
 }
 
-kokkos_omp(){
+function kokkos_omp(){
     CMAKELINE+="-D Trilinos_ENABLE_OpenMP:BOOL=ON "
     CMAKELINE+="-D KOKKOS_ENABLE_SERIAL:BOOL=OFF "
     CMAKELINE+="-D KOKKOS_ENABLE_THREADS:BOOL=OFF "
     CMAKELINE+="-D KOKKOS_ENABLE_OPENMP:BOOL=ON "
 }
 
-kokkos_serial(){
+function kokkos_serial(){
     CMAKELINE+="-D KOKKOS_ENABLE_SERIAL:BOOL=ON "
     CMAKELINE+="-D KOKKOS_ENABLE_THREADS:BOOL=OFF "
     CMAKELINE+="-D KOKKOS_ENABLE_OPENMP:BOOL=OFF "
 }
 
-packages_for_pressio(){
+function packages_for_pressio(){
     CMAKELINE+="-D Trilinos_ENABLE_ALL_PACKAGES:BOOL=OFF "
     CMAKELINE+="-D Trilinos_ENABLE_ALL_OPTIONAL_PACKAGES:BOOL=OFF "
     CMAKELINE+="-D Trilinos_ENABLE_Teuchos:BOOL=ON "
@@ -71,12 +71,12 @@ packages_for_pressio(){
     CMAKELINE+="-D Trilinos_ENABLE_Ifpack2:BOOL=ON "
 }
 
-all_packages_on(){
+function all_packages_on(){
     CMAKELINE+="-D Trilinos_ENABLE_ALL_PACKAGES:BOOL=ON "
 }
 
 
-openblas(){
+function openblas(){
     CMAKELINE+="-D TPL_ENABLE_BLAS=ON "
     # note that BLAS_ROOT needs to be set by environemnt
     if [ -z ${BLAS_ROOT} ]; then
@@ -87,7 +87,7 @@ openblas(){
     CMAKELINE+="-D BLAS_LIBRARY_NAMES:STRING='openblas' "
 }
 
-openblaslapack(){
+function openblaslapack(){
     CMAKELINE+="-D TPL_ENABLE_LAPACK=ON "
     # note that LAPACK_ROOT needs to be set by environemnt
     if [ -z ${LAPACK_ROOT} ]; then

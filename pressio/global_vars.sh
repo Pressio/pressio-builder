@@ -29,7 +29,7 @@ CMAKELINEGEN=
 # n to use for parallelizing make
 njmake=6
 
-print_global_vars(){
+function print_global_vars(){
     print_shared_global_vars
     echo "pkg_names      = ${pkg_names[@]}"
     echo "EIGENPATH      = $EIGENPATH"
@@ -43,7 +43,7 @@ print_global_vars(){
     echo "# cpu for make = ${njmake}"
 }
 
-check_minimum_vars_set(){
+function check_minimum_vars_set(){
     # check for shared vars
     check_minimum_shared_vars_set
 

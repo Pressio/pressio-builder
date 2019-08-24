@@ -1,6 +1,6 @@
 #!/bin/bash
 
-build_gtest(){
+function build_gtest(){
     local PWD=`pwd`
     local PARENTDIR=$PWD
     local CMAKELINEGEN=$1

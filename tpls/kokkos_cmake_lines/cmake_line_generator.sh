@@ -1,6 +1,6 @@
 #!/bin/bash
 
-default_mac(){
+function default_mac(){
     always_needed
     mpi_compilers
     mpi_fortran_off
@@ -10,7 +10,7 @@ default_mac(){
     echo CMAKELINE
 }
 
-default(){
+function default(){
     default_mac
     echo CMAKELINE
 }

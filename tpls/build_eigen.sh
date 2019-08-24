@@ -1,6 +1,6 @@
 #!/bin/bash
 
-build_eigen(){
+function build_eigen(){
     local PWD=`pwd`
     local PARENTDIR=$PWD
     local CMAKELINEGEN=$1

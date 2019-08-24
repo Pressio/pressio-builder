@@ -3,7 +3,7 @@
 # Note that it says trilinos below because these are used
 # for building kokkos from Trilinos
 
-always_needed(){
+function always_needed(){
     local is_shared=ON
     local link_search_static=OFF
     if [[ ${MODElib} == static ]]; then
@@ -21,7 +21,7 @@ always_needed(){
     CMAKELINE+="-D CMAKE_VERBOSE_MAKEFILE:BOOL=TRUE "
 }
 
-mpi_compilers(){
+function mpi_compilers(){
     CMAKELINE+="-D TPL_ENABLE_MPI:BOOL=ON "
     CMAKELINE+="-D MPI_C_COMPILER:FILEPATH=${CC} "
     CMAKELINE+="-D MPI_CXX_COMPILER:FILEPATH=${CXX} "
@@ -29,24 +29,24 @@ mpi_compilers(){
     CMAKELINE+="-D MPI_USE_COMPILER_WRAPPERS:BOOL=ON "
 }
 
-mpi_fortran_on(){
+function mpi_fortran_on(){
     CMAKELINE+="-D Trilinos_ENABLE_Fortran:BOOL=ON "
     CMAKELINE+="-D MPI_Fortran_COMPILER:FILEPATH=${FCC} "
 }
 
-mpi_fortran_off(){
+function mpi_fortran_off(){
     CMAKELINE+="-D Trilinos_ENABLE_Fortran:BOOL=OFF "
 }
 
-tests_off(){
+function tests_off(){
     CMAKELINE+="-D Trilinos_ENABLE_TESTS:BOOL=OFF "
 }
 
-examples_off(){
+function examples_off(){
     CMAKELINE+="-D Trilinos_ENABLE_EXAMPLES:BOOL=OFF "
 }
 
-kokkos_serial(){
+function kokkos_serial(){
     CMAKELINE+="-D Trilinos_ENABLE_ALL_PACKAGES:BOOL=OFF "
     CMAKELINE+="-D Trilinos_ENABLE_ALL_OPTIONAL_PACKAGES:BOOL=OFF "
 
