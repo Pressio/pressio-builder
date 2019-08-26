@@ -40,7 +40,7 @@ for ((i=0;i<${#tpl_names[@]};++i)); do
     then
 	echo "non-admissible tpl name passed"
 	echo "valid choices: eigen, gtest, trilinos, kokkos, pybind11"
-	exit 0
+	exit 1
     fi
 done
 echo "done checking tpl names!"
@@ -136,16 +136,14 @@ function build_pybind11() {
 # all scripts for each tpl MUST be run from within target dir
 cd $WORKDIR
 
-# if we need to build cmake
-#need_to_build_cmake
-#res=$?
-#if [[ "$res" == "0" ]]; then
-#    source ${THISDIR}/build_cmake.sh
-#    build_cmake
-#    export PATH=$WORKDIR/cmake/install:$PATH
-#else
-#    echo "no need to build cmake"
-#fi
+# if you have supported/good cmake
+have_admissible_cmake
+res=$?
+if [[ "$res" == "1" ]]; then
+    exit 2
+else
+    echo "you have admissible cmake"
+fi
 
 # now loop through TPLS and build
 for ((i=0;i<${#tpl_names[@]};++i)); do
@@ -161,7 +159,9 @@ for ((i=0;i<${#tpl_names[@]};++i)); do
 done
 
 # if we are on cee machines, change permissions
-if [[ is_cee_build_machine == 0 ]]; then
+is_cee_build_machine
+iscee=$?
+if [[ "iscee" == "1" ]]; then
     echo "changing SGID permissions to ${WORKDIR}"
     chmod -R g+rxs ${WORKDIR}
 fi

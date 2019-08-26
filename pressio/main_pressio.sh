@@ -28,6 +28,15 @@ source ../help_fncs.sh
 # set env if not already set
 call_env_script
 
+# if you have supported/good cmake
+have_admissible_cmake
+res=$?
+if [[ "$res" == "1" ]]; then
+    exit 2
+else
+    echo "you have admissible cmake"
+fi
+
 echo ""
 echo "--------------------------------------------"
 echo "**building PRESSIO**"
@@ -64,16 +73,17 @@ cd $WORKDIR
 
 # if we get here, we need to build/install, keeping in mind dependencies.
 # make sure these dependencies are updated as they change in pressio
-# mpl	  : always needed
-# core	  : depends on mpl
-# qr	  : depends on mpl, core
-# solvers : depends on mpl, core, qr
-# svd	  : depends on mpl, core, qr, solvers
-# ode	  : depends on mpl, core, solvers
-# rom	  : depends on mpl, core, qr, solvers, svd, ode
-# apps	  : depends on mpl, core, qr, solvers, svd, ode, rom
+# mpl		: always needed
+# utils		: always needed
+# containers	: depends on mpl, utils
+# qr		: depends on mpl, utils, containers
+# solvers	: depends on mpl, utils, containers, qr
+# svd		: depends on mpl, utils, containers, qr, solvers
+# ode		: depends on mpl, utils, containers, solvers
+# rom		: depends on mpl, utils, containers, qr, solvers, svd, ode
+# apps		: depends on mpl, utils, containers, qr, solvers, svd, ode, rom
 
-# mpl, core always on
+# mpl, utils always on
 buildMPL=ON
 buildUTILS=ON
 # the others are turned on depending on arguments
@@ -220,7 +230,9 @@ echo "build with" make -j ${njmake} install}
 make -j ${njmake} install
 
 # if we are on cee machines, change permissions
-if [[ is_cee_build_machine == 0 ]]; then
+is_cee_build_machine
+iscee=$?
+if [[ "iscee" == "1" ]]; then
     echo "changing SGID permissions to ${WORKDIR}/pressio/install"
     chmod g+rxs ${WORKDIR} #not recursive on purpose
     chmod g+rxs ${WORKDIR}/pressio #not recursive on purpose

@@ -30,10 +30,12 @@ function call_env_script(){
 
 function is_cee_build_machine(){
     myname=$(hostname)
-    echo "my hostname ${myname}$"
-    if [ $myname == *"cee-build"* ];then
-	# 0 means no failure in bash, so found
-	echo 0
+    echo "my hostname ${myname}"
+    if [ $myname == *"cee-build"* ]; then
+	return 1
+    else
+	echo "Not on a CEE machine, so NO need to change permissions"
+	return 0
     fi
 }
 
@@ -48,20 +50,21 @@ function detect_cmake(){
     fi
 }
 
-function need_to_build_cmake(){
+function have_admissible_cmake(){
     detect_cmake
     echo "CMAKEVERSIONDETECTED=$CMAKEVERSIONDETECTED"
 
     # if cmakeversion is empty
     if [ -z $CMAKEVERSIONDETECTED ]; then
 	echo "No Cmake found"
-	return 0
+	return 1
     else
     	if [ $(version $CMAKEVERSIONDETECTED) -lt $(version "$CMAKEVERSIONMIN") ]; then
 	    echo "you have cmake ${CMAKEVERSIONDETECTED} while I need >=${CMAKEVERSIONMIN}"
-    	    return 0
+    	    return 1
     	else
 	    echo "found good cmake"
+	    return 0
     	fi
     fi
 }

@@ -2,7 +2,7 @@ Automated build system for TPLs and pressio and pressio_demo_apps
 
 Current versions of tpls used:
 
-* EIGEN:
+* eigen:
   cloned from: http://bitbucket.org/eigen/eigen/get/3.3.7.tar.bz2
   using version 3.3.7
 
@@ -14,5 +14,6 @@ Current versions of tpls used:
   git clone git@github.com:trilinos/Trilinos.git
   using branch trilinos-release-12-14-branch
 
-* pybind:
+* pybind11:
   git clone git@github.com:pybind/pybind11.git
+  using branch origin/v23
