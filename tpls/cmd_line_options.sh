@@ -100,9 +100,9 @@ Configuration:
 					"cmake_line_generator.sh" inside <libname>_cmake_lines.
 					Currently available (if you add one, make sure you list it below)
 						eigen: default
-						gtest: default, for_mac, for_linux
+						gtest: default
 						trilinos: default, default_mac
-						kokkos: default
+						kokkos: default, default_mac
 						pybind11: default
 
 					default = default,default,default,default,default
