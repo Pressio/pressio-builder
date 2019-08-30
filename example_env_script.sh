@@ -1,6 +1,6 @@
 #!/bin/bash
 
-MPIPATH=/Users/fnrizzi/tpl/openmpi/4.0.0/install_gcc650
+MPIPATH=/tpl/openmpi/4.0.0/install_gcc650
 
 # CC has to be set because this is what is used by scripts inside
 export CC=${MPIPATH}/bin/mpicc

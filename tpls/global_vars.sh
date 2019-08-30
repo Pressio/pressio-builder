@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # source the shared global vars
-source ../shared_global_vars.sh
+source ../shared/shared_global_vars.sh
 
 # array storing tpl names
 declare -a tpl_names=(gtest eigen trilinos kokkos pybind11)

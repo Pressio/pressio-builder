@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # source the shared global vars
-source ../shared_global_vars.sh
+source ../shared/shared_global_vars.sh
 
 # array storing packages
 declare -a pkg_names=(core)

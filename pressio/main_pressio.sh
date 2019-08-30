@@ -23,7 +23,7 @@ echo ""
 print_global_vars
 
 # source helper functions
-source ../help_fncs.sh
+source ../shared/help_fncs.sh
 
 # set env if not already set
 call_env_script
