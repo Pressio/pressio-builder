@@ -6,7 +6,8 @@ source ../shared_global_vars.sh
 # array storing tpl names
 declare -a tpl_names=(gtest eigen trilinos kokkos pybind11)
 
-# array storing the functions to generate cmake conf lines
+# array storing the names of the bash functions to generate
+# cmake configuring lines
 declare -a tpl_cmake_fncs=(default default default default default)
 
 function print_target_tpl_names(){

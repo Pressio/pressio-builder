@@ -50,8 +50,12 @@ for option; do
 	    IFS=$old_IFS
 	    ;;
 
-	-with-cmake-line-fncs=* | --with-cmake-line-fncs=* )
-	    fncs_list=`expr "x$option" : "x-*with-cmake-line-fncs=\(.*\)"`
+	-with-cmake-gen-function-file=* | --with-cmake-gen-function-file=* )
+	    CMAKELINEGENFNCscript=`expr "x$option" : "x-*with-cmake-gen-function-file=\(.*\)"`
+	    ;;
+
+	-with-cmake-gen-function-names=* | --with-cmake-gen-function-names=* )
+	    fncs_list=`expr "x$option" : "x-*with-cmake-gen-function-names=\(.*\)"`
 	    old_IFS=$IFS
 	    IFS=,
 	    # if list not empty, then reset arrays and append the target libs
@@ -92,20 +96,7 @@ Configuration:
 					NOTE: there is no space after commas.
 					default = gtest,eigen,trilinos,kokkos,pybind11
 					Note: if building trilinos with kokkos, no need to build kokkos separately
-
---with-cmake-line-fncs=list		comma-separated (no space after commas) list of func
-					names generating the cmake line	for configuring each tpl.
-					The order of these should match the list passed to --with-libraries.
-					List of admissible functions can be found in the file
-					"cmake_line_generator.sh" inside <libname>_cmake_lines.
-					Currently available (if you add one, make sure you list it below)
-						eigen: default
-						gtest: default
-						trilinos: default, default_mac
-						kokkos: default, default_mac
-						pybind11: default
-
-					default = default,default,default,default,default
+					because the trilinos version build by this script has Kokkos enabled
 
 --target-dir=				the target directory where the tpls are built/installed.
 					this has to be set, no default is provided.
@@ -125,13 +116,41 @@ Configuration:
 					default = 1.
 
 --build-mode=[Debug/Release]		the build type for each selected tpl.
-					default = Debug
+					NOTE: Debug/Release do not apply to eigen,gtest or pybind11 since
+					these are header only libraries.
+					BUt Debug/Release are used for trilinos/kokkos.
+					DEFAULT = Debug
 
 --target-type=[dynamic/static]		to build static or dynamic libraries.
 					default = dynamic
 
 --with-env-script=<path-to-file>	full path to script to set the environment.
+					NOTE: look at the template environment script shipped with
+					this repo to find out which env vars are needed.
 					default = assumes environment is set.
+
+--with-cmake-gen-function-file=<path-to-file>	full path to bash file containing custom functions
+					to generate cmake configure lines.
+					These functions can be built by referring to
+					the cmake_building_block.sh inside <libname>_cmake_lines.
+
+--with-cmake-gen-functions-names=list	comma-separated (no space after commas) list of func
+					names generating the cmake line	for configuring each tpl.
+					The order of these names should match the list passed to --with-libraries.
+					If you pass a bash file to -with-cmake-gen-function-file defining
+					custom functions, then the name can be one of those in that bash script.
+					List of DEFAULT admissible functions can be found in the file
+					"cmake_line_generator.sh" inside <libname>_cmake_lines.
+						eigen: default
+						gtest: default
+						trilinos: default
+						kokkos: default
+						pybind11: default
+					NOTE: while for eigen,gtest,pybind you should always be successful
+					by simply using the ''default'' nane, trilinos and Kokkos are more complex.
+					So default might not work straight out of the box.
+
+					default = default,default,default,default,default
 
 EOF
   exit 0

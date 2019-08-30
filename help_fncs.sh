@@ -34,7 +34,6 @@ function is_cee_build_machine(){
     if [ $myname == *"cee-build"* ]; then
 	return 1
     else
-	echo "Not on a CEE machine, so NO need to change permissions"
 	return 0
     fi
 }

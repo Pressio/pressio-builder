@@ -1,6 +1,6 @@
 #!/bin/bash
 
-function always_needed(){
+function trilinos_always_needed(){
     local is_shared=ON
     local link_search_static=OFF
     if [[ ${MODElib} == static ]]; then
@@ -18,7 +18,7 @@ function always_needed(){
     CMAKELINE+="-D CMAKE_VERBOSE_MAKEFILE:BOOL=TRUE "
 }
 
-function mpi_compilers(){
+function trilinos_mpi_compilers(){
     CMAKELINE+="-D TPL_ENABLE_MPI:BOOL=ON "
     CMAKELINE+="-D MPI_C_COMPILER:FILEPATH=${CC} "
     CMAKELINE+="-D MPI_CXX_COMPILER:FILEPATH=${CXX} "
@@ -26,37 +26,37 @@ function mpi_compilers(){
     CMAKELINE+="-D MPI_USE_COMPILER_WRAPPERS:BOOL=ON "
 }
 
-function mpi_fortran_on(){
+function trilinos_mpi_fortran_on(){
     CMAKELINE+="-D Trilinos_ENABLE_Fortran:BOOL=ON "
     CMAKELINE+="-D MPI_Fortran_COMPILER:FILEPATH=${FC} "
 }
 
-function mpi_fortran_off(){
+function trilinos_mpi_fortran_off(){
     CMAKELINE+="-D Trilinos_ENABLE_Fortran:BOOL=OFF "
 }
 
-function tests_off(){
+function trilinos_tests_off(){
     CMAKELINE+="-D Trilinos_ENABLE_TESTS:BOOL=OFF "
 }
 
-function examples_off(){
+function trilinos_examples_off(){
     CMAKELINE+="-D Trilinos_ENABLE_EXAMPLES:BOOL=OFF "
 }
 
-function kokkos_omp(){
+function trilinos_kokkos_omp(){
     CMAKELINE+="-D Trilinos_ENABLE_OpenMP:BOOL=ON "
     CMAKELINE+="-D KOKKOS_ENABLE_SERIAL:BOOL=OFF "
     CMAKELINE+="-D KOKKOS_ENABLE_THREADS:BOOL=OFF "
     CMAKELINE+="-D KOKKOS_ENABLE_OPENMP:BOOL=ON "
 }
 
-function kokkos_serial(){
+function trilinos_kokkos_serial(){
     CMAKELINE+="-D KOKKOS_ENABLE_SERIAL:BOOL=ON "
     CMAKELINE+="-D KOKKOS_ENABLE_THREADS:BOOL=OFF "
     CMAKELINE+="-D KOKKOS_ENABLE_OPENMP:BOOL=OFF "
 }
 
-function packages_for_pressio(){
+function trilinos_packages_for_pressio(){
     CMAKELINE+="-D Trilinos_ENABLE_ALL_PACKAGES:BOOL=OFF "
     CMAKELINE+="-D Trilinos_ENABLE_ALL_OPTIONAL_PACKAGES:BOOL=OFF "
     CMAKELINE+="-D Trilinos_ENABLE_Teuchos:BOOL=ON "
@@ -71,12 +71,11 @@ function packages_for_pressio(){
     CMAKELINE+="-D Trilinos_ENABLE_Ifpack2:BOOL=ON "
 }
 
-function all_packages_on(){
+function trilinos_all_packages_on(){
     CMAKELINE+="-D Trilinos_ENABLE_ALL_PACKAGES:BOOL=ON "
 }
 
-
-function openblas(){
+function trilinos_openblaslapack(){
     CMAKELINE+="-D TPL_ENABLE_BLAS=ON "
     # note that BLAS_ROOT needs to be set by environemnt
     if [ -z ${BLAS_ROOT} ]; then
@@ -85,9 +84,7 @@ function openblas(){
     fi
     CMAKELINE+="-D BLAS_LIBRARY_DIRS:PATH='${BLAS_ROOT}/lib' "
     CMAKELINE+="-D BLAS_LIBRARY_NAMES:STRING='openblas' "
-}
 
-function openblaslapack(){
     CMAKELINE+="-D TPL_ENABLE_LAPACK=ON "
     # note that LAPACK_ROOT needs to be set by environemnt
     if [ -z ${LAPACK_ROOT} ]; then

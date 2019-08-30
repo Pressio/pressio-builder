@@ -3,7 +3,7 @@
 # Note that it says trilinos below because these are used
 # for building kokkos from Trilinos
 
-function always_needed(){
+function kokkos_always_needed(){
     local is_shared=ON
     local link_search_static=OFF
     if [[ ${MODElib} == static ]]; then
@@ -21,7 +21,7 @@ function always_needed(){
     CMAKELINE+="-D CMAKE_VERBOSE_MAKEFILE:BOOL=TRUE "
 }
 
-function mpi_compilers(){
+function kokkos_mpi_compilers(){
     CMAKELINE+="-D TPL_ENABLE_MPI:BOOL=ON "
     CMAKELINE+="-D MPI_C_COMPILER:FILEPATH=${CC} "
     CMAKELINE+="-D MPI_CXX_COMPILER:FILEPATH=${CXX} "
@@ -29,20 +29,20 @@ function mpi_compilers(){
     CMAKELINE+="-D MPI_USE_COMPILER_WRAPPERS:BOOL=ON "
 }
 
-function mpi_fortran_on(){
+function kokkos_mpi_fortran_on(){
     CMAKELINE+="-D Trilinos_ENABLE_Fortran:BOOL=ON "
     CMAKELINE+="-D MPI_Fortran_COMPILER:FILEPATH=${FCC} "
 }
 
-function mpi_fortran_off(){
+function kokkos_mpi_fortran_off(){
     CMAKELINE+="-D Trilinos_ENABLE_Fortran:BOOL=OFF "
 }
 
-function tests_off(){
+function kokkos_tests_off(){
     CMAKELINE+="-D Trilinos_ENABLE_TESTS:BOOL=OFF "
 }
 
-function examples_off(){
+function kokkos_examples_off(){
     CMAKELINE+="-D Trilinos_ENABLE_EXAMPLES:BOOL=OFF "
 }
 

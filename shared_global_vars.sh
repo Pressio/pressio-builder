@@ -21,7 +21,11 @@ MODElib=shared
 # env script
 SETENVscript=
 
-# the var to store the cmake line to configure
+# variable to store the bash function that generates the
+# cmake string to call for configuring
+CMAKELINEGENFNCscript=
+
+# variable to store the cmake string to call for configuring
 CMAKELINE=
 
 # needed minimum cmake version
@@ -37,6 +41,7 @@ function print_shared_global_vars(){
     echo "MODEbuild      = $MODEbuild"
     echo "MODElib        = $MODElib"
     echo "SETENVscript   = $SETENVscript"
+    echo "CMAKELINEGENFNCscript = $CMAKELINEGENFNCscript"
 }
 
 function check_minimum_shared_vars_set(){

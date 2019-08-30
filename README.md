@@ -1,6 +1,24 @@
-Automated build system for Pressio and its TPLs
 
-Current versions of tpls used:
+## pressio-builder
+
+What is this? This repo provides scripts and tools to simplify
+and automate the building process for Pressio and its TPLs.
+
+### Building TPLs
+To build the TPLs, do the following:
+- cd into ./tpls
+- bash ./main_tpls.sh -h
+and follow the directions.
+
+
+### Building Pressio
+After you are done with TPLs, build Pressio by doing:
+- cd into ./pressio
+- bash ./main_pressio.sh -h
+and follow the directions.
+
+
+### Current versions of tpls used:
 
 * eigen:
   cloned from: http://bitbucket.org/eigen/eigen/get/3.3.7.tar.bz2

@@ -3,16 +3,14 @@
 echo "Bash version ${BASH_VERSION}"
 set -e
 
-# PWD will be updated if we change directory
-PWD=`pwd`
-
-# load all global variables
+# load all global variables for TPLs
 source global_vars.sh
 
-# step : parse cline arguments
+# parse cline arguments
 source cmd_line_options.sh
 
-# check that all basic variables are set, otherwise leave
+# check that all basic variables are set
+# (if not minimum set found, script exits)
 check_minimum_vars_set
 
 echo ""
@@ -20,6 +18,7 @@ echo "--------------------------------------------"
 echo " current setting is: "
 echo ""
 print_global_vars
+echo ""
 
 # source helper functions
 source ../help_fncs.sh
@@ -27,7 +26,7 @@ source ../help_fncs.sh
 # set env if not already set
 call_env_script
 
-# check that tpl names are admissible
+# check that tpl names parsed from cmd line args are admissible
 echo "checking tpl names are admissible"
 for ((i=0;i<${#tpl_names[@]};++i)); do
     name=${tpl_names[i]}
@@ -38,7 +37,7 @@ for ((i=0;i<${#tpl_names[@]};++i)); do
 	   [ ${name} != kokkos ] &&\
 	   [ ${name} != pybind11 ];
     then
-	echo "non-admissible tpl name passed"
+	echo "found at least one non-admissible tpl name passed"
 	echo "valid choices: eigen, gtest, trilinos, kokkos, pybind11"
 	exit 1
     fi
@@ -46,6 +45,7 @@ done
 echo "done checking tpl names!"
 print_target_tpl_names
 print_target_tpl_cmake_fncs
+
 
 echo ""
 echo "--------------------------------------------"
@@ -61,6 +61,13 @@ function build_gtest() {
 	# source all generator functions
 	source ${THISDIR}/gtest_cmake_lines/cmake_building_blocks.sh
 	source ${THISDIR}/gtest_cmake_lines/cmake_line_generator.sh
+
+	# if a bash file with custom generator functions is provided, source it
+	if [ ! -z $CMAKELINEGENFNCscript ]; then
+	    echo "sourcing custom cmake generator functions from ${CMAKELINEGENFNCscript}"
+	    source ${CMAKELINEGENFNCscript}
+	fi
+
 	# source and call build function
 	source ${THISDIR}/build_gtest.sh
 	build_gtest $myfnc
@@ -77,6 +84,12 @@ function build_trilinos() {
 	# source all generator functions
 	source ${THISDIR}/trilinos_cmake_lines/cmake_building_blocks.sh
 	source ${THISDIR}/trilinos_cmake_lines/cmake_line_generator.sh
+	# if a bash file with custom generator functions is provided, source it
+	if [ ! -z $CMAKELINEGENFNCscript ]; then
+	    echo "sourcing custom cmake generator functions from ${CMAKELINEGENFNCscript}"
+	    source ${CMAKELINEGENFNCscript}
+	fi
+
 	# source and call build function
 	source ${THISDIR}/build_trilinos.sh
 	build_trilinos $myfnc $nJmake
@@ -93,6 +106,12 @@ function build_kokkos() {
     	# source all generator functions
     	source ${THISDIR}/kokkos_cmake_lines/cmake_building_blocks.sh
     	source ${THISDIR}/kokkos_cmake_lines/cmake_line_generator.sh
+	# if a bash file with custom generator functions is provided, source it
+	if [ ! -z $CMAKELINEGENFNCscript ]; then
+	    echo "sourcing custom cmake generator functions from ${CMAKELINEGENFNCscript}"
+	    source ${CMAKELINEGENFNCscript}
+	fi
+
     	# source and call build function
     	source ${THISDIR}/build_kokkos.sh
     	build_kokkos $myfnc $nJmake
@@ -108,6 +127,12 @@ function build_eigen() {
 	# source all generator functions
 	source ${THISDIR}/eigen_cmake_lines/cmake_building_blocks.sh
 	source ${THISDIR}/eigen_cmake_lines/cmake_line_generator.sh
+	# if a bash file with custom generator functions is provided, source it
+	if [ ! -z $CMAKELINEGENFNCscript ]; then
+	    echo "sourcing custom cmake generator functions from ${CMAKELINEGENFNCscript}"
+	    source ${CMAKELINEGENFNCscript}
+	fi
+
 	# source and call build function
 	source ${THISDIR}/build_eigen.sh
 	build_eigen $myfnc
@@ -123,6 +148,12 @@ function build_pybind11() {
 	# source all generator functions
 	source ${THISDIR}/pybind11_cmake_lines/cmake_building_blocks.sh
 	source ${THISDIR}/pybind11_cmake_lines/cmake_line_generator.sh
+	# if a bash file with custom generator functions is provided, source it
+	if [ ! -z $CMAKELINEGENFNCscript ]; then
+	    echo "sourcing custom cmake generator functions from ${CMAKELINEGENFNCscript}"
+	    source ${CMAKELINEGENFNCscript}
+	fi
+
 	# source and call build function
 	source ${THISDIR}/build_pybind11.sh
 	build_pybind11 $myfnc
@@ -162,7 +193,6 @@ done
 is_cee_build_machine
 iscee=$?
 if [[ "iscee" == "1" ]]; then
-    echo "changing SGID permissions to ${WORKDIR}"
     chmod -R g+rxs ${WORKDIR}
 fi
 

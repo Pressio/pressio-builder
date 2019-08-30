@@ -41,10 +41,6 @@ for option; do
 	    PRESSIOSRC=`expr "x$option" : "x-*pressio-src=\(.*\)"`
 	    ;;
 
-	-with-cmake-fnc=* | --with-cmake-fnc=* )
-	    CMAKELINEGEN=`expr "x$option" : "x-*with-cmake-fnc=\(.*\)"`
-	    ;;
-
 	-eigen-path=* | --eigen-path=* )
 	    EIGENPATH=`expr "x$option" : "x-*eigen-path=\(.*\)"`
 	    ;;
@@ -67,6 +63,14 @@ for option; do
 
 	-ncpu-for-make=* | --ncpu-for-make=* )
 	    njmake=`expr "x$option" : "x-*ncpu-for-make=\(.*\)"`
+	    ;;
+
+	-with-cmake-gen-function-file=* | --with-cmake-gen-function-file=* )
+	    CMAKELINEGENFNCscript=`expr "x$option" : "x-*with-cmake-gen-function-file=\(.*\)"`
+	    ;;
+
+	-with-cmake-gen-function-name=* | --with-cmake-gen-function-name=* )
+	    CMAKELINEGEN=`expr "x$option" : "x-*with-cmake-gen-function-name=\(.*\)"`
 	    ;;
 
 	-with-packages=* | --with-packages=* )
@@ -127,10 +131,17 @@ Configuration:
 					packages for this are built automatically.
 					default = apps
 
---with-cmake-fnc=			the name of one of the functions inside cmake_line_generator.sh
+--with-cmake-gen-function-name=		the name of one of the functions inside cmake_line_generator.sh
 					This is used to generate the cmake line to configure.
 					List of admissible functions is in "cmake_line_generator.sh"
-					default (try this as first attempt, should work in most cases)
+					Or create custom ones and put them in a target script that you can pass
+					using the arg --with-cmake-gen-function-file.
+					default = default (try this as first attempt)
+
+--with-cmake-gen-function-file=<path-to-file>	full path to bash file containing custom functions
+					to generate cmake configure lines.
+					These functions can be built using the functions in
+					the cmake_building_block.sh.
 
 --wipe-existing=[0/1]			if true, the build and installation subdirectories of the
 					destination folder set by --target-dir will be wiped and remade.

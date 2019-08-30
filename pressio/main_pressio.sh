@@ -174,18 +174,10 @@ source ${THISDIR}/cmake_building_blocks.sh
 # the basic/default generatos are always loaded
 source ${THISDIR}/cmake_line_generator.sh
 
-# if we are on cee machines, load cee_sparc generators
-if [[ is_cee_build_machine == 0 ]]; then
-    source ${THISDIR}/cmake_line_generator_cee_sparc.sh
-fi
-
-# if username is *rizzi, load mine
-echo $USER
-if [[ $USER == *"rizzi"* ]]; then
-    echo "loading cmake lines for frizzi"
-    source ${THISDIR}/cmake_line_generator_frizzi.sh
-elif [[ "$USER" == *"blonig" ]]; then
-    source ${THISDIR}/cmake_line_generator_pblonig.sh
+# if a bash file with custom generator functions is provided, source it
+if [ ! -z $CMAKELINEGENFNCscript ]; then
+    echo "sourcing custom cmake generator functions from ${CMAKELINEGENFNCscript}"
+    source ${CMAKELINEGENFNCscript}
 fi
 #----------------------------------------------
 
