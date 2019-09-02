@@ -2,7 +2,7 @@
 ## pressio-builder
 
 This repo provides scripts and tools to simplify
-and automate the building process for Pressio and its TPLs.
+and automate the building/installation process of Pressio and its TPLs.
 
 ### Building TPLs
 To build the TPLs, do the following:
