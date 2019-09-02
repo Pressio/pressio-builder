@@ -1,7 +1,7 @@
 
 ## pressio-builder
 
-What is this? This repo provides scripts and tools to simplify
+This repo provides scripts and tools to simplify
 and automate the building process for Pressio and its TPLs.
 
 ### Building TPLs
