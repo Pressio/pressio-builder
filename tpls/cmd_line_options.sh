@@ -1,9 +1,7 @@
 #!/bin/bash
 
 echo ""
-echo "--------------------------------------------"
-echo "**parsing cline arguments**"
-echo ""
+echo "${fgyellow}+++ parsing cmdline arguments +++${fgrst}"
 
 for option; do
     echo $option
@@ -67,6 +65,14 @@ for option; do
 	    IFS=$old_IFS
 	    ;;
 
+	-dump-to-file-only=* | --dump-to-file-only=* )
+	    DUMPTOFILEONLY=`expr "x$option" : "x-*dump-to-file-only=\(.*\)"`
+	    ;;
+
+	-dryrun=* | --dryrun=* )
+	    DRYRUN=`expr "x$option" : "x-*dryrun=\(.*\)"`
+	    ;;
+
 	# unrecognized option}
 	-*)
 	    { echo "error: unrecognized option: $option
@@ -76,6 +82,7 @@ for option; do
 
     esac
 done
+#echo "${fgyellow}+++ done with cmdline arguments +++${fgrst}"
 
 
 if test "$want_help" = yes; then
@@ -91,6 +98,10 @@ Configuration:
 
 --arch=[mac/linux]			set which arch you are using.
 					default = NA, must be provided.
+
+--dryrun=[0/1]				if =1, creates all directories and prints string
+					for configuring but does NOT perform any configurantion/build/installation
+					default = 1
 
 --with-libraries=list			comma-separated list of library names.
 					NOTE: there is no space after commas.
@@ -123,6 +134,10 @@ Configuration:
 
 --target-type=[dynamic/static]		to build static or dynamic libraries.
 					default = dynamic
+
+--dump-to-file-only=[0/1]		if =1 (true), dumps all outputs from config, build and install to files
+					that are specific for each TPL built and does not print anything to screen
+					default = 0
 
 --with-env-script=<path-to-file>	full path to script to set the environment.
 					NOTE: look at the template environment script shipped with

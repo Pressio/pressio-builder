@@ -1,8 +1,6 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 function check_and_clean(){
-    echo "chec clean"
-
     local parentdir=$1
     if [ $WIPEEXISTING -eq 1 ]; then
 	echo "within ${PWD}"
@@ -17,21 +15,17 @@ function check_and_clean(){
 }
 
 function call_env_script(){
-    echo "call env"
-
     if [[ ! -z ${SETENVscript} ]]; then
-	echo "loading environment from ${SETENVscript}"
+	echo "${fgyellow}+++ Loading environment from ${SETENVscript} +++{$fgrst}"
 	source ${SETENVscript}
 	echo "PATH = $PATH"
     else
-	echo "--with-env-script NOT set, so we assume env is set already"
+	echo "${fgyellow}+++ --with-env-script is empty. I assume env is set +++${fgrst}"
     fi
 }
 
 function is_cee_build_machine(){
-    myname=$(hostname)
-    echo "my hostname ${myname}"
-    if [ $myname == *"cee-build"* ]; then
+    if [ ${MYHOSTNAME} == *"cee-build"* ]; then
 	return 1
     else
 	return 0
@@ -51,18 +45,20 @@ function detect_cmake(){
 
 function have_admissible_cmake(){
     detect_cmake
+    echo ""
+    echo "${fgyellow}+++ Detecting which cmake you have +++${fgrst}"
     echo "CMAKEVERSIONDETECTED=$CMAKEVERSIONDETECTED"
 
     # if cmakeversion is empty
     if [ -z $CMAKEVERSIONDETECTED ]; then
-	echo "No Cmake found"
+	echo "${fgred} No Cmake found. Terminating. ${fgrst}"
 	return 1
     else
     	if [ $(version $CMAKEVERSIONDETECTED) -lt $(version "$CMAKEVERSIONMIN") ]; then
-	    echo "you have cmake ${CMAKEVERSIONDETECTED} while I need >=${CMAKEVERSIONMIN}"
+	    echo "${fgred}You have cmake ${CMAKEVERSIONDETECTED} ${fgrst}"
+	    echo "${fgred}while I need >=${CMAKEVERSIONMIN}. Terminating. ${fgrst}"
     	    return 1
     	else
-	    echo "found good cmake"
 	    return 0
     	fi
     fi

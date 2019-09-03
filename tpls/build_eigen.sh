@@ -4,6 +4,7 @@ function build_eigen(){
     local PWD=`pwd`
     local PARENTDIR=$PWD
     local CMAKELINEGEN=$1
+    local TPLname=eigen
 
     if [ -z $CMAKELINEGEN ]; then
 	echo ""
@@ -34,42 +35,35 @@ function build_eigen(){
 	rm -rf install
     fi
 
-    echo "installing Eigen by copying source files to target install directory"
-    mkdir -p ./install/include/eigen3/Eigen
-    cp -rf ./${unpacked_dir}/Eigen/* ./install/include/eigen3/Eigen
+    if [ $DRYRUN -eq 0 ];
+    then
+	echo "${fgyellow}Starting config, build and install of ${TPLname} ${fgrst}"
+	echo "installing Eigen by copying source files to target install directory"
+	mkdir -p ./install/include/eigen3/Eigen
+	cp -rf ./${unpacked_dir}/Eigen/* ./install/include/eigen3/Eigen
 
-    # # create build
-    # mkdir build && cd build
+	# # create build
+	# mkdir build && cd build
 
-    # # make sure the global var CMAKELINE is empty
-    # CMAKELINE=""
+	# # make sure the global var CMAKELINE is empty
+	# CMAKELINE=""
 
-    # # call the generator to build the string for cmake line
-    # # this will append to the global var CMAKELINE
-    # ${CMAKELINEGEN}
+	# # call the generator to build the string for cmake line
+	# # this will append to the global var CMAKELINE
+	# ${CMAKELINEGEN}
 
-    # # append prefix
-    # CMAKELINE+="-D CMAKE_INSTALL_PREFIX:PATH=../install "
-    # # append the location of the source
-    # CMAKELINE+="../eigen-eigen-b3f3d4950030"
+	# # append prefix
+	# CMAKELINE+="-D CMAKE_INSTALL_PREFIX:PATH=../install "
+	# # append the location of the source
+	# CMAKELINE+="../eigen-eigen-b3f3d4950030"
 
-    # # run the cmake commnad
-    # echo "cmake command for eigen: "
-    # echo "cmake ${CMAKELINE}"
-    # echo ""
-    # cmake eval ${CMAKELINE}
-    # make install
+	# # run the cmake commnad
+	# echo "cmake command for eigen: "
+	# echo "cmake ${CMAKELINE}"
+	# echo ""
+	# cmake eval ${CMAKELINE}
+	# make install
+    fi
 
     cd ${PARENTDIR}
 }
-
-
-# n_args=$#
-# if test $n_args -lt 1
-# then
-#     str+="[linux/mac] "
-
-#     echo "usage:"
-#     echo "$0 $str"
-#     exit 1;
-# fi

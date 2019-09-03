@@ -3,14 +3,14 @@
 function build_trilinos(){
     local PWD=`pwd`
     local PARENTDIR=$PWD
-
+    local TPLname=trilinos
     local CMAKELINEGEN=$1
     nCoreMake=$2
 
     if [ -z $CMAKELINEGEN ]; then
 	echo "build_trilinos called without specifying cmake_line_generator_function"
 	echo "usage:"
-	echo "build_trilinos name_of_cmake_line_generator_function"
+	echo "build_trilinos name_of_cmake_line_generator_function nCoreForMake"
 	exit 0
     fi
     #-----------------------------------
@@ -37,37 +37,45 @@ function build_trilinos(){
 
     # append prefix
     CMAKELINE+="-D CMAKE_INSTALL_PREFIX:PATH=../install "
+
     # append the location of the source
     CMAKELINE+="../Trilinos"
 
-    # run the cmake commnad
-    echo "cmake command: "
-    echo -e "cmake $CMAKELINE"
-    echo ""
-    cmake eval ${CMAKELINE}
+    # print the cmake commnad that will be used
+    echo "cmake command:"
+    echo "cmake ${CMAKELINE}"
 
-    make -j ${nCoreMake} install
+    if [ $DRYRUN -eq 0 ];
+    then
+	echo "${fgyellow}Starting config, build and install of ${TPLname} ${fgrst}"
+
+	CFName="config.txt"
+	if [ $DUMPTOFILEONLY -eq 1 ]; then
+	    cmake eval ${CMAKELINE} >> ${CFName} 2>&1
+	else
+	    (cmake eval ${CMAKELINE}) 2>&1 | tee ${CFName}
+	fi
+	echo "Config output written to ${PWD}/${CFName}"
+
+	BFName="build.txt"
+	if [ $DUMPTOFILEONLY -eq 1 ]; then
+	    make -j ${nCoreMake} >> ${BFName} 2>&1
+	else
+	    (make -j ${nCoreMake}) 2>&1 | tee ${BFName}
+	fi
+	echo "Build output written to ${PWD}/${BFName}"
+
+	IFName="install.txt"
+	if [ $DUMPTOFILEONLY -eq 1 ]; then
+	    make install >> ${IFName} 2>&1
+	else
+	    (make install) 2>&1 | tee ${IFName}
+	fi
+	echo "Install output written to ${PWD}/${IFName}"
+    fi
 
     cd ${PARENTDIR}
 }
-
-
-# #----------------------------------
-# # step : test cline arguments
-
-# n_args=$#
-# if test $n_args -lt 2
-# then
-#     str+="[cmake-line-generator-fnc] "
-#     str+="[numCoresForMake] "
-#     # str+="[DEBUG/RELEASE] "
-#     # str+="[dynamic/static] "
-
-#     echo "usage:"
-#     echo "$0 $str"
-#     exit 1;
-# fi
-
 
 # cmake -D CMAKE_BUILD_TYPE:STRING=$1 \
     # 	  -D CMAKE_INSTALL_PREFIX:PATH=../install \
@@ -108,7 +116,6 @@ function build_trilinos(){
     # 	  \
     # 	  -D CMAKE_VERBOSE_MAKEFILE:BOOL=TRUE \
     # 	  ../Trilinos
-
 
 
 # -D BLAS_LIBRARY_NAMES:STRING="openblas" \

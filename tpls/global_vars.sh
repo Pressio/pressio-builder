@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# source the shared global vars
-source ../shared/shared_global_vars.sh
-
 # array storing tpl names
 declare -a tpl_names=(gtest eigen trilinos kokkos pybind11)
 
@@ -11,11 +8,14 @@ declare -a tpl_names=(gtest eigen trilinos kokkos pybind11)
 declare -a tpl_cmake_fncs=(default default default default default)
 
 function print_target_tpl_names(){
-    echo "tpls = ${tpl_names[@]}"
+    echo "tpls		      = ${tpl_names[@]}"
 }
 
 function print_target_tpl_cmake_fncs(){
-    echo "cmake_gen_fncs = ${tpl_cmake_fncs[@]}"
+    # check how many tpls names we have
+    local howMany=${#tpl_names[@]}
+    # only print as many as TPL names
+    echo "cmake_gen_fncs        = ${tpl_cmake_fncs[@]:0:${howMany}}"
 }
 
 function print_global_vars(){

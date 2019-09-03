@@ -1,9 +1,18 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-echo "Bash version ${BASH_VERSION}"
+# exit when there is error code
 set -e
 
-# load all global variables for TPLs
+# source colors for printing
+source ../shared/colors.sh
+
+# print version of bash
+echo "Using bash version ${BASH_VERSION}"
+
+# source the shared global vars
+source ../shared/shared_global_vars.sh
+
+# load the global variables defined for TPLs
 source global_vars.sh
 
 # parse cline arguments
@@ -13,10 +22,9 @@ source cmd_line_options.sh
 # (if not minimum set found, script exits)
 check_minimum_vars_set
 
+# print the current setting
 echo ""
-echo "--------------------------------------------"
-echo " current setting is: "
-echo ""
+echo "${fgyellow}+++ The setting is as follows: +++ ${fgrst}"
 print_global_vars
 echo ""
 
@@ -27,7 +35,8 @@ source ../shared/help_fncs.sh
 call_env_script
 
 # check that tpl names parsed from cmd line args are admissible
-echo "checking tpl names are admissible"
+echo ""
+echo "${fgyellow}+++ Checking if TPL names are admissible +++${fgrst}"
 for ((i=0;i<${#tpl_names[@]};++i)); do
     name=${tpl_names[i]}
 
@@ -42,25 +51,23 @@ for ((i=0;i<${#tpl_names[@]};++i)); do
 	exit 1
     fi
 done
-echo "done checking tpl names!"
 print_target_tpl_names
 print_target_tpl_cmake_fncs
+echo "${fggreen}All TPL names seem valid: ok! ${fgrst}"
 
 
-echo ""
-echo "--------------------------------------------"
-echo "**building tpls**"
-echo ""
+#################################
+# building all TPLs happens below
 
 function build_gtest() {
     local DOBUILD=OFF
     local myfnc=$1
-    echo "target fnc = ${myfnc}.sh"
+    # the following is short syntax for if then else
     [[ -d gtest ]] && check_and_clean gtest || DOBUILD=ON
     if [ $DOBUILD = "ON" ]; then
 	# source all generator functions
-	source ${THISDIR}/gtest_cmake_lines/cmake_building_blocks.sh
-	source ${THISDIR}/gtest_cmake_lines/cmake_line_generator.sh
+	source ${ORIGDIR}/gtest_cmake_lines/cmake_building_blocks.sh
+	source ${ORIGDIR}/gtest_cmake_lines/cmake_line_generator.sh
 
 	# if a bash file with custom generator functions is provided, source it
 	if [ ! -z $CMAKELINEGENFNCscript ]; then
@@ -69,8 +76,31 @@ function build_gtest() {
 	fi
 
 	# source and call build function
-	source ${THISDIR}/build_gtest.sh
+	source ${ORIGDIR}/build_gtest.sh
 	build_gtest $myfnc
+    fi
+}
+
+function build_pybind11() {
+    local DOBUILD=OFF
+    local myfnc=$1
+    # the following is short syntax for if then else
+    [[ -d pybind11 ]] && check_and_clean pybind11 || DOBUILD=ON
+
+    # if I need to, do the build
+    if [ $DOBUILD = "ON" ]; then
+	# source all generator functions
+	source ${ORIGDIR}/pybind11_cmake_lines/cmake_building_blocks.sh
+	source ${ORIGDIR}/pybind11_cmake_lines/cmake_line_generator.sh
+	# if a bash file with custom generator functions is provided, source it
+	if [ ! -z $CMAKELINEGENFNCscript ]; then
+	    echo "sourcing custom cmake generator functions from ${CMAKELINEGENFNCscript}"
+	    source ${CMAKELINEGENFNCscript}
+	fi
+
+	# source and call build function
+	source ${ORIGDIR}/build_pybind11.sh
+	build_pybind11 $myfnc
     fi
 }
 
@@ -78,12 +108,12 @@ function build_trilinos() {
     local DOBUILD=OFF
     local myfnc=$1
     local nJmake=4
-    echo "target fnc = ${myfnc}.sh"
+    # the following is short syntax for if then else
     [[ -d trilinos ]] && check_and_clean trilinos || DOBUILD=ON
     if [ $DOBUILD = "ON" ]; then
 	# source all generator functions
-	source ${THISDIR}/trilinos_cmake_lines/cmake_building_blocks.sh
-	source ${THISDIR}/trilinos_cmake_lines/cmake_line_generator.sh
+	source ${ORIGDIR}/trilinos_cmake_lines/cmake_building_blocks.sh
+	source ${ORIGDIR}/trilinos_cmake_lines/cmake_line_generator.sh
 	# if a bash file with custom generator functions is provided, source it
 	if [ ! -z $CMAKELINEGENFNCscript ]; then
 	    echo "sourcing custom cmake generator functions from ${CMAKELINEGENFNCscript}"
@@ -91,7 +121,7 @@ function build_trilinos() {
 	fi
 
 	# source and call build function
-	source ${THISDIR}/build_trilinos.sh
+	source ${ORIGDIR}/build_trilinos.sh
 	build_trilinos $myfnc $nJmake
     fi
 }
@@ -100,12 +130,12 @@ function build_kokkos() {
     local DOBUILD=OFF
     local myfnc=$1
     local nJmake=4
-    echo "target fnc = ${myfnc}.sh"
+    # the following is short syntax for if then else
     [[ -d kokkos ]] && check_and_clean kokkos || DOBUILD=ON
     if [ $DOBUILD = "ON" ]; then
     	# source all generator functions
-    	source ${THISDIR}/kokkos_cmake_lines/cmake_building_blocks.sh
-    	source ${THISDIR}/kokkos_cmake_lines/cmake_line_generator.sh
+    	source ${ORIGDIR}/kokkos_cmake_lines/cmake_building_blocks.sh
+    	source ${ORIGDIR}/kokkos_cmake_lines/cmake_line_generator.sh
 	# if a bash file with custom generator functions is provided, source it
 	if [ ! -z $CMAKELINEGENFNCscript ]; then
 	    echo "sourcing custom cmake generator functions from ${CMAKELINEGENFNCscript}"
@@ -113,7 +143,7 @@ function build_kokkos() {
 	fi
 
     	# source and call build function
-    	source ${THISDIR}/build_kokkos.sh
+    	source ${ORIGDIR}/build_kokkos.sh
     	build_kokkos $myfnc $nJmake
     fi
 }
@@ -121,12 +151,12 @@ function build_kokkos() {
 function build_eigen() {
     local DOBUILD=OFF
     local myfnc=$1
-    echo "target fnc = ${myfnc}.sh"
+    # the following is short syntax for if then else
     [[ -d eigen ]] && check_and_clean eigen || DOBUILD=ON
     if [ $DOBUILD = "ON" ]; then
 	# source all generator functions
-	source ${THISDIR}/eigen_cmake_lines/cmake_building_blocks.sh
-	source ${THISDIR}/eigen_cmake_lines/cmake_line_generator.sh
+	source ${ORIGDIR}/eigen_cmake_lines/cmake_building_blocks.sh
+	source ${ORIGDIR}/eigen_cmake_lines/cmake_line_generator.sh
 	# if a bash file with custom generator functions is provided, source it
 	if [ ! -z $CMAKELINEGENFNCscript ]; then
 	    echo "sourcing custom cmake generator functions from ${CMAKELINEGENFNCscript}"
@@ -134,53 +164,31 @@ function build_eigen() {
 	fi
 
 	# source and call build function
-	source ${THISDIR}/build_eigen.sh
+	source ${ORIGDIR}/build_eigen.sh
 	build_eigen $myfnc
-    fi
-}
-
-function build_pybind11() {
-    local DOBUILD=OFF
-    local myfnc=$1
-    echo "target fnc = ${myfnc}.sh"
-    [[ -d pybind11 ]] && check_and_clean pybind11 || DOBUILD=ON
-    if [ $DOBUILD = "ON" ]; then
-	# source all generator functions
-	source ${THISDIR}/pybind11_cmake_lines/cmake_building_blocks.sh
-	source ${THISDIR}/pybind11_cmake_lines/cmake_line_generator.sh
-	# if a bash file with custom generator functions is provided, source it
-	if [ ! -z $CMAKELINEGENFNCscript ]; then
-	    echo "sourcing custom cmake generator functions from ${CMAKELINEGENFNCscript}"
-	    source ${CMAKELINEGENFNCscript}
-	fi
-
-	# source and call build function
-	source ${THISDIR}/build_pybind11.sh
-	build_pybind11 $myfnc
     fi
 }
 
 # test is workdir exists if not create it
 [[ ! -d $WORKDIR ]] && (echo "creating $WORKDIR" && mkdir -p $WORKDIR)
 
-# enter working dir: make sure this happens because
-# all scripts for each tpl MUST be run from within target dir
+# enter working dir: the script for each tpl MUST be run from within target dir
 cd $WORKDIR
 
-# if you have supported/good cmake
-have_admissible_cmake
-res=$?
+# check if you have valid cmake
+have_admissible_cmake && res=$?
 if [[ "$res" == "1" ]]; then
-    exit 2
+    exit 22
 else
-    echo "you have admissible cmake"
+    echo "${fggreen}Valid cmake found: ok! ${fgrst}"
 fi
 
 # now loop through TPLS and build
 for ((i=0;i<${#tpl_names[@]};++i)); do
     name=${tpl_names[i]}
     fnc=${tpl_cmake_fncs[i]}
-    echo "processing tpl = ${name}"
+    echo ""
+    echo "${fgyellow}+++ Processing tpl=${name} +++${fgrst}"
 
     [[ ${name} = "eigen" ]] && build_eigen ${fnc}
     [[ ${name} = "gtest" ]] && build_gtest ${fnc}
@@ -197,4 +205,4 @@ if [[ "iscee" == "1" ]]; then
 fi
 
 # return where we started from
-cd ${THISDIR}
+cd ${ORIGDIR}
