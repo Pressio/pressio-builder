@@ -15,6 +15,23 @@ for option; do
 	    ARCH=`expr "x$option" : "x-*arch=\(.*\)"`
 	    ;;
 
+	-dryrun=* | --dryrun=* )
+	    DRYRUN=`expr "x$option" : "x-*dryrun=\(.*\)"`
+	    ;;
+
+	-tpls=* | --tpls=* )
+	    library_list=`expr "x$option" : "x-*tpls=\(.*\)"`
+	    old_IFS=$IFS
+	    IFS=,
+	    # if list not empty, then reset arrays and append the target libs
+	    [ ! -z "$library_list" ] && tpl_names=()
+	    # loop and store
+	    for library in $library_list; do
+		tpl_names=("${tpl_names[@]}" "${library}")
+	    done
+	    IFS=$old_IFS
+	    ;;
+
 	-target-dir=* | --target-dir=* )
 	    WORKDIR=`expr "x$option" : "x-*target-dir=\(.*\)"`
 	    ;;
@@ -31,29 +48,20 @@ for option; do
 	    MODElib=`expr "x$option" : "x-*target-type=\(.*\)"`
 	    ;;
 
-	-with-env-script=* | --with-env-script=* )
-	    SETENVscript=`expr "x$option" : "x-*with-env-script=\(.*\)"`
+	-print-logs-to-file-only=* | --print-logs-to-file-only=* )
+	    DUMPTOFILEONLY=`expr "x$option" : "x-*print-logs-to-file-only=\(.*\)"`
 	    ;;
 
-	-with-libraries=* | --with-libraries=* )
-	    library_list=`expr "x$option" : "x-*with-libraries=\(.*\)"`
-	    old_IFS=$IFS
-	    IFS=,
-	    # if list not empty, then reset arrays and append the target libs
-	    [ ! -z "$library_list" ] && tpl_names=()
-	    # loop and store
-	    for library in $library_list; do
-		tpl_names=("${tpl_names[@]}" "${library}")
-	    done
-	    IFS=$old_IFS
+	-env-script=* | --env-script=* )
+	    SETENVscript=`expr "x$option" : "x-*env-script=\(.*\)"`
 	    ;;
 
-	-with-cmake-gen-function-file=* | --with-cmake-gen-function-file=* )
-	    CMAKELINEGENFNCscript=`expr "x$option" : "x-*with-cmake-gen-function-file=\(.*\)"`
+	-cmake-custom-generators-file=* | --cmake-custom-generators-file=* )
+	    CMAKELINEGENFNCscript=`expr "x$option" : "x-*cmake-custom-generators-file=\(.*\)"`
 	    ;;
 
-	-with-cmake-gen-function-names=* | --with-cmake-gen-function-names=* )
-	    fncs_list=`expr "x$option" : "x-*with-cmake-gen-function-names=\(.*\)"`
+	-cmake-generators-names=* | --cmake-generators-names=* )
+	    fncs_list=`expr "x$option" : "x-*cmake-generators-names=\(.*\)"`
 	    old_IFS=$IFS
 	    IFS=,
 	    # if list not empty, then reset arrays and append the target libs
@@ -63,14 +71,6 @@ for option; do
 		tpl_cmake_fncs=("${tpl_cmake_fncs[@]}" "${ifnc}")
 	    done
 	    IFS=$old_IFS
-	    ;;
-
-	-dump-to-file-only=* | --dump-to-file-only=* )
-	    DUMPTOFILEONLY=`expr "x$option" : "x-*dump-to-file-only=\(.*\)"`
-	    ;;
-
-	-dryrun=* | --dryrun=* )
-	    DRYRUN=`expr "x$option" : "x-*dryrun=\(.*\)"`
 	    ;;
 
 	# unrecognized option}
@@ -89,83 +89,96 @@ if test "$want_help" = yes; then
   cat <<EOF
 \`./main_tpls.sh' build tpls
 
-Usage: $0 [OPTION]...
+Usage: $0 <args>...
 
-Defaults for the options are specified in brackets.
+NOTE: Does not matter if you prepend Args with - or --, it is the same.
+The <args>... can be:
 
-Configuration:
 -h, --help				display help and exit
 
---arch=[mac/linux]			set which arch you are using.
-					default = NA, must be provided.
+--arch=[mac/linux]			WHAT:	  set which platform you are using.
+					OPTIONAL: no, you MUST set it, if not script exits.
 
---dryrun=[0/1]				if =1, creates all directories and prints string
-					for configuring but does NOT perform any configurantion/build/installation
-					default = 1
+--dryrun=[0/1]				WHAT:	  if dryrun=1, I create the target directory tree and print
+						  to screen the commands that I would use for configuring/building
+					          without performing any real configurantion/build/installation
+					OPTIONAL: yes
+					default   = 1
 
---with-libraries=list			comma-separated list of library names.
-					NOTE: there is no space after commas.
-					default = gtest,eigen,trilinos,kokkos,pybind11
-					Note: if building trilinos with kokkos, no need to build kokkos separately
-					because the trilinos version build by this script has Kokkos enabled
+--tpls=					WHAT:	   comma-separated list of the library names to build.
+					ATTENTION: there is no space after commas.
+					CHOICES:   currently, eigen,gtest,pybind11,trilinos,kokkos
+					Note:	   if building trilinos with kokkos, no need to build kokkos separately
+						   because the trilinos I build has Kokkos enabled
+					OPTIONAL:  yes
+					default    = gtest,eigen
 
---target-dir=				the target directory where the tpls are built/installed.
-					this has to be set, no default is provided.
-					For example: if you use
-					    --target-dir=/home/user/tpls
-					and you select eigen, gtest, then this script will
-					create a structure like so:
-					    /home/user/tpls/eigen/eigen     : contains the source
-					    /home/user/tpls/eigen/build     : contains the build
-					    /home/user/tpls/eigen/install   : contains the install
-					    /home/user/tpls/gtest/gtest     : contains the source
-					    /home/user/tpls/gtest/build     : contains the build
-					    /home/user/tpls/gtest/install   : contains the install
+--target-dir=				WHAT:	   the target directory where I will build/install all tpls.
+					ATTENTION: you must provide a full path
+					OPTIONAL:  no, you MUST set it, otherwise script exits.
+					EXAMPLE:   if you use:
+							--target-dir=/home/user/tpls
+						   and you set
+							--with-libraries=gtest,eigen
+						   then I will create a structure like so:
+							/home/user/tpls/gtest/gtest     : contains the gtest source
+							/home/user/tpls/gtest/build     : contains the gtest build
+							/home/user/tpls/gtest/install   : contains the gtest install
+							/home/user/tpls/eigen/eigen     : contains the eigen source
+							/home/user/tpls/eigen/build     : contains the eigen build
+							/home/user/tpls/eigen/install   : contains the eigen install
 
---wipe-existing=[0/1]			if =1 (true), the build and installation subdirectories of the
-					destination folder set by --target-dir will be wiped and remade.
-					default = 1.
+--wipe-existing=[0/1]			WHAT:	   if = 1, I will delete all the build and installation subdirectories
+						   under the destination folder --target-dir and redo things from scratch.
+					OPTIONAL:  yes
+					default    = 1
 
---build-mode=[Debug/Release]		the build type for each selected tpl.
-					NOTE: Debug/Release do not apply to eigen,gtest or pybind11 since
-					these are header only libraries.
-					BUt Debug/Release are used for trilinos/kokkos.
-					DEFAULT = Debug
+--build-mode=[Debug/Release]		WHAT:	   specifies the build type for each selected tpl.
+					Note:	   build-mode not used for eigen,gtest,pybind11: these are header only.
+						   build-mode is used for trilinos/kokkos.
+					OPTIONAL:  yes
+					default    = Debug
 
---target-type=[dynamic/static]		to build static or dynamic libraries.
-					default = dynamic
+--target-type=[dynamic/static]		WHAT:	   what link type to use, static or dynamic libraries.
+					OPTIONAL:  yes
+					default    = dynamic
 
---dump-to-file-only=[0/1]		if =1 (true), dumps all outputs from config, build and install to files
-					that are specific for each TPL built and does not print anything to screen
-					default = 0
+--print-logs-to-file-only=[0/1]		WHAT:	   if =1, I will print all configure/build/install logs, to files
+						   that are specific for each TPL built and I will NOT print anything to screen.
+						   if =0, I will both print to files and to screen.
+					OPTIONAL:  yes
+					default    = 0
 
---with-env-script=<path-to-file>	full path to script to set the environment.
-					NOTE: look at the template environment script shipped with
-					this repo to find out which env vars are needed.
-					default = assumes environment is set.
+--env-script=				WHAT:	   full path to the bash script I will source to set the environment.
+					OPTIONAL:  yes, if you don't pass anything, I assume the environment is set.
+					NOTE:	   look at the example environment file "script example_env_script.sh"
+						   shipped with this repo to find out which environment vars I need.
 
---with-cmake-gen-function-file=<path-to-file>	full path to bash file containing custom functions
-					to generate cmake configure lines.
-					These functions can be built by referring to
-					the cmake_building_block.sh inside <libname>_cmake_lines.
+--cmake-custom-generators-file=		WHAT:	   full path to bash file containing custom functions to generate cmake configure lines for tpls.
+						   More specifically, a cmake generator function is supposed to store in the
+						   global variable CMAKELINE a string containing the cmake command to build a specific tpl.
+						   CMAKELINE is simply a string holding the full cmake command you want to use for configuring a tpl.
+						   CMAKELINE is a global variable that I own, and since I build TPLs sequentially,
+						   every time a new tpl needs to be built, the CMAKELINE is reset. So in your custom generators
+						   you can assume that on entry, CMAKELINE is empty.
+						   After you overwrite the CMAKELINE, I will execute the command using: ``cmake eval ${CMAKELINE}''.
+					OPTIONAL:  yes, not needed if you want to use my default generators.
+					EXAMPLE:   look at the example "example_cmake_generators.sh" shipped with this
+						   repo as a reference to see how to build custom ones.
+						   To build custom generator functions, you can either use the tpl-specific building blocks
+						   <tplname>_cmake_lines/cmake_building_blocks.sh, or (if you know what you are doing) you can
+						   just overwriting the CMAKELINE with commands you know.
 
---with-cmake-gen-functions-names=list	comma-separated (no space after commas) list of func
-					names generating the cmake line	for configuring each tpl.
-					The order of these names should match the list passed to --with-libraries.
-					If you pass a bash file to -with-cmake-gen-function-file defining
-					custom functions, then the name can be one of those in that bash script.
-					List of DEFAULT admissible functions can be found in the file
-					"cmake_line_generator.sh" inside <libname>_cmake_lines.
-						eigen: default
-						gtest: default
-						trilinos: default
-						kokkos: default
-						pybind11: default
-					NOTE: while for eigen,gtest,pybind you should always be successful
-					by simply using the ''default'' nane, trilinos and Kokkos are more complex.
-					So default might not work straight out of the box.
-
-					default = default,default,default,default,default
+--cmake-generators-names=		WHAT:	   comma-separated list of bash function names generating the cmake line string for configuring.
+					ATTENTION: there is no space after commas.
+					ATTENTION: The order of the names should match the list passed to --with-libraries.
+						   If you pass a custom file to -cmake-generators-file, then the function names passed in
+						   cmake-generators-names can be taken from those in that custom bash file.
+					OPTIONAL:  yes
+					default	   = default,default
+					List of DEFAULT admissible functions can be found in <tplname>_cmake_lines/cmake_line_generator.sh
+					NOTE: for eigen,gtest,pybind using the default should (almost) always be successful
+					For Trilinos and Kokkos things are more complex, so default might not work straight out of the box.
 
 EOF
   exit 0

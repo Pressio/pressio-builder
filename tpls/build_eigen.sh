@@ -41,6 +41,13 @@ function build_eigen(){
 	echo "installing Eigen by copying source files to target install directory"
 	mkdir -p ./install/include/eigen3/Eigen
 	cp -rf ./${unpacked_dir}/Eigen/* ./install/include/eigen3/Eigen
+    else
+	echo "${fgyellow}with dryrun=1, here I would config, build and install ${TPLname} ${fgrst}"
+    fi
+
+    cd ${PARENTDIR}
+}
+
 
 	# # create build
 	# mkdir build && cd build
@@ -63,7 +70,3 @@ function build_eigen(){
 	# echo ""
 	# cmake eval ${CMAKELINE}
 	# make install
-    fi
-
-    cd ${PARENTDIR}
-}

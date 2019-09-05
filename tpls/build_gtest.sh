@@ -42,8 +42,9 @@ function build_gtest(){
     CMAKELINE+="../googletest"
 
     # print the cmake commnad that will be used
-    echo "cmake command: "
-    echo "cmake ${CMAKELINE}"
+    echo ""
+    echo "For ${TPLname}, the cmake command to use is:"
+    echo "${fgcyan}cmake ${CMAKELINE}${fgrst}"
 
     if [ $DRYRUN -eq 0 ];
     then
@@ -72,6 +73,8 @@ function build_gtest(){
 	    (make install) 2>&1 | tee ${IFName}
 	fi
 	echo "Install output written to ${PWD}/${IFName}"
+    else
+	echo "${fgyellow}with dryrun=1, here I would config, build and install ${TPLname} ${fgrst}"
     fi
 
     cd ${PARENTDIR}

@@ -2,15 +2,20 @@
 
 function check_and_clean(){
     local parentdir=$1
-    if [ $WIPEEXISTING -eq 1 ]; then
-	echo "within ${PWD}"
-	echo "wiping $parentdir/build"
-	echo "wiping $parentdir/install"
-	rm -rf ${parentdir}/build ${parentdir}/install
+    if [ $WIPEEXISTING -eq 1 ];
+    then
+	if [ ${DRYRUN} -eq 0 ]; then
+	    echo "wiping ${PWD}/$parentdir/build"
+	    echo "wiping ${PWD}/$parentdir/install"
+	    rm -rf ${parentdir}/build ${parentdir}/install
+	else
+	    echo "with dryrun=1, I would wipe ${PWD}/$parentdir/build"
+	    echo "with dryrun=1, I would wipe ${PWD}/$parentdir/install"
+	fi
 	DOBUILD=ON
     else
-	echo "$parentdir exists: skipping"
-	exit 0
+	echo "${PWD}/$parentdir already exists: skipping"
+	echo "If you want to re-build $parentdir, turn wipe-existing=1 and dryrun=0"
     fi
 }
 

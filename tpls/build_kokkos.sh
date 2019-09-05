@@ -5,7 +5,7 @@ function build_kokkos(){
     local PARENTDIR=$PWD
     local TPLname=kokkos
     local CMAKELINEGEN=$1
-    nCoreMake=$2
+    local nCoreMake=4
 
     if [ -z $CMAKELINEGEN ]; then
 	echo "build_kokkos called without specifying cmake_line_generator_function"
@@ -50,9 +50,10 @@ function build_kokkos(){
     # append the location of the source
     CMAKELINE+="../kokkos-tril"
 
-    # print command to terminal
-    echo "cmake command: "
-    echo "cmake $CMAKELINE"
+    # print the cmake commnad that will be used
+    echo ""
+    echo "For ${TPLname}, the cmake command to use is:"
+    echo "${fgcyan}cmake ${CMAKELINE}${fgrst}"
 
     if [ $DRYRUN -eq 0 ];
     then
@@ -81,6 +82,8 @@ function build_kokkos(){
 	    (make install) 2>&1 | tee ${IFName}
 	fi
 	echo "Install output written to ${PWD}/${IFName}"
+    else
+	echo "${fgyellow}with dryrun=1, here I would config, build and install ${TPLname} ${fgrst}"
     fi
 
     cd ${PARENTDIR}

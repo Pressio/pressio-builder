@@ -8,10 +8,8 @@ function default_mac(){
     trilinos_examples_off
     trilinos_kokkos_serial
     trilinos_packages_for_pressio
-    echo CMAKELINE
 }
 
 function default(){
     default_mac
-    echo CMAKELINE
 }

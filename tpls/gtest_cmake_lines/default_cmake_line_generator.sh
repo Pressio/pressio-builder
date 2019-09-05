@@ -9,5 +9,4 @@ function default(){
 	echo "on mac: turning on r_path for gtest"
 	gtest_mac_r_path
     fi
-    echo CMAKELINE
 }

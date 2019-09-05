@@ -7,10 +7,8 @@ function default_mac(){
     kokkos_tests_off
     kokkos_examples_off
     kokkos_serial
-    echo CMAKELINE
 }
 
 function default(){
     default_mac
-    echo CMAKELINE
 }
