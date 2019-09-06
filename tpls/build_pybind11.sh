@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 function build_pybind11(){
     local PARENTDIR=$PWD

@@ -1,9 +1,7 @@
 #!/bin/bash
 
 echo ""
-echo "--------------------------------------------"
-echo "**parsing cline arguments**"
-echo ""
+echo "${fgyellow}+++ parsing cmdline arguments +++${fgrst}"
 
 for option; do
     #echo $option
@@ -15,6 +13,10 @@ for option; do
 
 	-arch=* | --arch=* )
 	    ARCH=`expr "x$option" : "x-*arch=\(.*\)"`
+	    ;;
+
+	-dryrun=* | --dryrun=* )
+	    DRYRUN=`expr "x$option" : "x-*dryrun=\(.*\)"`
 	    ;;
 
 	-target-dir=* | --target-dir=* )
@@ -33,8 +35,8 @@ for option; do
 	    MODElib=`expr "x$option" : "x-*target-type=\(.*\)"`
 	    ;;
 
-	-with-env-script=* | --with-env-script=* )
-	    SETENVscript=`expr "x$option" : "x-*with-env-script=\(.*\)"`
+	-env-script=* | --env-script=* )
+	    SETENVscript=`expr "x$option" : "x-*env-script=\(.*\)"`
 	    ;;
 
 	-pressio-src=* | --pressio-src=* )
@@ -65,16 +67,16 @@ for option; do
 	    njmake=`expr "x$option" : "x-*ncpu-for-make=\(.*\)"`
 	    ;;
 
-	-with-cmake-gen-function-file=* | --with-cmake-gen-function-file=* )
-	    CMAKELINEGENFNCscript=`expr "x$option" : "x-*with-cmake-gen-function-file=\(.*\)"`
+	-cmake-custom-generator-file=* | --cmake-custom-generator-file=* )
+	    CMAKELINEGENFNCscript=`expr "x$option" : "x-*cmake-custom-generator-file=\(.*\)"`
 	    ;;
 
-	-with-cmake-gen-function-name=* | --with-cmake-gen-function-name=* )
-	    CMAKELINEGEN=`expr "x$option" : "x-*with-cmake-gen-function-name=\(.*\)"`
+	-cmake-generator-name=* | --cmake-generator-name=* )
+	    CMAKELINEGEN=`expr "x$option" : "x-*cmake-generator-name=\(.*\)"`
 	    ;;
 
-	-with-packages=* | --with-packages=* )
-	    pkg_list=`expr "x$option" : "x-*with-packages=\(.*\)"`
+	-packages=* | --packages=* )
+	    pkg_list=`expr "x$option" : "x-*packages=\(.*\)"`
 	    old_IFS=$IFS
 	    IFS=,
 	    # if list not empty, then reset arrays and append the target libs
@@ -95,89 +97,105 @@ for option; do
 
     esac
 done
-echo " done parsing cline arguments "
-echo ""
+
 
 if test "$want_help" = yes; then
   cat <<EOF
 \`./main_pressio.sh'
 
-Usage: $0 [OPTION]...
+Usage: $0 <args>...
 
-Defaults for the options are specified in brackets.
+NOTE: Does not matter if you prepend Args with - or --, it is the same.
+The <args>... can be:
 
-Configuration:
 -h, --help				display help and exit
 
---arch=[mac/linux]			set which arch you are using.
-					default = NA, must be provided.
+--arch=[mac/linux]			WHAT:	  set which platform you are using.
+					OPTIONAL: no, you MUST set it, otherwise script exits.
 
---target-dir=				the target directory where PRESSIO will be build/installed.
-					this has to be set, no default provided.
-					For example: if you use
-					    --target-dir=/home/user,
-					then this script will create the following structure:
-					    /home/user/pressio/pressio     : contains the source
-					    /home/user/pressio/build     : contains the build
-					    /home/user/pressio/install   : contains the install
+--dryrun=[0/1]				WHAT:	  if dryrun=1, I create the directory tree and print
+						  to screen the commands that I would use for configuring/building
+					          without performing any real configurantion/build/installation.
+						  if dryrun=0, I do the full config/build/installation.
+					OPTIONAL: yes
+					default   = 1
 
---pressio-src=				the PRESSIO source directory
-					default = empty, if empty the repo will be cloned
-					under the directory set by --target-dir
+--pressio-src=				WHAT:	   the FULL path to the Pressio source directory
+					OPTIONAL:  yes, if you do not set it, I will clone Pressio and place it
+						   inside the directory set by --target-dir
 
---with-packages=list			comma-separated list of PRESSIO package names:
-					current pkgs available: mpl, utils, containers, qr, solvers, svd, ode, rom, apps
-					If you specify a single package then all other needed
-					packages for this are built automatically.
-					default = apps
+--packages=				WHAT:	   comma-separated list of Pressio package names to build.
+					CHOICES:   currently: mpl, utils, containers, qr, solvers, svd, ode, rom, apps
+					Note:	   Since the packages are interdependent, you do not need to specify
+						   all of them, just choose the package you want, then all
+						   its dependencies are built automatically.
+					default    = apps (which will build all of them)
 
---with-cmake-gen-function-name=		the name of one of the functions inside cmake_line_generator.sh
-					This is used to generate the cmake line to configure.
-					List of admissible functions is in "cmake_line_generator.sh"
-					Or create custom ones and put them in a target script that you can pass
-					using the arg --with-cmake-gen-function-file.
-					default = default (try this as first attempt)
+--target-dir=				WHAT:	   the target directory where Pressio will be built/installed.
+					ATTENTION: it must be a full path. I will make the dir if not existing already.
+					OPTIONAL:  no, you need to set it, otherwise script exits.
+					EXAMPLE:   For example: if you use
+							--target-dir=/home/user,
+						   then this script will create the following structure:
+							/home/user/pressio/build     : contains the build
+							/home/user/pressio/install   : contains the install
 
---with-cmake-gen-function-file=<path-to-file>	full path to bash file containing custom functions
-					to generate cmake configure lines.
-					These functions can be built using the functions in
-					the cmake_building_block.sh.
+--wipe-existing=[0/1]			WHAT:	   if = 1, I will delete all the build and installation subdirectories
+						   under the destination folder --target-dir and redo things from scratch.
+					OPTIONAL:  yes
+					default    = 1
 
---wipe-existing=[0/1]			if true, the build and installation subdirectories of the
-					destination folder set by --target-dir will be wiped and remade.
-					default = 1.
+--build-mode=[Debug/Release]		WHAT:	   specifies the build type.
+					OPTIONAL:  yes
+					default    = Debug
 
---build-mode=[Debug/Release]		the build type for each selected tpl.
-					default = Debug
+--target-type=[dynamic/static]		WHAT:	   what link type to use, static or dynamic libraries.
+					OPTIONAL:  yes
+					default    = dynamic
 
---target-type=[dynamic/static]		to build static or dynamic libraries.
-					default = shared.
+--env-script=				WHAT:	   full path to the bash script I will source to set the environment.
+					OPTIONAL:  yes, if you don't pass anything, I assume the environment is set.
+					NOTE:	   look at the example environment file "script example_env_script.sh"
+						   shipped with this repo to find out which environment vars I need.
 
---with-env-script=<path-to-file>	full path to script to set the environment.
-					default = assumes environment is set.
+--ncpu-for-make=[n]			WHAT:	   number of processes (n) to use for parallel make
+					OPTIONAL:  yes, if not passed, I will use 6
 
---ncpu-for-make=[n]			number of processes (n) to feed to run: make -j n
-					default = 6
+--cmake-custom-generator-file=		WHAT:	   full path to bash file containing custom functions to generate cmake configure line for Pressio.
+						   More specifically, a cmake generator function is supposed to store in the
+						   global variable CMAKELINE a string containing the cmake command to configure Pressio.
+						   CMAKELINE is simply a string holding the full cmake command you want to use for configuring.
+						   CMAKELINE is a global variable that I own.
+						   After you overwrite the CMAKELINE, I will execute the command using: ``cmake eval ${CMAKELINE}''.
+					OPTIONAL:  yes, not needed if you want to use my default generators.
+					EXAMPLE:   look at the example "example_pressio_cmake_generators.sh" shipped with this
+						   repo as a reference to see how to build custom ones.
+						   To build custom generator functions, you can either use the tpl-specific building blocks
+						   pressio/cmake_building_blocks.sh, or (if you know what you are doing) you can
+						   just overwriting the CMAKELINE with commands you know.
 
-To find TPLs:
---eigen-path=				the path to the eigen installation directory
-					default = NA, must be set
+--cmake-generator-name=			WHAT:	   name of bash function name generating the cmake line string for configuring Pressio.
+					OPTIONAL:  yes
+					default	   = default
+						   List of DEFAULT admissible functions can be found in pressio/cmake_line_generator.sh
+					NOTE:	   if you are building pressio with only gtest and eigen as TPLs, using default
+						   should (almost) always get you a long way.
+						   If building Pressio with Trilinos/Kokkos enabled, then this might not be as smooth.
 
---gtest-path=				the path to the gtest installation directory
-					default = NA, must be set
+To specify TPLs (obviously you need to tell me where to find the TPLs that you plan to enable via the cmake generator function):
+--eigen-path=				WHAT:	   the full path to eigen installation directory
+					OPTIONAL:  no, must be set because pressio requires it
 
---trilinos-path=			the path to the (optional) trilinos installation directory
-					default = NA, if empty then trilinos is not linked.
+--gtest-path=				WHAT:	   the full path to gtest installation directory
+					OPTIONAL:  yes, because it is optional
 
---kokkos-path=				the path to the (optional) kokkos installation directory
-					default = NA, if empty then kokkos is not linked.
+--trilinos-path=			WHAT:	   the full path to trilinos installation directory
+					OPTIONAL:  yes, because it is optional
 
---all-tpls-path=			set this to the directory containing all tpls, if they all
-					exist under the same location, e.g. as done by by main_tpls.sh.
-					the dir with all tpls must have the structure as obtained by main_tpls.sh
-					if you set --all-tpls, you do not need -eigen-path, -gtest-path, -trilinos-path, -kokkos-path.
-					default = empty, either this must be set or all the individual ones.
-
+--kokkos-path=				WHAT:	   the full path to kokkos installation directory
+					OPTIONAL:  yes, because it is optional
+					NOTE:	   if you set --trilinos-path, I will use the kokkos from there.
+						   --kokkos-path is only needed when building Pressio with Kokkos but NOT Trilinos.
 EOF
   exit 0
 fi

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 function build_kokkos(){
     local PWD=`pwd`

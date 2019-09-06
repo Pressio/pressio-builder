@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 MPIPATH=/tpl/openmpi/4.0.0/install_gcc650
 

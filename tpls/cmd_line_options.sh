@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 echo ""
 echo "${fgyellow}+++ parsing cmdline arguments +++${fgrst}"
@@ -56,12 +56,12 @@ for option; do
 	    SETENVscript=`expr "x$option" : "x-*env-script=\(.*\)"`
 	    ;;
 
-	-cmake-custom-generators-file=* | --cmake-custom-generators-file=* )
-	    CMAKELINEGENFNCscript=`expr "x$option" : "x-*cmake-custom-generators-file=\(.*\)"`
+	-cmake-custom-generator-file=* | --cmake-custom-generator-file=* )
+	    CMAKELINEGENFNCscript=`expr "x$option" : "x-*cmake-custom-generator-file=\(.*\)"`
 	    ;;
 
-	-cmake-generators-names=* | --cmake-generators-names=* )
-	    fncs_list=`expr "x$option" : "x-*cmake-generators-names=\(.*\)"`
+	-cmake-generator-names=* | --cmake-generator-names=* )
+	    fncs_list=`expr "x$option" : "x-*cmake-generator-names=\(.*\)"`
 	    old_IFS=$IFS
 	    IFS=,
 	    # if list not empty, then reset arrays and append the target libs
@@ -154,31 +154,31 @@ The <args>... can be:
 					NOTE:	   look at the example environment file "script example_env_script.sh"
 						   shipped with this repo to find out which environment vars I need.
 
---cmake-custom-generators-file=		WHAT:	   full path to bash file containing custom functions to generate cmake configure lines for tpls.
+--cmake-custom-generator-file=		WHAT:	   full path to bash file containing custom functions to generate cmake configure lines for tpls.
 						   More specifically, a cmake generator function is supposed to store in the
-						   global variable CMAKELINE a string containing the cmake command to build a specific tpl.
+						   global variable CMAKELINE a string containing the cmake command to configure a specific tpl.
 						   CMAKELINE is simply a string holding the full cmake command you want to use for configuring a tpl.
 						   CMAKELINE is a global variable that I own, and since I build TPLs sequentially,
 						   every time a new tpl needs to be built, the CMAKELINE is reset. So in your custom generators
 						   you can assume that on entry, CMAKELINE is empty.
 						   After you overwrite the CMAKELINE, I will execute the command using: ``cmake eval ${CMAKELINE}''.
 					OPTIONAL:  yes, not needed if you want to use my default generators.
-					EXAMPLE:   look at the example "example_cmake_generators.sh" shipped with this
+					EXAMPLE:   look at the example "example_tpls_cmake_generators.sh" shipped with this
 						   repo as a reference to see how to build custom ones.
 						   To build custom generator functions, you can either use the tpl-specific building blocks
 						   <tplname>_cmake_lines/cmake_building_blocks.sh, or (if you know what you are doing) you can
 						   just overwriting the CMAKELINE with commands you know.
 
---cmake-generators-names=		WHAT:	   comma-separated list of bash function names generating the cmake line string for configuring.
+--cmake-generator-names=		WHAT:	   comma-separated list of bash function names generating the cmake line string for configuring.
 					ATTENTION: there is no space after commas.
 					ATTENTION: The order of the names should match the list passed to --with-libraries.
 						   If you pass a custom file to -cmake-generators-file, then the function names passed in
 						   cmake-generators-names can be taken from those in that custom bash file.
 					OPTIONAL:  yes
 					default	   = default,default
-					List of DEFAULT admissible functions can be found in <tplname>_cmake_lines/cmake_line_generator.sh
-					NOTE: for eigen,gtest,pybind using the default should (almost) always be successful
-					For Trilinos and Kokkos things are more complex, so default might not work straight out of the box.
+						   List of DEFAULT admissible functions can be found in <tplname>_cmake_lines/cmake_line_generator.sh
+					NOTE:	   for eigen,gtest,pybind using the default should (almost) always be successful.
+						   For Trilinos and Kokkos things are more complex, so default might not work straight out of the box.
 
 EOF
   exit 0

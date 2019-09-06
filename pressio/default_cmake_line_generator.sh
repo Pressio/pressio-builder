@@ -1,9 +1,22 @@
 #!/bin/bash
 
 #-------------------------------------
-# default: tests on, examples off
+# default: serial, tests on
 #-------------------------------------
 function default() {
+    pressio_always_needed
+    pressio_serial_c_cxx_compilers
+    pressio_serial_fortran_compiler
+    pressio_tests_on
+    pressio_examples_off
+    pressio_enable_eigen
+    pressio_enable_gtest
+    pressio_pressio_packages
+    pressio_enable_debug_print
+}
+
+#-------------------------------------
+function default_mpi_trilinos() {
     pressio_always_needed
     pressio_mpi_c_cxx_compilers
     pressio_mpi_fortran_on

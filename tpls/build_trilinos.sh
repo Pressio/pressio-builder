@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 function build_trilinos(){
     local PWD=`pwd`

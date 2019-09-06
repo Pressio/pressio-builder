@@ -44,6 +44,11 @@ function pressio_serial_c_cxx_compilers(){
     CMAKELINE+="-D CMAKE_CXX_COMPILER:FILEPATH=${CXX} "
 }
 
+# serial compilers (if you pick serial you should not pick mpi)
+function pressio_serial_fortran_compiler(){
+    CMAKELINE+="-D CMAKE_Fortran_COMPILER:FILEPATH=${FC} "
+}
+
 function pressio_fortran_off(){
     CMAKELINE+="-D pressio_ENABLE_Fortran:BOOL=OFF "
 }

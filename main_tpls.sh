@@ -56,6 +56,15 @@ print_target_tpl_cmake_fncs
 echo "${fggreen}All TPL names seem valid: ok! ${fgrst}"
 
 
+# check if you have a valid cmake
+have_admissible_cmake && res=$?
+if [[ "$res" == "1" ]]; then
+    exit 22
+else
+    echo "${fggreen}Valid cmake found: ok! ${fgrst}"
+fi
+
+
 #################################
 # building all TPLs happens below
 
@@ -64,15 +73,6 @@ echo "${fggreen}All TPL names seem valid: ok! ${fgrst}"
 
 # enter working dir: the script for each tpl MUST be run from within target dir
 cd $WORKDIR
-
-# check if you have valid cmake
-have_admissible_cmake && res=$?
-if [[ "$res" == "1" ]]; then
-    exit 22
-else
-    echo "${fggreen}Valid cmake found: ok! ${fgrst}"
-fi
-
 
 # if a bash file with custom generator functions is provided, source it
 if [ ! -z $CMAKELINEGENFNCscript ]; then

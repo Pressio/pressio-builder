@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # array storing tpl names
 declare -a tpl_names=(gtest eigen trilinos kokkos pybind11)
@@ -27,4 +27,5 @@ function print_global_vars(){
 function check_minimum_vars_set(){
     # check for shared vars
     check_minimum_shared_vars_set
+    echo "${fggreen}Minimum vars all found: ok! ${fgrst}"
 }

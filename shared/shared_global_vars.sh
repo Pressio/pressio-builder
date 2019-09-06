@@ -93,5 +93,4 @@ function check_minimum_shared_vars_set(){
 	echo "${fgred}--target-dir is empty, must be set. Terminating. ${fgrst}"
 	exit 12
     fi
-    echo "${fggreen}Minimum vars all found: ok! ${fgrst}"
 }
