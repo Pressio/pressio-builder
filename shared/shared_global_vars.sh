@@ -4,7 +4,17 @@
 ORIGDIR=$PWD
 
 # store the platform
-ARCH=
+if [[ $OSTYPE == *"darwin"* ]]; then
+    ARCH=mac
+    echo "${fggreen}Detected macOS ${fgrst}"
+elif [[ $OSTYPE == *"linux-gnu"* ]]; then
+    ARCH=linux
+    echo "${fggreen}Detected Linux OS ${fgrst}"
+else
+    ARCH=
+    echo "${fgred}I detected an unknown OS = ${ARCH}. Terminating. ${fgrst}"
+    exit 0
+fi
 
 # store the working dir
 WORKDIR=
@@ -49,7 +59,7 @@ echo "${fgpurple}My hostname = ${MYHOSTNAME}${fgrst}"
 
 function print_shared_global_vars(){
     echo "ORIGDIR               = $ORIGDIR"
-    echo "ARCH                  = $ARCH"
+    echo "Running OS            = $ARCH"
     echo "WORKDIR               = $WORKDIR"
     echo "WIPEEXISTING          = ${WIPEEXISTING}"
 

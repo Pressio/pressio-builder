@@ -11,10 +11,6 @@ for option; do
 	    want_help=yes
 	    ;;
 
-	-arch=* | --arch=* )
-	    ARCH=`expr "x$option" : "x-*arch=\(.*\)"`
-	    ;;
-
 	-dryrun=* | --dryrun=* )
 	    DRYRUN=`expr "x$option" : "x-*dryrun=\(.*\)"`
 	    ;;
@@ -95,9 +91,6 @@ NOTE: Does not matter if you prepend Args with - or --, it is the same.
 The <args>... can be:
 
 -h, --help				display help and exit
-
---arch=[mac/linux]			WHAT:	  set which platform you are using.
-					OPTIONAL: no, you MUST set it, if not script exits.
 
 --dryrun=[0/1]				WHAT:	  if dryrun=1, I create the target directory tree and print
 						  to screen the commands that I would use for configuring/building
