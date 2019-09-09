@@ -14,7 +14,6 @@ function pressio_always_needed(){
 
     CMAKELINE+="-D CMAKE_BUILD_TYPE:STRING=${MODEbuild} "
     CMAKELINE+="-D BUILD_SHARED_LIBS:BOOL=${is_shared} "
-    CMAKELINE+="-D CMAKE_VERBOSE_MAKEFILE:BOOL=TRUE "
     CMAKELINE+="-D pressio_ENABLE_CXX11:BOOL=ON "
     CMAKELINE+="-D pressio_ENABLE_SHADOW_WARNINGS:BOOL=OFF "
 
@@ -22,6 +21,10 @@ function pressio_always_needed(){
     # e.g. by SPARC trilinos scripts, it seems we dont need them
     #CMAKELINE+="-D pressio_LINK_SEARCH_START_STATIC=$link_search_static "
     #CMAKELINE+="-D TPL_FIND_SHARED_LIBS=${is_shared} "
+}
+
+function pressio_cmake_verbose(){
+    CMAKELINE+="-D CMAKE_VERBOSE_MAKEFILE:BOOL=TRUE "
 }
 
 # mpi compilers

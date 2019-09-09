@@ -1,10 +1,23 @@
 #!/bin/bash
 
+#------------------------------------------
+# default generator function for tutorials
+#------------------------------------------
+function default_for_tutorials() {
+    pressio_always_needed
+    pressio_serial_c_cxx_compilers
+    pressio_serial_fortran_compiler
+    pressio_enable_eigen
+    pressio_pressio_packages
+    pressio_enable_debug_print
+}
+
 #-------------------------------------
 # default: serial, tests on
 #-------------------------------------
 function default() {
     pressio_always_needed
+    pressio_cmake_verbose
     pressio_serial_c_cxx_compilers
     pressio_serial_fortran_compiler
     pressio_tests_on
@@ -18,6 +31,7 @@ function default() {
 #-------------------------------------
 function default_mpi_trilinos() {
     pressio_always_needed
+    pressio_cmake_verbose
     pressio_mpi_c_cxx_compilers
     pressio_mpi_fortran_on
     pressio_tests_on
@@ -34,6 +48,7 @@ function default_mpi_trilinos() {
 #-------------------------------------
 function serial_with_examples() {
     pressio_always_needed
+    pressio_cmake_verbose
     pressio_serial_c_cxx_compilers
     pressio_fortran_off
     pressio_tests_on
