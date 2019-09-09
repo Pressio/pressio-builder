@@ -6,7 +6,6 @@
 function default_for_tutorials() {
     pressio_always_needed
     pressio_serial_c_cxx_compilers
-    pressio_serial_fortran_compiler
     pressio_enable_eigen
     pressio_pressio_packages
     pressio_enable_debug_print
