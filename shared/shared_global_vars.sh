@@ -26,7 +26,7 @@ WIPEEXISTING=1
 MODEbuild=Debug
 
 # build/link shared or static lib
-MODElib=shared
+LINKTYPE=shared
 
 # env script
 SETENVscript=
@@ -69,10 +69,10 @@ function print_shared_global_vars(){
 	echo "MODEbuild             = -"
     fi
 
-    if [ ! -z $MODElib ]; then
-	echo "MODElib               = $MODElib"
+    if [ ! -z $LINKTYPE ]; then
+	echo "LINKTYPE               = $LINKTYPE"
     else
-	echo "MODElib               = -"
+	echo "LINKTYPE               = -"
     fi
 
     if [ ! -z $SETENVscript ]; then

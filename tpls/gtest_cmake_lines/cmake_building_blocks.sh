@@ -2,7 +2,7 @@
 
 function gtest_always_needed(){
     local is_shared=ON
-    [[ ${MODElib} == static ]] && is_shared=OFF
+    [[ ${LINKTYPE} == static ]] && is_shared=OFF
     echo "is_shared = $is_shared"
 
     CMAKELINE+="-D BUILD_SHARED_LIBS:BOOL=${is_shared} "

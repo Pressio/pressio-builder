@@ -5,7 +5,7 @@
 function pressio_always_needed(){
     local is_shared=ON
     local link_search_static=OFF
-    if [[ ${MODElib} == static ]]; then
+    if [[ ${LINKTYPE} == static ]]; then
 	is_shared=OFF
 	link_search_static=ON
     fi
