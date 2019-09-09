@@ -95,10 +95,6 @@ function print_shared_global_vars(){
 }
 
 function check_minimum_shared_vars_set(){
-    if [ -z $ARCH ]; then
-	echo "${fgred}--arch is empty, must be set. Terminating. ${fgrst}"
-	exit 11
-    fi
     if [ -z $WORKDIR ]; then
 	echo "${fgred}--target-dir is empty, must be set. Terminating. ${fgrst}"
 	exit 12
