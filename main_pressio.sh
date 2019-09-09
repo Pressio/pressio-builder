@@ -93,7 +93,9 @@ cd pressio
 # and set PRESSIOSRC to point to this newly cloned repo
 if [[ -z ${PRESSIOSRC} ]]; then
     echo "${fgyewllo}You did not specify the Pressio source, so I am cloning it.${fgrst}"
-    [[ ! -d pressio ]] && git clone --recursive git@gitlab.com:fnrizzi/pressio.git
+    if [ ! -d pressio ]; then
+	git clone --recursive git@github.com:Pressio/pressio.git
+    fi
     cd pressio && git checkout develop && cd ..
     PRESSIOSRC=${PWD}/pressio
 fi
@@ -113,10 +115,6 @@ CXXFLAGS=""
 # also, extra link flags to PRESSIO if needed
 EXTRALINKFLAGS=""
 
-# call the generator to build the string for cmake line
-# this will append to the global var CMAKELINE
-${CMAKELINEGEN}
-
 # the generator function MUST be called here after
 # above vars have been defined.
 # calling the generator will build the string for cmake line
@@ -126,6 +124,10 @@ if [[ -z ${CMAKELINEGEN} ]]; then
     echo "${fgred} The ${CMAKELINEGEN} cannot be empty, need to set it. Terminating. ${fgrst}"
     exit 1
 fi
+
+# call the generator to build the string for cmake line
+# this will append to the global var CMAKELINE
+${CMAKELINEGEN}
 
 # after generator was called, now finalize cmakeline
 # append cxx flags

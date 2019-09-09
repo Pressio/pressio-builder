@@ -55,10 +55,6 @@ for option; do
 	    KOKKOSPATH=`expr "x$option" : "x-*kokkos-path=\(.*\)"`
 	    ;;
 
-	-all-tpls-path=* | --all-tpls-path=* )
-	    ALLTPLSPATH=`expr "x$option" : "x-*all-tpls-path=\(.*\)"`
-	    ;;
-
 	-ncpu-for-make=* | --ncpu-for-make=* )
 	    njmake=`expr "x$option" : "x-*ncpu-for-make=\(.*\)"`
 	    ;;
