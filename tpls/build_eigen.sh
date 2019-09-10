@@ -19,13 +19,11 @@ function build_eigen(){
     [[ ! -d eigen ]] && mkdir eigen
     cd eigen
 
-    # for version 3.3.5, when unpacked the folder is
-    unpacked_dir=eigen-eigen-323c052e1731
-
     # clone repo
-    if [ ! -d ${unpacked_dir} ]; then
-	wget http://bitbucket.org/eigen/eigen/get/3.3.7.tar.bz2
-	tar xf 3.3.7.tar.bz2
+    if [ ! -d ${EIGENUNPACKEDDIRNAME} ]; then
+	# EIGENURL is defined in tpls_versions_details
+	wget ${EIGENURL}.tar.bz2
+	tar xf ${EIGENVERSION}.tar.bz2
     fi
 
     # I don't need to make a build, just copy source to install
@@ -40,7 +38,7 @@ function build_eigen(){
 	echo "${fgyellow}Starting config, build and install of ${TPLname} ${fgrst}"
 	echo "installing Eigen by copying source files to target install directory"
 	mkdir -p ./install/include/eigen3/Eigen
-	cp -rf ./${unpacked_dir}/Eigen/* ./install/include/eigen3/Eigen
+	cp -rf ./${EIGENUNPACKEDDIRNAME}/Eigen/* ./install/include/eigen3/Eigen
     else
 	echo "${fgyellow}with dryrun=1, here I would config, build and install ${TPLname} ${fgrst}"
     fi
@@ -49,24 +47,24 @@ function build_eigen(){
 }
 
 
-	# # create build
-	# mkdir build && cd build
+# # create build
+# mkdir build && cd build
 
-	# # make sure the global var CMAKELINE is empty
-	# CMAKELINE=""
+# # make sure the global var CMAKELINE is empty
+# CMAKELINE=""
 
-	# # call the generator to build the string for cmake line
-	# # this will append to the global var CMAKELINE
-	# ${CMAKELINEGEN}
+# # call the generator to build the string for cmake line
+# # this will append to the global var CMAKELINE
+# ${CMAKELINEGEN}
 
-	# # append prefix
-	# CMAKELINE+="-D CMAKE_INSTALL_PREFIX:PATH=../install "
-	# # append the location of the source
-	# CMAKELINE+="../eigen-eigen-b3f3d4950030"
+# # append prefix
+# CMAKELINE+="-D CMAKE_INSTALL_PREFIX:PATH=../install "
+# # append the location of the source
+# CMAKELINE+="../eigen-eigen-b3f3d4950030"
 
-	# # run the cmake commnad
-	# echo "cmake command for eigen: "
-	# echo "cmake ${CMAKELINE}"
-	# echo ""
-	# cmake eval ${CMAKELINE}
-	# make install
+# # run the cmake commnad
+# echo "cmake command for eigen: "
+# echo "cmake ${CMAKELINE}"
+# echo ""
+# cmake eval ${CMAKELINE}
+# make install

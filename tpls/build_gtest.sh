@@ -21,9 +21,11 @@ function build_gtest(){
 
     # clone repo
     if [ ! -d googletest ]; then
-	git clone git@github.com:google/googletest.git
+	# GTESTGITURL is defined in tpls_versions_details
+	git clone ${GTESTGITURL}
     fi
-    cd googletest && git checkout master && cd ..
+    # GTESTBRANCH is defined in tpls_versions_details
+    cd googletest && git checkout ${GTESTBRANCH} && cd ..
 
     # create build
     mkdir build && cd build

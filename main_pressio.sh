@@ -3,15 +3,15 @@
 # exit when there is error code
 set -e
 
-############################################
-# set up few things and read args
-############################################
+# print version of bash
+echo "Bash version ${BASH_VERSION}"
 
 # source colors for printing
 source ./shared/colors.sh
 
-# print version of bash
-echo "Bash version ${BASH_VERSION}"
+############################################
+# set up few things and read args
+############################################
 
 # source the shared global vars
 source ./shared/shared_global_vars.sh
@@ -22,8 +22,7 @@ source ./pressio/global_vars.sh
 # parse cline arguments
 source ./pressio/cmd_line_options.sh
 
-# check that all basic variables are set
-# (if not minimum set found, script exits)
+# check basic variables are set (if not, script exits)
 check_minimum_vars_set
 
 # print the current setting
@@ -32,12 +31,14 @@ echo "${fgyellow}+++ The setting is as follows: +++ ${fgrst}"
 print_global_vars
 echo ""
 
+# source TPLs info (versions, URLs, etc.)
+source ./tpls/tpls_versions_details.sh
+
 # source helper functions
 source ./shared/help_fncs.sh
 
 # set env if not already set
 call_env_script
-
 
 ############################################
 # check if you have a valid cmake

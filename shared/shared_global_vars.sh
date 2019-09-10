@@ -25,8 +25,8 @@ WIPEEXISTING=1
 # build mode: Debug/Release
 MODEbuild=Debug
 
-# build/link shared or static lib
-LINKTYPE=shared
+# build/link dynamic or static lib
+LINKTYPE=dynamic
 
 # env script
 SETENVscript=
@@ -37,9 +37,6 @@ CMAKELINEGENFNCscript=
 
 # variable to store the cmake string to call for configuring
 CMAKELINE=
-
-# needed minimum cmake version
-CMAKEVERSIONMIN=3.11.0
 
 # version number of cmake detected
 CMAKEVERSIONDETECTED=

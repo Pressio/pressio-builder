@@ -28,7 +28,7 @@ for option; do
 	    ;;
 
 	-link-type=* | --link-type=* )
-	    MODElib=`expr "x$option" : "x-*link-type=\(.*\)"`
+	    LINKTYPE=`expr "x$option" : "x-*link-type=\(.*\)"`
 	    ;;
 
 	-env-script=* | --env-script=* )

@@ -21,9 +21,10 @@ function build_trilinos(){
 
     # clone repo
     if [ ! -d Trilinos ]; then
-	git clone git@github.com:trilinos/Trilinos.git
+	git clone ${TRILINOSGITURL}
     fi
-    cd Trilinos && git checkout trilinos-release-12-14-branch && cd ..
+    cd Trilinos && git checkout ${TRILINOSBRANCH} && cd ..
+    # TRILINOSGITURL and TRILINOSVERSION are defined in tpls_versions_details
 
     # create build
     mkdir build && cd build

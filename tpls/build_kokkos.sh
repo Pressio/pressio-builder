@@ -26,13 +26,13 @@ function build_kokkos(){
 
     # clone repo (yes, trilinos because we build kokkos from there)
     if [ ! -d kokkos-tril ]; then
-	git clone git@github.com:trilinos/Trilinos.git
+	git clone ${TRILINOSGITURL}
 	# the unpacked dir is called trilinos, rename it to kokkos-tril
 	mv Trilinos kokkos-tril
     fi
 
     # enter and co right branch
-    cd kokkos-tril && git checkout trilinos-release-12-14-branch && cd ..
+    cd kokkos-tril && git checkout ${TRILINOSBRANCH} && cd ..
 
     # create build
     mkdir build && cd build

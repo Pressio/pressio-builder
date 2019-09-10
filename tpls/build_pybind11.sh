@@ -20,11 +20,12 @@ function build_pybind11(){
 
     # clone repo
     if [ ! -d pybind11 ]; then
-	git clone git@github.com:pybind/pybind11.git
+	git clone ${PYBINDGITURL}
 	cd pybind11
-	git checkout origin/v2.3
+	git checkout ${PYBINDBRANCH}
 	cd ..
     fi
+    # PYBINDGITURL and PYBINDBRANCH are defined in tpls_versions_details
 
     # I don't need to make a build, just copy source to install
     if [ ! -d install ]; then

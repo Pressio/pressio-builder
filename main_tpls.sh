@@ -3,11 +3,15 @@
 # exit when there is error code
 set -e
 
+# print version of bash
+echo "Using bash version ${BASH_VERSION}"
+
 # source colors for printing
 source ./shared/colors.sh
 
-# print version of bash
-echo "Using bash version ${BASH_VERSION}"
+############################################
+# set up few things and read args
+############################################
 
 # source the shared global vars
 source ./shared/shared_global_vars.sh
@@ -18,8 +22,7 @@ source ./tpls/global_vars.sh
 # parse cline arguments
 source ./tpls/cmd_line_options.sh
 
-# check that all basic variables are set
-# (if not minimum set found, script exits)
+# check basic variables are set (if not, script exits)
 check_minimum_vars_set
 
 # print the current setting
@@ -28,13 +31,19 @@ echo "${fgyellow}+++ The setting is as follows: +++ ${fgrst}"
 print_global_vars
 echo ""
 
+# source TPLs info (versions, URLs, etc.)
+source ./tpls/tpls_versions_details.sh
+
 # source helper functions
 source ./shared/help_fncs.sh
 
 # set env if not already set
 call_env_script
 
-# check that tpl names parsed from cmd line args are admissible
+###########################################################
+# check tpl names parsed from cmd line args are admissible
+###########################################################
+
 echo ""
 echo "${fgyellow}+++ Checking if TPL names are admissible +++${fgrst}"
 for ((i=0;i<${#tpl_names[@]};++i)); do
@@ -55,8 +64,10 @@ print_target_tpl_names
 print_target_tpl_cmake_fncs
 echo "${fggreen}All TPL names seem valid: ok! ${fgrst}"
 
-
+############################################
 # check if you have a valid cmake
+############################################
+
 have_admissible_cmake && res=$?
 if [[ "$res" == "1" ]]; then
     exit 22
@@ -64,9 +75,9 @@ else
     echo "${fggreen}Valid cmake found: ok! ${fgrst}"
 fi
 
-
 #################################
 # building all TPLs happens below
+#################################
 
 # test is workdir exists if not create it
 [[ ! -d $WORKDIR ]] && (echo "creating $WORKDIR" && mkdir -p $WORKDIR)

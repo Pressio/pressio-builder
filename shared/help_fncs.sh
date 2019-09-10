@@ -49,19 +49,21 @@ function detect_cmake(){
 }
 
 function have_admissible_cmake(){
+    # detect cmake
     detect_cmake
     echo ""
     echo "${fgyellow}+++ Detecting which cmake you have +++${fgrst}"
     echo "CMAKEVERSIONDETECTED=$CMAKEVERSIONDETECTED"
 
-    # if cmakeversion is empty
     if [ -z $CMAKEVERSIONDETECTED ]; then
+	# if cmakeversion is empty
 	echo "${fgred} No Cmake found. Terminating. ${fgrst}"
 	return 1
     else
+	# if cmakeversion is NOT empty but wrong version
     	if [ $(version $CMAKEVERSIONDETECTED) -lt $(version "$CMAKEVERSIONMIN") ]; then
 	    echo "${fgred}You have cmake ${CMAKEVERSIONDETECTED} ${fgrst}"
-	    echo "${fgred}while I need >=${CMAKEVERSIONMIN}. Terminating. ${fgrst}"
+	    echo "${fgred}while I need >=${CMAKEVERSIONMIN}. Terminate.${fgrst}"
     	    return 1
     	else
 	    return 0
