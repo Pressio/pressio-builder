@@ -83,7 +83,7 @@ function build_pybind11(){
 	fi
 	echo "Install output written to ${PWD}/${IFName}"
     else
-	echo "${fgyellow}with dryrun=1, here I would config, build and install ${TPLname} ${fgrst}"
+	echo "${fgyellow}with dryrun=0, here I would config, build and install ${TPLname} ${fgrst}"
     fi
     cd ${PARENTDIR}
 }

@@ -40,7 +40,7 @@ function build_eigen(){
 	mkdir -p ./install/include/eigen3/Eigen
 	cp -rf ./${EIGENUNPACKEDDIRNAME}/Eigen/* ./install/include/eigen3/Eigen
     else
-	echo "${fgyellow}with dryrun=1, here I would config, build and install ${TPLname} ${fgrst}"
+	echo "${fgyellow}with dryrun=0, here I would config, build and install ${TPLname} ${fgrst}"
     fi
 
     cd ${PARENTDIR}

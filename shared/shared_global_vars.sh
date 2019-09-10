@@ -67,9 +67,9 @@ function print_shared_global_vars(){
     fi
 
     if [ ! -z $LINKTYPE ]; then
-	echo "LINKTYPE               = $LINKTYPE"
+	echo "LINKTYPE              = $LINKTYPE"
     else
-	echo "LINKTYPE               = -"
+	echo "LINKTYPE              = -"
     fi
 
     if [ ! -z $SETENVscript ]; then
