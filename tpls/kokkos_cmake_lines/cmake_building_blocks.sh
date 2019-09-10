@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Note that it says trilinos below because these are used
-# for building kokkos from Trilinos
+# for building kokkos from within Trilinos
 
 function kokkos_always_needed(){
     local is_shared=ON

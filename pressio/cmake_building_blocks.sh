@@ -1,8 +1,11 @@
 #!/bin/bash
 
-# this is always needed, regardless of where we build
-# so don't change the name and always include it when customizing a build
-function pressio_always_needed(){
+
+function pressio_build_type(){
+    CMAKELINE+="-D CMAKE_BUILD_TYPE:STRING=${MODEbuild} "
+}
+
+function pressio_link_type(){
     local is_shared=ON
     local link_search_static=OFF
     if [[ ${LINKTYPE} == static ]]; then
@@ -11,23 +14,20 @@ function pressio_always_needed(){
     fi
     echo "is_shared = $is_shared"
     echo "link_search_static = $link_search_static"
-
-    CMAKELINE+="-D CMAKE_BUILD_TYPE:STRING=${MODEbuild} "
     CMAKELINE+="-D BUILD_SHARED_LIBS:BOOL=${is_shared} "
-    CMAKELINE+="-D pressio_ENABLE_CXX11:BOOL=ON "
-    CMAKELINE+="-D pressio_ENABLE_SHADOW_WARNINGS:BOOL=OFF "
-
-    # following lines cause issues for CEE, and are also not used
-    # e.g. by SPARC trilinos scripts, it seems we dont need them
+    # following lines cause issues for CEE, it seems we dont need them
     #CMAKELINE+="-D pressio_LINK_SEARCH_START_STATIC=$link_search_static "
     #CMAKELINE+="-D TPL_FIND_SHARED_LIBS=${is_shared} "
+}
+
+function pressio_enable_cxx11(){
+    CMAKELINE+="-D pressio_ENABLE_CXX11:BOOL=ON "
 }
 
 function pressio_cmake_verbose(){
     CMAKELINE+="-D CMAKE_VERBOSE_MAKEFILE:BOOL=TRUE "
 }
 
-# mpi compilers
 function pressio_mpi_c_cxx_compilers(){
     CMAKELINE+="-D TPL_ENABLE_MPI:BOOL=ON "
     CMAKELINE+="-D MPI_C_COMPILER:FILEPATH=${CC} "
@@ -41,6 +41,10 @@ function pressio_mpi_fortran_on(){
     CMAKELINE+="-D MPI_Fortran_COMPILER:FILEPATH=${F90} "
 }
 
+function pressio_fortran_off(){
+    CMAKELINE+="-D pressio_ENABLE_Fortran:BOOL=OFF "
+}
+
 # serial compilers (if you pick serial you should not pick mpi)
 function pressio_serial_c_cxx_compilers(){
     CMAKELINE+="-D CMAKE_C_COMPILER:FILEPATH=${CC} "
@@ -52,10 +56,13 @@ function pressio_serial_fortran_compiler(){
     CMAKELINE+="-D CMAKE_Fortran_COMPILER:FILEPATH=${FC} "
 }
 
-function pressio_fortran_off(){
-    CMAKELINE+="-D pressio_ENABLE_Fortran:BOOL=OFF "
+function trilinos_blas_on(){
+    CMAKELINE+="-D TPL_ENABLE_BLAS=ON "
 }
 
+function trilinos_lapack_on(){
+    CMAKELINE+="-D TPL_ENABLE_LAPACK=ON "
+}
 
 function pressio_openblaslapack(){
     CMAKELINE+="-D TPL_ENABLE_BLAS=ON "
@@ -77,38 +84,20 @@ function pressio_openblaslapack(){
     CMAKELINE+="-D LAPACK_LIBRARY_NAMES:STRING='openblas' "
 }
 
-
-function pressio_add_dl_link(){
-    # the semic ; is needed beccause it builds a string
-    EXTRALINKFLAGS+=";dl"
-}
-
-function pressio_add_omp_cxx_flag(){
-    CXXFLAGS+="-fopenmp "
-}
-
-function pressio_add_gfortran_cxx_flag(){
-    CXXFLAGS+="-gfortran "
-}
-
 function pressio_tests_off(){
     CMAKELINE+="-D pressio_ENABLE_TESTS:BOOL=OFF "
 }
+
 function pressio_tests_on(){
     CMAKELINE+="-D pressio_ENABLE_TESTS:BOOL=ON "
 }
+
 function pressio_examples_off(){
     CMAKELINE+="-D pressio_ENABLE_EXAMPLES:BOOL=OFF "
 }
+
 function pressio_examples_on(){
     CMAKELINE+="-D pressio_ENABLE_EXAMPLES:BOOL=ON "
-}
-function pressio_enable_binutils(){
-    CMAKELINE+="-D TPL_ENABLE_BinUtils=ON "
-}
-
-function pressio_enable_mkl(){
-    CMAKELINE+="-D TPL_ENABLE_MKL=ON "
 }
 
 function pressio_enable_eigen(){
@@ -164,4 +153,25 @@ function pressio_enable_debug_print(){
 
 function pressio_all_packages(){
     CMAKELINE+="-D pressio_ENABLE_ALL_PACKAGES:BOOL=ON "
+}
+
+function pressio_enable_binutils(){
+    CMAKELINE+="-D TPL_ENABLE_BinUtils=ON "
+}
+
+function pressio_enable_mkl(){
+    CMAKELINE+="-D TPL_ENABLE_MKL=ON "
+}
+
+function pressio_add_dl_link(){
+    # the semic ; is needed beccause it builds a string
+    EXTRALINKFLAGS+=";dl"
+}
+
+function pressio_add_omp_cxx_flag(){
+    CXXFLAGS+="-fopenmp "
+}
+
+function pressio_add_gfortran_cxx_flag(){
+    CXXFLAGS+="-gfortran "
 }

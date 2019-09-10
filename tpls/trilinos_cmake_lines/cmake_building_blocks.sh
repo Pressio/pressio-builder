@@ -1,6 +1,10 @@
 #!/bin/bash
 
-function trilinos_always_needed(){
+function trilinos_build_type(){
+    CMAKELINE+="-D CMAKE_BUILD_TYPE:STRING=${MODEbuild} "
+}
+
+function trilinos_link_type(){
     local is_shared=ON
     local link_search_static=OFF
     if [[ ${LINKTYPE} == static ]]; then
@@ -10,15 +14,16 @@ function trilinos_always_needed(){
     echo "is_shared = $is_shared"
     echo "link_search_static = $link_search_static"
 
-    CMAKELINE+="-D CMAKE_BUILD_TYPE:STRING=${MODEbuild} "
     CMAKELINE+="-D BUILD_SHARED_LIBS:BOOL=${is_shared} "
     CMAKELINE+="-D TPL_FIND_SHARED_LIBS=${is_shared} "
     CMAKELINE+="-D Trilinos_LINK_SEARCH_START_STATIC=$link_search_static "
-    CMAKELINE+="-D Trilinos_ENABLE_EXPORT_MAKEFILES:BOOL=OFF "
+}
+
+function trilinos_verbose_makefile_on(){
     CMAKELINE+="-D CMAKE_VERBOSE_MAKEFILE:BOOL=TRUE "
 }
 
-function trilinos_mpi_compilers(){
+function trilinos_mpi_c_cxx_compilers(){
     CMAKELINE+="-D TPL_ENABLE_MPI:BOOL=ON "
     CMAKELINE+="-D MPI_C_COMPILER:FILEPATH=${CC} "
     CMAKELINE+="-D MPI_CXX_COMPILER:FILEPATH=${CXX} "
@@ -31,7 +36,7 @@ function trilinos_mpi_fortran_on(){
     CMAKELINE+="-D MPI_Fortran_COMPILER:FILEPATH=${FC} "
 }
 
-function trilinos_mpi_fortran_off(){
+function trilinos_fortran_off(){
     CMAKELINE+="-D Trilinos_ENABLE_Fortran:BOOL=OFF "
 }
 
@@ -73,6 +78,14 @@ function trilinos_packages_for_pressio(){
 
 function trilinos_all_packages_on(){
     CMAKELINE+="-D Trilinos_ENABLE_ALL_PACKAGES:BOOL=ON "
+}
+
+function trilinos_blas_on(){
+    CMAKELINE+="-D TPL_ENABLE_BLAS=ON "
+}
+
+function trilinos_lapack_on(){
+    CMAKELINE+="-D TPL_ENABLE_LAPACK=ON "
 }
 
 function trilinos_openblaslapack(){

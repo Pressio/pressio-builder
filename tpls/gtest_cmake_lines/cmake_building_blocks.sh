@@ -1,11 +1,14 @@
 #!/bin/bash
 
-function gtest_always_needed(){
+function gtest_link_type(){
     local is_shared=ON
     [[ ${LINKTYPE} == static ]] && is_shared=OFF
     echo "is_shared = $is_shared"
 
     CMAKELINE+="-D BUILD_SHARED_LIBS:BOOL=${is_shared} "
+}
+
+function gtest_verbose_makefile(){
     CMAKELINE+="-D CMAKE_VERBOSE_MAKEFILE:BOOL=TRUE "
 }
 

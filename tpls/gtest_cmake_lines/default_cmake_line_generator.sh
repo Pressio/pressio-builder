@@ -1,7 +1,8 @@
 #!/bin/bash
 
 function default(){
-    gtest_always_needed
+    gtest_link_type
+    gtest_verbose_makefile
     gtest_compilers
 
     # check if we are on mac, if so turn r_path

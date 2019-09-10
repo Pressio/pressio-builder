@@ -1,15 +1,15 @@
 #!/bin/bash
 
-function default_mac(){
-    trilinos_always_needed
-    trilinos_mpi_compilers
+function default(){
+    trilinos_build_type
+    trilinos_link_type
+    trilinos_verbose_makefile_on
+    trilinos_mpi_c_cxx_compilers
     trilinos_mpi_fortran_on
     trilinos_tests_off
     trilinos_examples_off
+    trilinos_blas_on
+    trilinos_lapack_on
     trilinos_kokkos_serial
     trilinos_packages_for_pressio
-}
-
-function default(){
-    default_mac
 }
