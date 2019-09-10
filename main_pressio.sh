@@ -181,7 +181,7 @@ if [ $DRYRUN -eq 0 ]; then
     # install
     make install
 else
-    echo "${fgyellow}with dryrun=1, here I would config, build and install Pressio ${fgrst}"
+    echo "${fgyellow}with dryrun=0, here I would config, build and install Pressio ${fgrst}"
 fi
 
 # if we are on cee machines, change permissions
