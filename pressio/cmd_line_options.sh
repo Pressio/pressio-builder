@@ -67,18 +67,22 @@ for option; do
 	    CMAKELINEGEN=`expr "x$option" : "x-*cmake-generator-name=\(.*\)"`
 	    ;;
 
-	-packages=* | --packages=* )
-	    pkg_list=`expr "x$option" : "x-*packages=\(.*\)"`
-	    old_IFS=$IFS
-	    IFS=,
-	    # if list not empty, then reset arrays and append the target libs
-	    [ ! -z "$pkg_list" ] && pkg_names=()
-	    # loop and store
-	    for pkg in $pkg_list; do
-		pkg_names=("${pkg_names[@]}" "${pkg}")
-	    done
-	    IFS=$old_IFS
+	-package-name=* | --package-name=* )
+	    PACKAGENAME=`expr "x$option" : "x-*package-name=\(.*\)"`
 	    ;;
+
+	# -packages=* | --packages=* )
+	#     pkg_list=`expr "x$option" : "x-*packages=\(.*\)"`
+	#     old_IFS=$IFS
+	#     IFS=,
+	#     # if list not empty, then reset arrays and append the target libs
+	#     [ ! -z "$pkg_list" ] && pkg_names=()
+	#     # loop and store
+	#     for pkg in $pkg_list; do
+	# 	pkg_names=("${pkg_names[@]}" "${pkg}")
+	#     done
+	#     IFS=$old_IFS
+	#     ;;
 
 	# unrecognized option}
 	-*)
@@ -113,12 +117,13 @@ The <args>... can be:
 					OPTIONAL:  yes, if you do not set it, I will clone Pressio and place it
 						   inside the directory set by --target-dir
 
---packages=				WHAT:	   comma-separated list of Pressio package names to build.
-					CHOICES:   currently: mpl, utils, containers, qr, solvers, svd, ode, rom, apps
-					Note:	   Since the packages are interdependent, you do not need to specify
-						   all of them, just choose the package you want, then all
-						   its dependencies are built automatically.
-					default    = apps (which will build all of them)
+--package-name=				WHAT:	   name of the target pressio package to build.
+					CHOICES:   currently: mpl, utils, containers, qr, svd, solvers, ode, rom
+					Note:	   Since the packages are interdependent, you do NOT need to specify
+						   all of them, so just choose the package you want, then all
+						   its dependencies will be turned on and built automatically.
+					EXAMPLE:   if you set --package-name=qr, then `mpl, utils, containers` will be also enabled.
+					default    = rom (which will enavble all the others)
 
 --target-dir=				WHAT:	   the target directory where Pressio will be built/installed.
 					ATTENTION: it must be a full path. I will make the dir if not existing already.

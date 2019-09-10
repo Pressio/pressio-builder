@@ -42,12 +42,33 @@ call_env_script
 ############################################
 # check if you have a valid cmake
 ############################################
+
 have_admissible_cmake && res=$?
 if [[ "$res" == "1" ]]; then
     exit 22
 else
     echo "${fggreen}Valid cmake found: ok! ${fgrst}"
 fi
+
+
+############################################
+# print info about wanted package
+############################################
+
+echo "${fggreen}You selected --package-name=${PACKAGENAME}.${fgrst}"
+echo "${fggreen}Needed packages will also be enabled automatically.${fgrst}"
+
+# the pressio packages dependency structure is:
+# mpl		: always needed
+# utils		: always needed
+# apps		: depends on mpl, utils
+# containers	: depends on mpl, utils
+# qr		: depends on mpl, utils, containers
+# svd		: depends on mpl, utils, containers, qr
+# solvers	: depends on mpl, utils, containers, qr
+# ode		: depends on mpl, utils, apps, containers, qr, solvers
+# rom		: depends on mpl, utils, apps, containers, qr, svd, solvers, ode
+
 
 ############################################
 # source generator functions for Pressio etc
@@ -65,10 +86,6 @@ if [ ! -z $CMAKELINEGENFNCscript ]; then
     source ${CMAKELINEGENFNCscript}
 fi
 
-# if we get here, we need to build/install, keeping in mind dependencies.
-# make sure these dependencies are updated as they change in pressio
-# this file contains vars telling which packages need to be build
-source ./pressio/pressio_packages_vars.sh
 
 ############################################
 # enter the actual conf/build/install stage

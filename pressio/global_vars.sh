@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# array storing packages
-declare -a pkg_names=(core)
+# name of pressio package to build
+PACKAGENAME=
 
 # path to dir where eigen is installed
 EIGENPATH=
@@ -25,7 +25,7 @@ njmake=6
 
 function print_global_vars(){
     print_shared_global_vars
-    echo "pkg_names	      = ${pkg_names[@]}"
+    echo "PACKAGENAME	      = ${PACKAGENAME}"
     echo "EIGENPATH	      = $EIGENPATH"
     echo "GTESTPATH	      = $GTESTPATH"
     echo "TRILINOSPATH	      = $TRILINOSPATH"
@@ -41,8 +41,26 @@ function check_minimum_vars_set(){
     check_minimum_shared_vars_set
     echo "${fggreen}Minimum shared vars found: ok! ${fgrst}"
 
+    if [ -z $PACKAGENAME ]; then
+	echo "${fgred}--package-name cannot be empty, see help for valid choices. Terminating. ${fgrst}"
+	exit 31
+    fi
+
+    if [ $PACKAGENAME != mpl ||\
+	     $PACKAGENAME != utils ||\
+	     $PACKAGENAME != containers ||\
+	     $PACKAGENAME != qr ||\
+	     $PACKAGENAME != svd ||\
+	     $PACKAGENAME != solvers ||\
+	     $PACKAGENAME != ode ||\
+	     $PACKAGENAME != rom ];
+    then
+	echo "${fgred}--package-name=${PACKAGENAME} is NOT admissible, see help for valid choices. Terminating. ${fgrst}"
+	exit 14
+    fi
+
     if [ -z $EIGENPATH ]; then
-	echo "${fgred}--eigen-path is empty, you must set it."
+	echo "${fgred}--eigen-path is empty, you must set it. ${fgrst}"
 	echo "${fgred}Eigen is a required TPL. Terminating.${fgrst}"
 	exit 0
     fi

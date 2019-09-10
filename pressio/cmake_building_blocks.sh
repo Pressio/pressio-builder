@@ -152,18 +152,10 @@ function pressio_enable_gtest(){
 
 # this should not change regardless of where we build because
 # it is driven by the list of packages passed to the main build file
-function pressio_pressio_packages(){
+function pressio_pressio_target_package(){
     CMAKELINE+="-D pressio_ENABLE_ALL_PACKAGES:BOOL=OFF "
     CMAKELINE+="-D pressio_ENABLE_ALL_OPTIONAL_PACKAGES:BOOL=OFF "
-    CMAKELINE+="-D pressio_ENABLE_mpl:BOOL=${buildMPL} "
-    CMAKELINE+="-D pressio_ENABLE_utils:BOOL=${buildUTILS} "
-    CMAKELINE+="-D pressio_ENABLE_containers:BOOL=${buildCONTAINERS} "
-    CMAKELINE+="-D pressio_ENABLE_qr:BOOL=${buildQR} "
-    CMAKELINE+="-D pressio_ENABLE_solvers:BOOL=${buildSOLVERS} "
-    CMAKELINE+="-D pressio_ENABLE_svd:BOOL=${buildSVD} "
-    CMAKELINE+="-D pressio_ENABLE_ode:BOOL=${buildODE} "
-    CMAKELINE+="-D pressio_ENABLE_rom:BOOL=${buildROM} "
-    CMAKELINE+="-D pressio_ENABLE_apps:BOOL=${buildAPPS} "
+    CMAKELINE+="-D pressio_ENABLE_${PACKAGENAME}:BOOL=ON "
 }
 
 function pressio_enable_debug_print(){
