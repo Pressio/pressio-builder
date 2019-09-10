@@ -27,8 +27,8 @@ for option; do
 	    MODEbuild=`expr "x$option" : "x-*build-mode=\(.*\)"`
 	    ;;
 
-	-target-type=* | --target-type=* )
-	    MODElib=`expr "x$option" : "x-*target-type=\(.*\)"`
+	-link-type=* | --link-type=* )
+	    MODElib=`expr "x$option" : "x-*link-type=\(.*\)"`
 	    ;;
 
 	-env-script=* | --env-script=* )
@@ -143,7 +143,7 @@ The <args>... can be:
 					OPTIONAL:  yes
 					default    = Debug
 
---target-type=[dynamic/static]		WHAT:	   what link type to use, static or dynamic libraries.
+--link-type=[dynamic/static]		WHAT:	   what link type to use, static or dynamic libraries.
 					OPTIONAL:  yes
 					default    = dynamic
 
