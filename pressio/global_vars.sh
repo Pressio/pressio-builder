@@ -46,14 +46,15 @@ function check_minimum_vars_set(){
 	exit 31
     fi
 
-    if [ $PACKAGENAME != mpl ||\
-	     $PACKAGENAME != utils ||\
-	     $PACKAGENAME != containers ||\
-	     $PACKAGENAME != qr ||\
-	     $PACKAGENAME != svd ||\
-	     $PACKAGENAME != solvers ||\
-	     $PACKAGENAME != ode ||\
-	     $PACKAGENAME != rom ];
+    if [ $PACKAGENAME != mpl ] &&\
+	   [ $PACKAGENAME != utils ] &&\
+	   [  $PACKAGENAME != containers ] &&\
+	   [  $PACKAGENAME != qr ] &&\
+	   [  $PACKAGENAME != svd ] &&\
+	   [  $PACKAGENAME != solvers ] &&\
+	   [  $PACKAGENAME != ode ] &&\
+	   [  $PACKAGENAME != rom ] &&\
+	   [  $PACKAGENAME != all ];
     then
 	echo "${fgred}--package-name=${PACKAGENAME} is NOT admissible, see help for valid choices. Terminating. ${fgrst}"
 	exit 14

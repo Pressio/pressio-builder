@@ -119,6 +119,7 @@ The <args>... can be:
 
 --package-name=				WHAT:	   name of the target pressio package to build.
 					CHOICES:   currently: mpl, utils, containers, qr, svd, solvers, ode, rom
+						   if you set package-name=all, then ALL packages will be built.
 					Note:	   Since the packages are interdependent, you do NOT need to specify
 						   all of them, so just choose the package you want, then all
 						   its dependencies will be turned on and built automatically.

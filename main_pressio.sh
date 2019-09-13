@@ -147,6 +147,19 @@ fi
 # this will append to the global var CMAKELINE
 ${CMAKELINEGEN}
 
+# you set --package-name=all, then I am going to build all of them
+# regardless of what you did with your cmake configuring line.
+# I need to do this here, befcause it is needs to be done AFTER the
+# cmake line was configured
+if [ ${PACKAGENAME} == all ]; then
+    echo "${fggreen}You set --package-name=all, so I am building all ${fgrst}"
+    echo "${fggreen}by using -D pressio_ENABLE_ALL_PACKAGES:BOOL=ON ${fgrst}"
+    echo "${fggreen}if this is not what you wanted, stop me now. ${fgrst}"
+
+    # add the command to cmakeline to build all packages
+    CMAKELINE+="-D pressio_ENABLE_ALL_PACKAGES:BOOL=ON "
+fi
+
 # after generator was called, now finalize cmakeline
 # append cxx flags
 CMAKELINE+="-D CMAKE_CXX_FLAGS:STRING='${CXXFLAGS}' "
