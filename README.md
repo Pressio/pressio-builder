@@ -21,19 +21,19 @@ and follow the directions.
 ### Current versions of tpls used:
 
 * eigen:
-  - cloned from: http://bitbucket.org/eigen/eigen/get/3.3.7.tar.bz2
+  - cloned from: `http://bitbucket.org/eigen/eigen/get/3.3.7.tar.bz2`
   - using version 3.3.7
 
 * gtest:
-  - cloned from: git@github.com:google/googletest.git
+  - cloned from: `git@github.com:google/googletest.git`
   - using branch: master
 
 * trilinos:
-  - cloned from git@github.com:trilinos/Trilinos.git
+  - cloned from: `git@github.com:trilinos/Trilinos.git`
   - using branch: trilinos-release-12-14-branch
 
 * pybind11:
-  - cloned from: git@github.com:pybind/pybind11.git
+  - cloned from: `git@github.com:pybind/pybind11.git`
   - using branch: origin/v23
 
 *More details on this repo to come soon*
