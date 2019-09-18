@@ -2,7 +2,7 @@
 ## pressio-builder
 
 This repo provides scripts and tools to simplify
-and automate the building/installation process of Pressio and its TPLs.
+and automate the building/installation process of `pressio` and its TPLs.
 
 ### Building TPLs
 To build the TPLs, do the following:
@@ -11,8 +11,8 @@ To build the TPLs, do the following:
 and follow the directions.
 
 
-### Building Pressio
-After you are done with TPLs, build Pressio by doing:
+### Building `pressio`
+After you are done with TPLs, build `pressio` by doing:
 - cd into ./pressio
 - bash ./main_pressio.sh -h
 and follow the directions.
@@ -35,3 +35,5 @@ and follow the directions.
 * pybind11:
   - cloned from: git@github.com:pybind/pybind11.git
   - using branch: origin/v23
+
+*More details on this repo to come soon*
