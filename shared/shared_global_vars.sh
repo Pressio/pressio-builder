@@ -19,8 +19,8 @@ fi
 # store the working dir
 WORKDIR=
 
-# bool to wipe existing content of target directory
-WIPEEXISTING=1
+# wipe existing content of target directory
+WIPEEXISTING=yes
 
 # build mode: Debug/Release
 MODEbuild=Debug
@@ -41,14 +41,13 @@ CMAKELINE=
 # version number of cmake detected
 CMAKEVERSIONDETECTED=
 
-# boolean to decide wether we dump all outputs
-# from (config, build and install) to files
-# if not set, defaults to dumping everything to screen
-DUMPTOFILEONLY=0
+# wether we dump all outputs from (config, build and install) to files
+# defaults to dumping everything to screen
+DUMPTOFILEONLY=no
 
-# boolear [0,1]: if 1, only do dryrun and does not config/build anything
-# but it does create folders
-DRYRUN=1
+# [yes/no] if yes, only do dryrun and does not config/build anything
+# but it does create folders and directory tree
+DRYRUN=yes
 
 # myhostname
 MYHOSTNAME=$(hostname)
@@ -59,6 +58,7 @@ function print_shared_global_vars(){
     echo "Running OS            = $ARCH"
     echo "WORKDIR               = $WORKDIR"
     echo "WIPEEXISTING          = ${WIPEEXISTING}"
+    echo "DRYUN                 = ${DRYRUN}"
 
     if [ ! -z $MODEbuild ]; then
 	echo "MODEbuild             = $MODEbuild"

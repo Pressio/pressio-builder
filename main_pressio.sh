@@ -44,13 +44,8 @@ call_env_script
 # check if you have a valid cmake
 ############################################
 
-have_admissible_cmake && res=$?
-if [[ "$res" == "1" ]]; then
-    exit 22
-else
-    echo "${fggreen}Valid cmake found: ok! ${fgrst}"
-fi
-
+have_admissible_cmake
+echo "${fggreen}Valid cmake found: ok! ${fgrst}"
 
 ############################################
 # print info about wanted package
@@ -181,7 +176,7 @@ echo ""
 ############################################
 # configured, build and install
 ############################################
-if [ $DRYRUN -eq 0 ]; then
+if [ $DRYRUN == no ]; then
     echo "${fgyellow}Starting config, build and install of Pressio ${fgrst}"
 
     # configure

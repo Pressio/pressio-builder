@@ -16,16 +16,20 @@ for option; do
 	    ;;
 
 	-tpls=* | --tpls=* )
-	    library_list=`expr "x$option" : "x-*tpls=\(.*\)"`
-	    old_IFS=$IFS
-	    IFS=,
-	    # if list not empty, then reset arrays and append the target libs
-	    [ ! -z "$library_list" ] && tpl_names=()
-	    # loop and store
-	    for library in $library_list; do
-		tpl_names=("${tpl_names[@]}" "${library}")
-	    done
-	    IFS=$old_IFS
+	    {
+		echo "fr"
+		library_list=`expr "x$option" : "x-*tpls=\(.*\)"`
+		old_IFS=$IFS
+		IFS=,
+		# if list not empty, then reset arrays and append the target libs
+		[ ! -z "$library_list" ] && tpl_names=()
+		# loop and store
+		for library in $library_list; do
+		    tpl_names=("${tpl_names[@]}" "${library}")
+		done
+		IFS=$old_IFS
+		echo "gogfof"
+	    }
 	    ;;
 
 	-target-dir=* | --target-dir=* )
@@ -78,7 +82,7 @@ for option; do
 
     esac
 done
-#echo "${fgyellow}+++ done with cmdline arguments +++${fgrst}"
+echo "${fgyellow}+++ done with cmdline arguments +++${fgrst}"
 
 
 if test "$want_help" = yes; then
@@ -92,11 +96,11 @@ The <args>... can be:
 
 -h, --help				display help and exit
 
---dryrun=[0/1]				WHAT:	  if dryrun=1, I create the target directory tree and print
+--dryrun=[yes/no]			WHAT:	  if dryrun=yes, I create the target directory tree and print
 						  to screen the commands that I would use for configuring/building
 					          without performing any real configurantion/build/installation
 					OPTIONAL: yes
-					default   = 1
+					default   = yes
 
 --tpls=					WHAT:	   comma-separated list of the library names to build.
 					ATTENTION: there is no space after commas.
@@ -121,10 +125,10 @@ The <args>... can be:
 							/home/user/tpls/eigen/build     : contains the eigen build
 							/home/user/tpls/eigen/install   : contains the eigen install
 
---wipe-existing=[0/1]			WHAT:	   if = 1, I will delete all the build and installation subdirectories
+--wipe-existing=[yes/no]		WHAT:	   if yes, I will delete all the build and installation subdirectories
 						   under the destination folder --target-dir and redo things from scratch.
 					OPTIONAL:  yes
-					default    = 1
+					default    = yes
 
 --build-mode=[Debug/Release]		WHAT:	   specifies the build type for each selected tpl.
 					Note:	   build-mode not used for eigen,gtest,pybind11: these are header only.
@@ -136,11 +140,11 @@ The <args>... can be:
 					OPTIONAL:  yes
 					default    = dynamic
 
---print-logs-to-file-only=[0/1]		WHAT:	   if =1, I will print all configure/build/install logs, to files
+--print-logs-to-file-only=[yes/no]	WHAT:	   if yes, I will print all configure/build/install logs, to files
 						   that are specific for each TPL built and I will NOT print anything to screen.
-						   if =0, I will both print to files and to screen.
+						   if no, I will both print to files and to screen.
 					OPTIONAL:  yes
-					default    = 0
+					default    = no
 
 --env-script=				WHAT:	   full path to the bash script I will source to set the environment.
 					OPTIONAL:  yes, if you don't pass anything, I assume the environment is set.

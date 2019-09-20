@@ -15,6 +15,9 @@ function default() {
     pressio_enable_gtest
     pressio_pressio_target_package
     pressio_enable_debug_print
+    pressio_ode_tests_on
+    pressio_solvers_tests_on
+    pressio_rom_tests_on
 }
 
 function default_mpi_trilinos() {

@@ -55,12 +55,12 @@ function build_pybind11(){
     echo "For ${TPLname}, the cmake command to use is:"
     echo "${fgcyan}cmake ${CMAKELINE}${fgrst}"
 
-    if [ $DRYRUN -eq 0 ];
+    if [ $DRYRUN == no ];
     then
 	echo "${fgyellow}Starting config, build and install of ${TPLname} ${fgrst}"
 
 	CFName="config.txt"
-	if [ $DUMPTOFILEONLY -eq 1 ]; then
+	if [ $DUMPTOFILEONLY == yes ]; then
 	    cmake eval ${CMAKELINE} >> ${CFName} 2>&1
 	else
 	    (cmake eval ${CMAKELINE}) 2>&1 | tee ${CFName}
@@ -68,7 +68,7 @@ function build_pybind11(){
 	echo "Config output written to ${PWD}/${CFName}"
 
 	BFName="build.txt"
-	if [ $DUMPTOFILEONLY -eq 1 ]; then
+	if [ $DUMPTOFILEONLY == yes ]; then
 	    make -j4 >> ${BFName} 2>&1
 	else
 	    (make -j4) 2>&1 | tee ${BFName}
@@ -76,14 +76,14 @@ function build_pybind11(){
 	echo "Build output written to ${PWD}/${BFName}"
 
 	IFName="install.txt"
-	if [ $DUMPTOFILEONLY -eq 1 ]; then
+	if [ $DUMPTOFILEONLY == yes ]; then
 	    make install >> ${IFName} 2>&1
 	else
 	    (make install) 2>&1 | tee ${IFName}
 	fi
 	echo "Install output written to ${PWD}/${IFName}"
     else
-	echo "${fgyellow}with dryrun=0, here I would config, build and install ${TPLname} ${fgrst}"
+	echo "${fgyellow}with dryrun=no, here I would config, build and install ${TPLname} ${fgrst}"
     fi
     cd ${PARENTDIR}
 }

@@ -106,12 +106,11 @@ The <args>... can be:
 
 -h, --help				display help and exit
 
---dryrun=[0/1]				WHAT:	  if dryrun=1, I create the directory tree and print
+--dryrun=[yes/no]			WHAT:	  if dryrun=yes, I create the target directory tree and print
 						  to screen the commands that I would use for configuring/building
-					          without performing any real configurantion/build/installation.
-						  if dryrun=0, I do the full config/build/installation.
+					          without performing any real configurantion/build/installation
 					OPTIONAL: yes
-					default   = 1
+					default   = yes
 
 --pressio-src=				WHAT:	   the FULL path to the Pressio source directory
 					OPTIONAL:  yes, if you do not set it, I will clone Pressio and place it
@@ -135,10 +134,10 @@ The <args>... can be:
 							/home/user/pressio/build     : contains the build
 							/home/user/pressio/install   : contains the install
 
---wipe-existing=[0/1]			WHAT:	   if = 1, I will delete all the build and installation subdirectories
+--wipe-existing=[yes/no]		WHAT:	   if yes, I will delete all the build and installation subdirectories
 						   under the destination folder --target-dir and redo things from scratch.
 					OPTIONAL:  yes
-					default    = 1
+					default    = yes
 
 --build-mode=[Debug/Release]		WHAT:	   specifies the build type.
 					OPTIONAL:  yes

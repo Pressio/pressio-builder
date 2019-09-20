@@ -2,15 +2,15 @@
 
 function check_and_clean(){
     local parentdir=$1
-    if [ $WIPEEXISTING -eq 1 ];
+    if [ $WIPEEXISTING == yes ];
     then
-	if [ ${DRYRUN} -eq 0 ]; then
+	if [ ${DRYRUN} == no ]; then
 	    echo "wiping ${PWD}/$parentdir/build"
 	    echo "wiping ${PWD}/$parentdir/install"
 	    rm -rf ${parentdir}/build ${parentdir}/install
 	else
-	    echo "with dryrun=1, I would wipe ${PWD}/$parentdir/build"
-	    echo "with dryrun=1, I would wipe ${PWD}/$parentdir/install"
+	    echo "with dryrun=no, I would wipe ${PWD}/$parentdir/build"
+	    echo "with dryrun=no, I would wipe ${PWD}/$parentdir/install"
 	fi
 	DOBUILD=ON
     else
@@ -57,14 +57,14 @@ function have_admissible_cmake(){
 
     if [ -z $CMAKEVERSIONDETECTED ]; then
 	# if cmakeversion is empty
-	echo "${fgred} No Cmake found. Terminating. ${fgrst}"
-	return 1
+	echo "${fgred}No Cmake found. Terminating. ${fgrst}"
+	exit 15
     else
 	# if cmakeversion is NOT empty but wrong version
     	if [ $(version $CMAKEVERSIONDETECTED) -lt $(version "$CMAKEVERSIONMIN") ]; then
 	    echo "${fgred}You have cmake ${CMAKEVERSIONDETECTED} ${fgrst}"
 	    echo "${fgred}while I need >=${CMAKEVERSIONMIN}. Terminate.${fgrst}"
-    	    return 1
+    	    exit 15
     	else
 	    return 0
     	fi

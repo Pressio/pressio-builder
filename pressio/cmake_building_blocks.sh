@@ -155,6 +155,19 @@ function pressio_all_packages(){
     CMAKELINE+="-D pressio_ENABLE_ALL_PACKAGES:BOOL=ON "
 }
 
+function pressio_ode_tests_on(){
+    CMAKELINE+="-D ode_ENABLE_TESTS:BOOL=ON "
+}
+
+function pressio_solvers_tests_on(){
+    CMAKELINE+="-D solvers_ENABLE_TESTS:BOOL=ON "
+}
+
+function pressio_rom_tests_on(){
+    CMAKELINE+="-D rom_ENABLE_TESTS:BOOL=ON "
+}
+
+
 function pressio_enable_binutils(){
     CMAKELINE+="-D TPL_ENABLE_BinUtils=ON "
 }

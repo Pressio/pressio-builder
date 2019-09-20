@@ -33,14 +33,14 @@ function build_eigen(){
 	rm -rf install
     fi
 
-    if [ $DRYRUN -eq 0 ];
+    if [ $DRYRUN == no ];
     then
 	echo "${fgyellow}Starting config, build and install of ${TPLname} ${fgrst}"
 	echo "installing Eigen by copying source files to target install directory"
 	mkdir -p ./install/include/eigen3/Eigen
 	cp -rf ./${EIGENUNPACKEDDIRNAME}/Eigen/* ./install/include/eigen3/Eigen
     else
-	echo "${fgyellow}with dryrun=0, here I would config, build and install ${TPLname} ${fgrst}"
+	echo "${fgyellow}with dryrun=no, here I would config, build and install ${TPLname} ${fgrst}"
     fi
 
     cd ${PARENTDIR}

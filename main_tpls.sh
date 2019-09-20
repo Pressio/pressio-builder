@@ -68,12 +68,9 @@ echo "${fggreen}All TPL names seem valid: ok! ${fgrst}"
 # check if you have a valid cmake
 ############################################
 
-have_admissible_cmake && res=$?
-if [[ "$res" == "1" ]]; then
-    exit 22
-else
-    echo "${fggreen}Valid cmake found: ok! ${fgrst}"
-fi
+have_admissible_cmake
+echo "${fggreen}Valid cmake found: ok! ${fgrst}"
+
 
 #################################
 # building all TPLs happens below
