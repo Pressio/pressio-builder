@@ -111,7 +111,7 @@ ${CMAKELINEGEN}
 # above vars have been defined.
 # calling the generator will build the string for cmake line
 # this will append to the global var CMAKELINE
-if [[ ${CMAKELINE} -eq "" ]]; then
+if [[ -z ${CMAKELINE} ]]; then
     echo "${fgred} CMAKELINE is empty, this means I cannot configure.${fgrst}"
     echo "${fgred} Something is wrong with how to overwrite CMAKELINE. Terminating.${fgrst}"
     exit 1
