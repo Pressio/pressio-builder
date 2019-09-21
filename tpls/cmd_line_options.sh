@@ -17,7 +17,6 @@ for option; do
 
 	-tpls=* | --tpls=* )
 	    {
-		echo "fr"
 		library_list=`expr "x$option" : "x-*tpls=\(.*\)"`
 		old_IFS=$IFS
 		IFS=,
@@ -28,7 +27,6 @@ for option; do
 		    tpl_names=("${tpl_names[@]}" "${library}")
 		done
 		IFS=$old_IFS
-		echo "gogfof"
 	    }
 	    ;;
 
