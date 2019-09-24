@@ -168,6 +168,10 @@ function pressio_rom_tests_on(){
 }
 
 
+function pressio_enable_omp(){
+    CMAKELINE+="-D pressio_ENABLE_OpenMP:BOOL=ON "
+}
+
 function pressio_enable_binutils(){
     CMAKELINE+="-D TPL_ENABLE_BinUtils=ON "
 }
@@ -179,10 +183,6 @@ function pressio_enable_mkl(){
 function pressio_add_dl_link(){
     # the semic ; is needed beccause it builds a string
     EXTRALINKFLAGS+=";dl"
-}
-
-function pressio_add_omp_cxx_flag(){
-    CXXFLAGS+="-fopenmp "
 }
 
 function pressio_add_gfortran_cxx_flag(){
