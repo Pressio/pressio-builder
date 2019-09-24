@@ -50,7 +50,7 @@ function trilinos_examples_off(){
 
 function trilinos_kokkos_omp(){
     CMAKELINE+="-D Trilinos_ENABLE_OpenMP:BOOL=ON "
-    CMAKELINE+="-D KOKKOS_ENABLE_SERIAL:BOOL=OFF "
+    CMAKELINE+="-D KOKKOS_ENABLE_SERIAL:BOOL=ON "
     CMAKELINE+="-D KOKKOS_ENABLE_THREADS:BOOL=OFF "
     CMAKELINE+="-D KOKKOS_ENABLE_OPENMP:BOOL=ON "
 }
