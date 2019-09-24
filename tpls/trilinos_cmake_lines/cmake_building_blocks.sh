@@ -92,6 +92,7 @@ function trilinos_openblaslapack(){
     CMAKELINE+="-D TPL_ENABLE_BLAS=ON "
     # note that BLAS_ROOT needs to be set by environemnt
     if [ -z ${BLAS_ROOT} ]; then
+	echo "You are tryin to enable openblas:"
 	echo "BLAS_ROOT needs to be set in the environment"
 	exit 0
     fi
@@ -101,6 +102,7 @@ function trilinos_openblaslapack(){
     CMAKELINE+="-D TPL_ENABLE_LAPACK=ON "
     # note that LAPACK_ROOT needs to be set by environemnt
     if [ -z ${LAPACK_ROOT} ]; then
+	echo "You are tryin to enable openblas:"
 	echo "LAPACK_ROOT needs to be set in the environment"
 	exit 0
     fi
