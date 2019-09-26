@@ -192,15 +192,5 @@ else
     echo "${fgyellow}with dryrun=0, here I would config, build and install Pressio ${fgrst}"
 fi
 
-# if we are on cee machines, change permissions
-is_cee_build_machine
-iscee=$?
-if [[ "iscee" == "1" ]]; then
-    echo "changing SGID permissions to ${WORKDIR}/pressio/install"
-    chmod g+rxs ${WORKDIR} #not recursive on purpose
-    chmod g+rxs ${WORKDIR}/pressio #not recursive on purpose
-    chmod -R g+rxs ${WORKDIR}/pressio/install
-fi
-
 # return where we started from
 cd ${ORIGDIR}

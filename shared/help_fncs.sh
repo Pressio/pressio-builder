@@ -29,14 +29,6 @@ function call_env_script(){
     fi
 }
 
-function is_cee_build_machine(){
-    if [ ${MYHOSTNAME} == *"cee-build"* ]; then
-	return 1
-    else
-	return 0
-    fi
-}
-
 function version {
     echo "$@" | awk -F. '{ printf("%d%02d%02d\n", $1,$2,$3); }';
 }

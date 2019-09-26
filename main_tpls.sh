@@ -110,12 +110,5 @@ for ((i=0;i<${#tpl_names[@]};++i)); do
     fi
 done
 
-# if we are on cee machines, change permissions
-is_cee_build_machine
-iscee=$?
-if [[ "iscee" == "1" ]]; then
-    chmod -R g+rxs ${WORKDIR}
-fi
-
 # return where we started from
 cd ${ORIGDIR}
