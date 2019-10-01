@@ -8,7 +8,6 @@ function default() {
     pressio_link_type
     pressio_cmake_verbose
     pressio_serial_c_cxx_compilers
-    pressio_serial_fortran_compiler
     pressio_tests_on
     pressio_examples_off
     pressio_enable_eigen
