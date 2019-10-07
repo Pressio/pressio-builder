@@ -90,7 +90,6 @@ if test "$want_help" = yes; then
 Usage: $0 <args>...
 
 NOTE: Does not matter if you prepend Args with - or --, it is the same.
-The <args>... can be:
 
 -h, --help				display help and exit
 
@@ -101,16 +100,16 @@ The <args>... can be:
 					default   = yes
 
 --tpls=					WHAT:	   comma-separated list of the library names to build.
-					ATTENTION: there is no space after commas.
-					CHOICES:   currently, eigen,gtest,pybind11,trilinos,kokkos
-					Note:	   if building trilinos with kokkos, no need to build kokkos separately
-						   because the trilinos I build has Kokkos enabled
+					ATTENTION: do not put a space after the commas
+					CHOICES:   eigen,gtest,pybind11,trilinos,kokkos
+					Note:	   if you build trilinos with one of the default settings, no need
+						   to build kokkos separately because I build trilinos with Kokkos enabled
 					OPTIONAL:  yes
-					default    = gtest,eigen
+					default    = eigen,gtest,pybind11,trilinos,kokkos
 
 --target-dir=				WHAT:	   the target directory where I will build/install all tpls.
 					ATTENTION: you must provide a full path
-					OPTIONAL:  no, you MUST set it, otherwise script exits.
+					OPTIONAL:  no. You MUST set it, otherwise script exits.
 					EXAMPLE:   if you use:
 							--target-dir=/home/user/tpls
 						   and you set
@@ -123,31 +122,25 @@ The <args>... can be:
 							/home/user/tpls/eigen/build     : contains the eigen build
 							/home/user/tpls/eigen/install   : contains the eigen install
 
+--env-script=				WHAT:	   full path to the bash script I will source to set the environment.
+					OPTIONAL:  yes, if you don't pass anything, I assume the environment is set.
+					NOTE:	   look at the example environment file "script example_env_script.sh"
+						   shipped with this repo to find out which environment vars I need.
+
+--build-mode=[Debug/Release]		WHAT:	   specifies the build type for each selected tpl.
+					Note:	   build-mode is NOT used for eigen,gtest,pybind11: these are header only.
+						   build-mode is used for trilinos and kokkos.
+					OPTIONAL:  yes
+					default    = Debug
+
 --wipe-existing=[yes/no]		WHAT:	   if yes, I will delete all the build and installation subdirectories
 						   under the destination folder --target-dir and redo things from scratch.
 					OPTIONAL:  yes
 					default    = yes
 
---build-mode=[Debug/Release]		WHAT:	   specifies the build type for each selected tpl.
-					Note:	   build-mode not used for eigen,gtest,pybind11: these are header only.
-						   build-mode is used for trilinos/kokkos.
-					OPTIONAL:  yes
-					default    = Debug
-
 --link-type=[dynamic/static]		WHAT:	   what link type to use, static or dynamic libraries.
 					OPTIONAL:  yes
 					default    = dynamic
-
---print-logs-to-file-only=[yes/no]	WHAT:	   if yes, I will print all configure/build/install logs, to files
-						   that are specific for each TPL built and I will NOT print anything to screen.
-						   if no, I will both print to files and to screen.
-					OPTIONAL:  yes
-					default    = no
-
---env-script=				WHAT:	   full path to the bash script I will source to set the environment.
-					OPTIONAL:  yes, if you don't pass anything, I assume the environment is set.
-					NOTE:	   look at the example environment file "script example_env_script.sh"
-						   shipped with this repo to find out which environment vars I need.
 
 --cmake-custom-generator-file=		WHAT:	   full path to bash file containing custom functions to generate cmake configure lines for tpls.
 						   More specifically, a cmake generator function is supposed to store in the
@@ -157,23 +150,30 @@ The <args>... can be:
 						   every time a new tpl needs to be built, the CMAKELINE is reset. So in your custom generators
 						   you can assume that on entry, CMAKELINE is empty.
 						   After you overwrite the CMAKELINE, I will execute the command using: ``cmake eval ${CMAKELINE}''.
-					OPTIONAL:  yes, not needed if you want to use my default generators.
-					EXAMPLE:   look at the example "example_tpls_cmake_generators.sh" shipped with this
+					OPTIONAL:  yes, you can use one of my default generators.
+					EXAMPLE:   look at "sample_scripts/example_tpls_cmake_generators.sh" shipped with this
 						   repo as a reference to see how to build custom ones.
 						   To build custom generator functions, you can either use the tpl-specific building blocks
 						   <tplname>_cmake_lines/cmake_building_blocks.sh, or (if you know what you are doing) you can
-						   just overwriting the CMAKELINE with commands you know.
+						   just overwrite the CMAKELINE with commands you know.
 
 --cmake-generator-names=		WHAT:	   comma-separated list of bash function names generating the cmake line string for configuring.
 					ATTENTION: there is no space after commas.
-					ATTENTION: The order of the names should match the list passed to --with-libraries.
+					ATTENTION: The order of the names should match the list passed to --tpls.
 						   If you pass a custom file to -cmake-generators-file, then the function names passed in
 						   cmake-generators-names can be taken from those in that custom bash file.
 					OPTIONAL:  yes
-					default	   = default,default
-						   List of DEFAULT admissible functions can be found in <tplname>_cmake_lines/cmake_line_generator.sh
+					default	   = default,default,default,default,default
+						   List of DEFAULT admissible functions can be found in <tplname>_cmake_lines/default_cmake_line_generator.sh
 					NOTE:	   for eigen,gtest,pybind using the default should (almost) always be successful.
-						   For Trilinos and Kokkos things are more complex, so default might not work straight out of the box.
+						   For Trilinos and Kokkos things are more complex, you can try the default and in most
+						   cases it should work, but it might not work straight out of the box.
+
+--print-logs-to-file-only=[yes/no]	WHAT:	   if yes, I will print all configure/build/install logs, to files
+						   that are specific for each TPL built and I will NOT print anything to screen.
+						   if no, I will both print to files and to screen.
+					OPTIONAL:  yes
+					default    = no
 
 EOF
   exit 0

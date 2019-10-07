@@ -36,4 +36,4 @@ and follow the directions.
   - cloned from: `git@github.com:pybind/pybind11.git`
   - using branch: origin/v23
 
-*More details on this repo to come soon*
+*More details coming soon*

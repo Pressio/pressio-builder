@@ -102,7 +102,6 @@ if test "$want_help" = yes; then
 Usage: $0 <args>...
 
 NOTE: Does not matter if you prepend Args with - or --, it is the same.
-The <args>... can be:
 
 -h, --help				display help and exit
 
@@ -116,15 +115,6 @@ The <args>... can be:
 					OPTIONAL:  yes, if you do not set it, I will clone Pressio and place it
 						   inside the directory set by --target-dir
 
---package-name=				WHAT:	   name of the target pressio package to build.
-					CHOICES:   currently: mpl, utils, containers, qr, svd, solvers, ode, rom
-						   if you set package-name=all, then ALL packages will be built.
-					Note:	   Since the packages are interdependent, you do NOT need to specify
-						   all of them, so just choose the package you want, then all
-						   its dependencies will be turned on and built automatically.
-					EXAMPLE:   if you set --package-name=qr, then `mpl, utils, containers` will be also enabled.
-					default    = rom (which will enavble all the others)
-
 --target-dir=				WHAT:	   the target directory where Pressio will be built/installed.
 					ATTENTION: it must be a full path. I will make the dir if not existing already.
 					OPTIONAL:  no, you need to set it, otherwise script exits.
@@ -134,12 +124,23 @@ The <args>... can be:
 							/home/user/pressio/build     : contains the build
 							/home/user/pressio/install   : contains the install
 
+--package-name=				WHAT:	   name of the target pressio package to build.
+					CHOICES:   currently: mpl, utils, containers, qr, svd, solvers, ode, rom
+						   if you set package-name=all, then ALL packages will be built.
+					Note:	   Since the packages are interdependent, you do NOT need to specify
+						   all of them, so just choose the package you want, then all
+						   its dependencies will be turned on and built automatically.
+						   However, if you specify a single package, then only the tests for that
+						   package will be turned on. If you want all tests, use -package-name=all.
+					EXAMPLE:   if you set --package-name=qr, then `mpl, utils, containers` will be also enabled.
+					default    = rom (which will enavble all the others)
+
 --wipe-existing=[yes/no]		WHAT:	   if yes, I will delete all the build and installation subdirectories
 						   under the destination folder --target-dir and redo things from scratch.
 					OPTIONAL:  yes
 					default    = yes
 
---build-mode=[Debug/Release]		WHAT:	   specifies the build type.
+--build-mode=[Debug/Release]		WHAT:	   specifies the build type. This only matters if you are building tests.
 					OPTIONAL:  yes
 					default    = Debug
 
@@ -153,7 +154,8 @@ The <args>... can be:
 						   shipped with this repo to find out which environment vars I need.
 
 --ncpu-for-make=[n]			WHAT:	   number of processes (n) to use for parallel make
-					OPTIONAL:  yes, if not passed, I will use 6
+					OPTIONAL:  yes
+					default    = 6
 
 --cmake-custom-generator-file=		WHAT:	   full path to bash file containing custom functions to generate cmake configure line for Pressio.
 						   More specifically, a cmake generator function is supposed to store in the
@@ -176,15 +178,15 @@ The <args>... can be:
 						   should (almost) always get you a long way.
 						   If building Pressio with Trilinos/Kokkos enabled, then this might not be as smooth.
 
-To specify TPLs (obviously you need to tell me where to find the TPLs that you plan to enable via the cmake generator function):
+To specify where I can find the TPLs that you plan to enable via the cmake generator function:
 --eigen-path=				WHAT:	   the full path to eigen installation directory
 					OPTIONAL:  no, must be set because pressio requires it
 
 --gtest-path=				WHAT:	   the full path to gtest installation directory
-					OPTIONAL:  yes, because it is optional
+					OPTIONAL:  yes.
 
 --trilinos-path=			WHAT:	   the full path to trilinos installation directory
-					OPTIONAL:  yes, because it is optional
+					OPTIONAL:  yes
 
 --kokkos-path=				WHAT:	   the full path to kokkos installation directory
 					OPTIONAL:  yes, because it is optional
