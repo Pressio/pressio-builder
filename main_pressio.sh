@@ -48,25 +48,6 @@ have_admissible_cmake
 echo "${fggreen}Valid cmake found: ok! ${fgrst}"
 
 ############################################
-# print info about wanted package
-############################################
-
-echo "${fggreen}You selected --package-name=${PACKAGENAME}.${fgrst}"
-echo "${fggreen}Needed packages will also be enabled automatically.${fgrst}"
-
-# the pressio packages dependency structure is:
-# mpl		: always needed
-# utils		: always needed
-# apps		: depends on mpl, utils
-# containers	: depends on mpl, utils
-# qr		: depends on mpl, utils, containers
-# svd		: depends on mpl, utils, containers, qr
-# solvers	: depends on mpl, utils, containers, qr
-# ode		: depends on mpl, utils, apps, containers, qr, solvers
-# rom		: depends on mpl, utils, apps, containers, qr, svd, solvers, ode
-
-
-############################################
 # source generator functions for Pressio etc
 ############################################
 
@@ -142,24 +123,9 @@ fi
 # this will append to the global var CMAKELINE
 ${CMAKELINEGEN}
 
-# you set --package-name=all, then I am going to build all of them
-# regardless of what you did with your cmake configuring line.
-# I need to do this here, befcause it is needs to be done AFTER the
-# cmake line was configured
-if [ ${PACKAGENAME} == all ]; then
-    echo "${fggreen}You set --package-name=all, so I am building all ${fgrst}"
-    echo "${fggreen}by using -D pressio_ENABLE_ALL_PACKAGES:BOOL=ON ${fgrst}"
-    echo "${fggreen}if this is not what you wanted, stop me now. ${fgrst}"
-
-    # add the command to cmakeline to build all packages
-    CMAKELINE+="-D pressio_ENABLE_ALL_PACKAGES:BOOL=ON "
-fi
-
 # after generator was called, now finalize cmakeline
 # append cxx flags
 CMAKELINE+="-D CMAKE_CXX_FLAGS:STRING='${CXXFLAGS}' "
-# append extra link flags
-CMAKELINE+="-D pressio_EXTRA_LINK_FLAGS:STRING='${EXTRALINKFLAGS}' "
 
 # append prefix
 CMAKELINE+="-D CMAKE_INSTALL_PREFIX:PATH=../install "

@@ -1,27 +1,7 @@
 #!/bin/bash
 
-
 function pressio_build_type(){
     CMAKELINE+="-D CMAKE_BUILD_TYPE:STRING=${MODEbuild} "
-}
-
-function pressio_link_type(){
-    local is_shared=ON
-    local link_search_static=OFF
-    if [[ ${LINKTYPE} == static ]]; then
-	is_shared=OFF
-	link_search_static=ON
-    fi
-    echo "is_shared = $is_shared"
-    echo "link_search_static = $link_search_static"
-    CMAKELINE+="-D BUILD_SHARED_LIBS:BOOL=${is_shared} "
-    # following lines cause issues for CEE, it seems we dont need them
-    #CMAKELINE+="-D pressio_LINK_SEARCH_START_STATIC=$link_search_static "
-    #CMAKELINE+="-D TPL_FIND_SHARED_LIBS=${is_shared} "
-}
-
-function pressio_enable_cxx11(){
-    CMAKELINE+="-D pressio_ENABLE_CXX11:BOOL=ON "
 }
 
 function pressio_cmake_verbose(){
@@ -29,20 +9,13 @@ function pressio_cmake_verbose(){
 }
 
 function pressio_mpi_c_cxx_compilers(){
-    CMAKELINE+="-D TPL_ENABLE_MPI:BOOL=ON "
-    CMAKELINE+="-D MPI_C_COMPILER:FILEPATH=${CC} "
-    CMAKELINE+="-D MPI_CXX_COMPILER:FILEPATH=${CXX} "
-    CMAKELINE+="-D MPI_EXEC:FILEPATH=${MPIRUNe} "
-    CMAKELINE+="-D MPI_USE_COMPILER_WRAPPERS:BOOL=ON "
+    CMAKELINE+="-D PRESSIO_ENABLE_TPL_MPI:BOOL=ON "
+    CMAKELINE+="-D CMAKE_C_COMPILER:FILEPATH=${CC} "
+    CMAKELINE+="-D CMAKE_CXX_COMPILER:FILEPATH=${CXX} "
 }
 
 function pressio_mpi_fortran_on(){
-    CMAKELINE+="-D pressio_ENABLE_Fortran:BOOL=ON "
     CMAKELINE+="-D MPI_Fortran_COMPILER:FILEPATH=${F90} "
-}
-
-function pressio_fortran_off(){
-    CMAKELINE+="-D pressio_ENABLE_Fortran:BOOL=OFF "
 }
 
 # serial compilers (if you pick serial you should not pick mpi)
@@ -56,135 +29,119 @@ function pressio_serial_fortran_compiler(){
     CMAKELINE+="-D CMAKE_Fortran_COMPILER:FILEPATH=${FC} "
 }
 
-function trilinos_blas_on(){
-    CMAKELINE+="-D TPL_ENABLE_BLAS=ON "
+function pressio_tests_on(){
+    CMAKELINE+="-D PRESSIO_ENABLE_TESTS:BOOL=ON "
 }
 
-function trilinos_lapack_on(){
-    CMAKELINE+="-D TPL_ENABLE_LAPACK=ON "
+function pressio_enable_debug_print(){
+    CMAKELINE+="-D PRESSIO_ENABLE_DEBUG_PRINT=ON "
+}
+
+function pressio_blas_on(){
+    CMAKELINE+="-D PRESSIO_ENABLE_TPL_BLAS=ON "
+}
+
+function pressio_lapack_on(){
+    CMAKELINE+="-D PRESSIO_ENABLE_TPL_LAPACK=ON "
 }
 
 function pressio_openblaslapack(){
-    CMAKELINE+="-D TPL_ENABLE_BLAS=ON "
+    CMAKELINE+="-D PRESSIO_ENABLE_TPL_BLAS=ON "
     # note that BLAS_ROOT needs to be set by environemnt
     if [ -z ${BLAS_ROOT} ]; then
 	echo "BLAS_ROOT needs to be set in the environment"
 	exit 0
     fi
-    CMAKELINE+="-D BLAS_LIBRARY_DIRS:PATH='${BLAS_ROOT}/lib' "
-    CMAKELINE+="-D BLAS_LIBRARY_NAMES:STRING='openblas' "
+    CMAKELINE+="-DBLAS_DIR=${BLAS_ROOT} "
+    CMAKELINE+="-DBLA_VENDOR=OpenBLAS "
 
-    CMAKELINE+="-D TPL_ENABLE_LAPACK=ON "
+    CMAKELINE+="-D PRESSIO_ENABLE_TPL_LAPACK=ON "
     # note that LAPACK_ROOT needs to be set by environemnt
     if [ -z ${LAPACK_ROOT} ]; then
 	echo "LAPACK_ROOT needs to be set in the environment"
 	exit 0
     fi
-    CMAKELINE+="-D LAPACK_LIBRARY_DIRS:PATH='${LAPACK_ROOT}/lib' "
-    CMAKELINE+="-D LAPACK_LIBRARY_NAMES:STRING='openblas' "
-}
-
-function pressio_tests_off(){
-    CMAKELINE+="-D pressio_ENABLE_TESTS:BOOL=OFF "
-}
-
-function pressio_tests_on(){
-    CMAKELINE+="-D pressio_ENABLE_TESTS:BOOL=ON "
-}
-
-function pressio_examples_off(){
-    CMAKELINE+="-D pressio_ENABLE_EXAMPLES:BOOL=OFF "
-}
-
-function pressio_examples_on(){
-    CMAKELINE+="-D pressio_ENABLE_EXAMPLES:BOOL=ON "
-}
-
-function pressio_enable_eigen(){
-    CMAKELINE+="-D TPL_ENABLE_EIGEN=ON "
-    local LINE="${EIGENPATH};${EIGENPATH}/include/eigen3"
-    CMAKELINE+="-D EIGEN_INCLUDE_DIRS='${LINE}' "
-}
-
-function pressio_enable_pybind11(){
-    CMAKELINE+="-D TPL_ENABLE_PYBIND11=ON "
-    CMAKELINE+="-D PYBIND11_INCLUDE_DIRS:PATH=${PYBIND11PATH}/include "
-}
-
-function pressio_enable_kokkos(){
-    CMAKELINE+="-D TPL_ENABLE_KOKKOS=ON "
-    CMAKELINE+="-D KOKKOS_INCLUDE_DIRS:PATH=${KOKKOSPATH}/include "
-
-    # the following is equivalent to doing:
-    #-D KOKKOS_LIBRARY_DIRS="${KOKKOSPATH}/lib64;${KOKKOSPATH}/lib"
-    local stiched="${KOKKOSPATH}/lib64;${KOKKOSPATH}/lib"
-    CMAKELINE+="-D KOKKOS_LIBRARY_DIRS='${stiched}' "
-}
-
-function pressio_enable_trilinos(){
-    CMAKELINE+="-D TPL_ENABLE_TRILINOS=ON "
-    CMAKELINE+="-D TRILINOS_INCLUDE_DIRS:PATH=${TRILINOSPATH}/include "
-
-    # the following is equivalent to doing:
-    #-D TRILINOS_LIBRARY_DIRS="${TRILINOSPATH}/lib64;${TRILINOSPATH}/lib"
-    local TRILLIBstiched="${TRILINOSPATH}/lib64;${TRILINOSPATH}/lib"
-    CMAKELINE+="-D TRILINOS_LIBRARY_DIRS='${TRILLIBstiched}' "
+    CMAKELINE+="-DLAPACK_DIR=${BLAS_ROOT} "
 }
 
 function pressio_enable_gtest(){
-    CMAKELINE+="-D TPL_ENABLE_GTEST=ON "
-    CMAKELINE+="-D GTEST_INCLUDE_DIRS:PATH=${GTESTPATH}/include "
-
-    local GTLIBstiched="${GTESTPATH}/lib;${GTESTPATH}/lib64"
-    CMAKELINE+="-D GTEST_LIBRARY_DIRS='${GTLIBstiched}' "
+    CMAKELINE+="-D GTEST_ROOT=${GTESTPATH} "
 }
 
-# this should not change regardless of where we build because
-# it is driven by the list of packages passed to the main build file
-function pressio_pressio_target_package(){
-    CMAKELINE+="-D pressio_ENABLE_ALL_PACKAGES:BOOL=OFF "
-    CMAKELINE+="-D pressio_ENABLE_ALL_OPTIONAL_PACKAGES:BOOL=OFF "
-    CMAKELINE+="-D pressio_ENABLE_${PACKAGENAME}:BOOL=ON "
+function pressio_enable_eigen(){
+    CMAKELINE+="-D PRESSIO_ENABLE_TPL_EIGEN=ON "
+    local LINE="${EIGENPATH};${EIGENPATH}/include/eigen3"
+    CMAKELINE+="-D EIGEN_INCLUDE_DIR='${LINE}' "
 }
 
-function pressio_enable_debug_print(){
-    CMAKELINE+="-D DEBUG_PRINT::BOOL=ON "
-}
-
-function pressio_all_packages(){
-    CMAKELINE+="-D pressio_ENABLE_ALL_PACKAGES:BOOL=ON "
-}
-
-function pressio_ode_tests_on(){
-    CMAKELINE+="-D ode_ENABLE_TESTS:BOOL=ON "
-}
-
-function pressio_solvers_tests_on(){
-    CMAKELINE+="-D solvers_ENABLE_TESTS:BOOL=ON "
-}
-
-function pressio_rom_tests_on(){
-    CMAKELINE+="-D rom_ENABLE_TESTS:BOOL=ON "
+function pressio_enable_trilinos(){
+    CMAKELINE+="-D PRESSIO_ENABLE_TPL_TRILINOS=ON "
+    CMAKELINE+="-D TRILINOS_INC_DIR=${TRILINOSPATH}/include "
+    # the following is equivalent to doing:
+    #-D TRILINOS_LIBRARY_DIRS="${TRILINOSPATH}/lib64;${TRILINOSPATH}/lib"
+    local TRILLIBstiched="${TRILINOSPATH}/lib64;${TRILINOSPATH}/lib"
+    CMAKELINE+="-D TRILINOS_LIB_DIR='${TRILLIBstiched}' "
 }
 
 
-function pressio_enable_omp(){
-    CMAKELINE+="-D pressio_ENABLE_OpenMP:BOOL=ON "
+function pressio_enable_kokkos(){
+     CMAKELINE+="-D PRESSIO_ENABLE_TPL_KOKKOS=ON "
+#     CMAKELINE+="-D KOKKOS_INCLUDE_DIRS:PATH=${KOKKOSPATH}/include "
+#     # the following is equivalent to doing:
+#     #-D KOKKOS_LIBRARY_DIRS="${KOKKOSPATH}/lib64;${KOKKOSPATH}/lib"
+#     local stiched="${KOKKOSPATH}/lib64;${KOKKOSPATH}/lib"
+#     CMAKELINE+="-D KOKKOS_LIBRARY_DIRS='${stiched}' "
 }
 
-function pressio_enable_binutils(){
-    CMAKELINE+="-D TPL_ENABLE_BinUtils=ON "
-}
+# function pressio_enable_pybind11(){
+#     CMAKELINE+="-D TPL_ENABLE_PYBIND11=ON "
+#     CMAKELINE+="-D PYBIND11_INCLUDE_DIR:PATH=${PYBIND11PATH}/include "
+# }
 
-function pressio_enable_mkl(){
-    CMAKELINE+="-D TPL_ENABLE_MKL=ON "
-}
 
-function pressio_add_dl_link(){
-    # the semic ; is needed beccause it builds a string
-    EXTRALINKFLAGS+=";dl"
-}
 
-function pressio_add_gfortran_cxx_flag(){
-    CXXFLAGS+="-gfortran "
-}
+
+
+
+
+
+
+# function pressio_enable_omp(){
+#     CMAKELINE+="-D pressio_ENABLE_OpenMP:BOOL=ON "
+# }
+
+# function pressio_enable_binutils(){
+#     CMAKELINE+="-D TPL_ENABLE_BinUtils=ON "
+# }
+
+# function pressio_enable_mkl(){
+#     CMAKELINE+="-D TPL_ENABLE_MKL=ON "
+# }
+
+# function pressio_add_dl_link(){
+#     # the semic ; is needed beccause it builds a string
+#     EXTRALINKFLAGS+=";dl"
+# }
+
+# function pressio_add_gfortran_cxx_flag(){
+#     CXXFLAGS+="-gfortran "
+# }
+
+# function pressio_examples_on(){
+#     CMAKELINE+="-D BUILD_EXAMPLES:BOOL=ON "
+# }
+
+# function pressio_link_type(){
+#     local is_shared=ON
+#     local link_search_static=OFF
+#     if [[ ${LINKTYPE} == static ]]; then
+# 	is_shared=OFF
+# 	link_search_static=ON
+#     fi
+#     echo "is_shared = $is_shared"
+#     echo "link_search_static = $link_search_static"
+#     CMAKELINE+="-D BUILD_SHARED_LIBS:BOOL=${is_shared} "
+#     # following lines cause issues for CEE, it seems we dont need them
+#     #CMAKELINE+="-D pressio_LINK_SEARCH_START_STATIC=$link_search_static "
+#     #CMAKELINE+="-D TPL_FIND_SHARED_LIBS=${is_shared} "
+# }

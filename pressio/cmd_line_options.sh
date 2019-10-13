@@ -67,10 +67,6 @@ for option; do
 	    CMAKELINEGEN=`expr "x$option" : "x-*cmake-generator-name=\(.*\)"`
 	    ;;
 
-	-package-name=* | --package-name=* )
-	    PACKAGENAME=`expr "x$option" : "x-*package-name=\(.*\)"`
-	    ;;
-
 	# -packages=* | --packages=* )
 	#     pkg_list=`expr "x$option" : "x-*packages=\(.*\)"`
 	#     old_IFS=$IFS
@@ -106,8 +102,7 @@ NOTE: Does not matter if you prepend Args with - or --, it is the same.
 -h, --help				display help and exit
 
 --dryrun=[yes/no]			WHAT:	  if dryrun=yes, I create the target directory tree and print
-						  to screen the commands that I would use for configuring/building
-					          without performing any real configurantion/build/installation
+						  to screen the commands that I would use. NO conf/buidl/install is done.
 					OPTIONAL: yes
 					default   = yes
 
@@ -115,7 +110,7 @@ NOTE: Does not matter if you prepend Args with - or --, it is the same.
 					OPTIONAL:  yes, if you do not set it, I will clone Pressio and place it
 						   inside the directory set by --target-dir
 
---target-dir=				WHAT:	   the target directory where Pressio will be built/installed.
+--target-dir=				WHAT:	   the target directory where Pressio will be configured and/or built and/or installed.
 					ATTENTION: it must be a full path. I will make the dir if not existing already.
 					OPTIONAL:  no, you need to set it, otherwise script exits.
 					EXAMPLE:   For example: if you use
@@ -123,17 +118,6 @@ NOTE: Does not matter if you prepend Args with - or --, it is the same.
 						   then this script will create the following structure:
 							/home/user/pressio/build     : contains the build
 							/home/user/pressio/install   : contains the install
-
---package-name=				WHAT:	   name of the target pressio package to build.
-					CHOICES:   currently: mpl, utils, containers, qr, svd, solvers, ode, rom
-						   if you set package-name=all, then ALL packages will be built.
-					Note:	   Since the packages are interdependent, you do NOT need to specify
-						   all of them, so just choose the package you want, then all
-						   its dependencies will be turned on and built automatically.
-						   However, if you specify a single package, then only the tests for that
-						   package will be turned on. If you want all tests, use -package-name=all.
-					EXAMPLE:   if you set --package-name=qr, then `mpl, utils, containers` will be also enabled.
-					default    = rom (which will enavble all the others)
 
 --wipe-existing=[yes/no]		WHAT:	   if yes, I will delete all the build and installation subdirectories
 						   under the destination folder --target-dir and redo things from scratch.
@@ -143,10 +127,6 @@ NOTE: Does not matter if you prepend Args with - or --, it is the same.
 --build-mode=[Debug/Release]		WHAT:	   specifies the build type. This only matters if you are building tests.
 					OPTIONAL:  yes
 					default    = Debug
-
---link-type=[dynamic/static]		WHAT:	   what link type to use, static or dynamic libraries.
-					OPTIONAL:  yes
-					default    = dynamic
 
 --env-script=				WHAT:	   full path to the bash script I will source to set the environment.
 					OPTIONAL:  yes, if you don't pass anything, I assume the environment is set.
@@ -178,20 +158,35 @@ NOTE: Does not matter if you prepend Args with - or --, it is the same.
 						   should (almost) always get you a long way.
 						   If building Pressio with Trilinos/Kokkos enabled, then this might not be as smooth.
 
-To specify where I can find the TPLs that you plan to enable via the cmake generator function:
---eigen-path=				WHAT:	   the full path to eigen installation directory
+If you only configure pressio to install, you only not need to pass info about which TPLs you want to enable. But not info about where
+to find headers and libs of those TPLs. The headers and lib of TPLs are ONLY needed at configure time if you build the pressio tests.
+To specify to find the TPLs that you plan to enable, use the following.
+--eigen-path=				WHAT:	   the full path to eigen installation directory with an include subdir
 					OPTIONAL:  no, must be set because pressio requires it
 
---gtest-path=				WHAT:	   the full path to gtest installation directory
+--gtest-path=				WHAT:	   the full path to gtest installation directory with an include and lib subdirs
 					OPTIONAL:  yes.
 
---trilinos-path=			WHAT:	   the full path to trilinos installation directory
+--trilinos-path=			WHAT:	   the full path to trilinos installation directory with an include and lib subdirs
 					OPTIONAL:  yes
 
---kokkos-path=				WHAT:	   the full path to kokkos installation directory
+--kokkos-path=				WHAT:	   the full path to kokkos installation directory with an include and lib subdirs
 					OPTIONAL:  yes, because it is optional
 					NOTE:	   if you set --trilinos-path, I will use the kokkos from there.
 						   --kokkos-path is only needed when building Pressio with Kokkos but NOT Trilinos.
 EOF
   exit 0
 fi
+
+
+
+# --package-name=				WHAT:	   name of the target pressio package to build.
+# 					CHOICES:   currently: mpl, utils, containers, qr, svd, solvers, ode, rom
+# 						   if you set package-name=all, then ALL packages will be built.
+# 					Note:	   Since the packages are interdependent, you do NOT need to specify
+# 						   all of them, so just choose the package you want, then all
+# 						   its dependencies will be turned on and built automatically.
+# 						   However, if you specify a single package, then only the tests for that
+# 						   package will be turned on. If you want all tests, use -package-name=all.
+# 					EXAMPLE:   if you set --package-name=qr, then `mpl, utils, containers` will be also enabled.
+# 					default    = rom (which will enavble all the others)

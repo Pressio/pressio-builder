@@ -21,7 +21,7 @@ function check_and_clean(){
 
 function call_env_script(){
     if [[ ! -z ${SETENVscript} ]]; then
-	echo "${fgyellow}+++ Loading environment from ${SETENVscript} +++{$fgrst}"
+	echo "${fgyellow}+++ Loading environment from ${SETENVscript} +++${fgrst}"
 	source ${SETENVscript}
 	echo "PATH = $PATH"
     else
