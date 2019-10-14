@@ -35,6 +35,6 @@ function default_for_tutorials() {
     pressio_build_type
     pressio_cmake_verbose
     pressio_serial_c_cxx_compilers
-    pressio_enable_eigen
+    CMAKELINE+="-DPRESSIO_ENABLE_TPL_EIGEN=ON "
     pressio_enable_debug_print
 }
