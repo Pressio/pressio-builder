@@ -93,10 +93,10 @@ function pressio_enable_kokkos(){
 #     CMAKELINE+="-D KOKKOS_LIBRARY_DIRS='${stiched}' "
 }
 
-# function pressio_enable_pybind11(){
-#     CMAKELINE+="-D TPL_ENABLE_PYBIND11=ON "
-#     CMAKELINE+="-D PYBIND11_INCLUDE_DIR:PATH=${PYBIND11PATH}/include "
-# }
+function pressio_enable_pybind11(){
+    CMAKELINE+="-D PRESSIO_ENABLE_TPL_PYBIND11=ON "
+    #CMAKELINE+="-D PYBIND11_INCLUDE_DIR:PATH=${PYBIND11PATH}/include "
+}
 
 
 
