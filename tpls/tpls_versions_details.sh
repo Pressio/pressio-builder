@@ -19,7 +19,7 @@ GTESTBRANCH=master
 # trilinos
 #----------
 TRILINOSGITURL=git@github.com:trilinos/Trilinos.git
-TRILINOSBRANCH=trilinos-release-12-14-branch
+TRILINOSBRANCH=trilinos-release-12-18-branch
 
 #----------
 # pybind11
