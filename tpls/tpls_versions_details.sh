@@ -19,7 +19,9 @@ GTESTBRANCH=master
 # trilinos
 #----------
 TRILINOSGITURL=git@github.com:trilinos/Trilinos.git
-TRILINOSBRANCH=trilinos-release-12-18-branch
+TRILINOSBRANCH=master
+TRILINOSCOMMITHASH=d5abc894f1052682c4933b9b6951d904e74aa7fe
+#trilinos-release-12-18-branch
 
 #----------
 # pybind11

@@ -53,12 +53,14 @@ function trilinos_kokkos_omp(){
     CMAKELINE+="-D KOKKOS_ENABLE_SERIAL:BOOL=ON "
     CMAKELINE+="-D KOKKOS_ENABLE_THREADS:BOOL=OFF "
     CMAKELINE+="-D KOKKOS_ENABLE_OPENMP:BOOL=ON "
+    CMAKELINE+="-D KOKKOS_ENABLE_DEPRECATED_CODE=OFF "
 }
 
 function trilinos_kokkos_serial(){
     CMAKELINE+="-D KOKKOS_ENABLE_SERIAL:BOOL=ON "
     CMAKELINE+="-D KOKKOS_ENABLE_THREADS:BOOL=OFF "
     CMAKELINE+="-D KOKKOS_ENABLE_OPENMP:BOOL=OFF "
+    CMAKELINE+="-D KOKKOS_ENABLE_DEPRECATED_CODE=OFF "
 }
 
 function trilinos_packages_for_pressio(){
@@ -66,12 +68,13 @@ function trilinos_packages_for_pressio(){
     CMAKELINE+="-D Trilinos_ENABLE_ALL_OPTIONAL_PACKAGES:BOOL=OFF "
     CMAKELINE+="-D Trilinos_ENABLE_Teuchos:BOOL=ON "
     CMAKELINE+="-D Trilinos_ENABLE_Epetra:BOOL=ON "
+
     CMAKELINE+="-D Trilinos_ENABLE_Tpetra:BOOL=ON "
+    CMAKELINE+="-D Tpetra_ENABLE_DEPRECATED_CODE:BOOL=OFF "
+
     CMAKELINE+="-D Tpetra_ENABLE_TSQR:BOOL=ON "
     CMAKELINE+="-D Trilinos_ENABLE_EpetraExt:BOOL=ON "
     CMAKELINE+="-D Trilinos_ENABLE_AztecOO:BOOL=ON "
-    #CMAKELINE+="-D Trilinos_ENABLE_Anasazi:BOOL=ON "
-    #CMAKELINE+="-D Anasazi_ENABLE_TSQR:BOOL=ON "
     CMAKELINE+="-D Trilinos_ENABLE_Ifpack:BOOL=ON "
     CMAKELINE+="-D Trilinos_ENABLE_Ifpack2:BOOL=ON "
 }

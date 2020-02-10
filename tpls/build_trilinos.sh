@@ -23,7 +23,11 @@ function build_trilinos(){
     if [ ! -d Trilinos ]; then
 	git clone ${TRILINOSGITURL}
     fi
-    cd Trilinos && git checkout ${TRILINOSBRANCH} && cd ..
+    cd Trilinos
+    git checkout ${TRILINOSBRANCH}
+    git checkout ${TRILINOSCOMMITHASH}
+    cd ..
+
     # TRILINOSGITURL and TRILINOSVERSION are defined in tpls_versions_details
 
     # create build
