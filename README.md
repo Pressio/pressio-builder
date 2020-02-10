@@ -34,7 +34,8 @@ and follow the directions.
 
 * trilinos:
   - cloned from: `git@github.com:trilinos/Trilinos.git`
-  - using branch: trilinos-release-12-18-branch
+  - using branch: master
+  - using commit: d5abc894f1052682c4933b9b6951d904e74aa7fe
 
 * pybind11:
   - cloned from: `git@github.com:pybind/pybind11.git`
