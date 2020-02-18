@@ -55,7 +55,7 @@ echo "${fgpurple}My hostname = ${MYHOSTNAME}${fgrst}"
 
 function print_shared_global_vars(){
     echo "ORIGDIR               = $ORIGDIR"
-    echo "Running OS            = $ARCH"
+    echo "OS Running            = $ARCH"
     echo "WORKDIR               = $WORKDIR"
     echo "WIPEEXISTING          = ${WIPEEXISTING}"
     echo "DRYUN                 = ${DRYRUN}"

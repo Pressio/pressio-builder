@@ -1,5 +1,12 @@
 #!/usr/bin/env bash
 
+function print_message_dryrun_no(){
+    echo ""
+    echo "${fgyellow}!!! Since dryrun=no, I am just displaying commands.${fgrst}"
+    echo "${fgyellow}!!! If you want to actually conf/build/install, set dryrun=no.${fgrst}"
+    echo ""
+}
+
 function check_and_clean(){
     local parentdir=$1
     if [ $WIPEEXISTING == yes ];
@@ -21,9 +28,10 @@ function check_and_clean(){
 
 function call_env_script(){
     if [[ ! -z ${SETENVscript} ]]; then
+	echo ""
 	echo "${fgyellow}+++ Loading environment from ${SETENVscript} +++${fgrst}"
 	source ${SETENVscript}
-	echo "PATH = $PATH"
+	echo "Your PATH = $PATH"
     else
 	echo "${fgyellow}+++ --with-env-script is empty. I assume env is set +++${fgrst}"
     fi

@@ -40,6 +40,10 @@ source ./shared/help_fncs.sh
 # set env if not already set
 call_env_script
 
+# check if you have a valid cmake
+have_admissible_cmake
+echo "${fggreen}Valid cmake found: ok! ${fgrst}"
+
 ###########################################################
 # check tpl names parsed from cmd line args are admissible
 ###########################################################
@@ -63,14 +67,6 @@ done
 print_target_tpl_names
 print_target_tpl_cmake_fncs
 echo "${fggreen}All TPL names seem valid: ok! ${fgrst}"
-
-############################################
-# check if you have a valid cmake
-############################################
-
-have_admissible_cmake
-echo "${fggreen}Valid cmake found: ok! ${fgrst}"
-
 
 #################################
 # building all TPLs happens below
@@ -109,6 +105,9 @@ for ((i=0;i<${#tpl_names[@]};++i)); do
 	build_${name} ${fnc}
     fi
 done
+
+# check if workdir is there, and delete if dryrun = yes
+[[ -d $WORKDIR && $DRYRUN == yes ]] && rm -rf ${WORKDIR}
 
 # return where we started from
 cd ${ORIGDIR}

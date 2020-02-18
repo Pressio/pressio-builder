@@ -14,6 +14,9 @@ PYBIND11PATH=
 # pressio git repo src
 PRESSIOSRC=
 
+# default branch to use if cloning the repo
+PRESSIOBRANCH=master
+
 # name of the cmake configuring line
 CMAKELINEGEN=default
 
@@ -22,6 +25,7 @@ njmake=6
 
 function print_global_vars(){
     print_shared_global_vars
+
     echo "CMAKELINEGEN	      = $CMAKELINEGEN"
     echo "PRESSIOSRC	      = $PRESSIOSRC"
     echo "EIGENPATH	      = $EIGENPATH"
@@ -29,13 +33,14 @@ function print_global_vars(){
     echo "TRILINOSPATH	      = $TRILINOSPATH"
     echo "KOKKOSPATH	      = $KOKKOSPATH"
     echo "PYBIND11PATH	      = $PYBIND11PATH"
-    echo "# cpu for make      = ${njmake}"
+    echo "#cpu for make         = ${njmake}"
 }
 
 function check_minimum_vars_set(){
-    # check for shared vars
+    # check minimum shared vars are set
     check_minimum_shared_vars_set
-    echo "${fggreen}Minimum shared vars found: ok! ${fgrst}"
+
+    echo "${fggreen}Minimum set of vars found: ok! ${fgrst}"
 
     # if [ -z $EIGENPATH ]; then
     # 	echo "${fgreen}--eigen-path is empty, you must set it. ${fgrst}"

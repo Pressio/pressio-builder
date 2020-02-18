@@ -19,13 +19,16 @@ function build_gtest(){
     [[ ! -d gtest ]] && mkdir gtest
     cd gtest
 
+
     # clone repo
-    if [ ! -d googletest ]; then
-	# GTESTGITURL is defined in tpls_versions_details
-	git clone ${GTESTGITURL}
+    if [ $DRYRUN == no ]; then
+	if [ ! -d googletest ]; then
+	    # GTESTGITURL is defined in tpls_versions_details
+	    git clone ${GTESTGITURL}
+	fi
+	# GTESTBRANCH is defined in tpls_versions_details
+	cd googletest && git checkout ${GTESTBRANCH} && cd ..
     fi
-    # GTESTBRANCH is defined in tpls_versions_details
-    cd googletest && git checkout ${GTESTBRANCH} && cd ..
 
     # create build
     mkdir build && cd build
@@ -76,7 +79,7 @@ function build_gtest(){
 	fi
 	echo "Install output written to ${PWD}/${IFName}"
     else
-	echo "${fgyellow}with dryrun=no, here I would config, build and install ${TPLname} ${fgrst}"
+	print_message_dryrun_no
     fi
 
     cd ${PARENTDIR}

@@ -10,13 +10,13 @@ echo "Bash version ${BASH_VERSION}"
 source ./shared/colors.sh
 
 ############################################
-# set up few things and read args
+# set up few things and read cmd line args
 ############################################
 
 # source the shared global vars
 source ./shared/shared_global_vars.sh
 
-# load the global variables defined for TPLs
+# load the global variables
 source ./pressio/global_vars.sh
 
 # parse cline arguments
@@ -27,7 +27,7 @@ check_minimum_vars_set
 
 # print the current setting
 echo ""
-echo "${fgyellow}+++ The setting is as follows: +++ ${fgrst}"
+echo "${fgyellow}+++ Setup is as follows: +++ ${fgrst}"
 print_global_vars
 echo ""
 
@@ -40,10 +40,7 @@ source ./shared/help_fncs.sh
 # set env if not already set
 call_env_script
 
-############################################
 # check if you have a valid cmake
-############################################
-
 have_admissible_cmake
 echo "${fggreen}Valid cmake found: ok! ${fgrst}"
 
@@ -62,7 +59,6 @@ if [ ! -z $CMAKELINEGENFNCscript ]; then
     echo "${fgyellow}Sourcing custom cmake generator functions from ${CMAKELINEGENFNCscript}${fgrst}"
     source ${CMAKELINEGENFNCscript}
 fi
-
 
 ############################################
 # enter the actual conf/build/install stage
@@ -86,11 +82,12 @@ cd pressio
 # if Pressio source is NOT provided by user, then clone repo directly in here
 # and set PRESSIOSRC to point to this newly cloned repo
 if [[ -z ${PRESSIOSRC} ]]; then
-    echo "${fgyewllo}You did not specify the Pressio source, so I am cloning it.${fgrst}"
+    echo "${fgyewllo}You did not specify the Pressio source.${fgrst}"
+    echo "${fgyewllo}I am cloning the ${PRESSIOBRANCH} branch.${fgrst}"
     if [ ! -d pressio ]; then
-	git clone --recursive git@github.com:Pressio/pressio.git
+	git clone git@github.com:Pressio/pressio.git
     fi
-    cd pressio && git checkout develop && cd ..
+    cd pressio && git checkout ${PRESSIOBRANCH} && cd ..
     PRESSIOSRC=${PWD}/pressio
 fi
 
@@ -99,18 +96,18 @@ fi
 cd build
 
 ############################################
-# here the cmake line is constructed
+# here the cmake line to use as command is
+# stiched together
 ############################################
 
 # global var CMAKELINE is empty
 CMAKELINE=""
-# we want to customize CMAKE_CXX_FLAGS, define it empty here
+# if we want to customize CMAKE_CXX_FLAGS, define it empty here
 CXXFLAGS=""
 # also, extra link flags to PRESSIO if needed
 EXTRALINKFLAGS=""
 
-# the generator function MUST be called here after
-# above vars have been defined.
+# generator function MUST be called here after above vars have been defined.
 # calling the generator will build the string for cmake line
 # this will append to the global var CMAKELINE, and will
 # change the above flags too if needed
@@ -134,10 +131,9 @@ CMAKELINE+="${PRESSIOSRC}"
 
 # print the cmake commnad that will be used
 echo ""
-echo "For Pressio, the cmake command to use is:"
+echo "Here is the cmake command I am going to use:"
 echo "${fgcyan}cmake ${CMAKELINE}${fgrst}"
 echo ""
-
 
 ############################################
 # configured, build and install
@@ -155,8 +151,11 @@ if [ $DRYRUN == no ]; then
     # install
     make install
 else
-    echo "${fgyellow}with dryrun=0, here I would config, build and install Pressio ${fgrst}"
+    print_message_dryrun_no
 fi
+
+# check if workdir is there, and delete if dryrun = yes
+[[ -d $WORKDIR && $DRYRUN == yes ]] && rm -rf ${WORKDIR}
 
 # return where we started from
 cd ${ORIGDIR}

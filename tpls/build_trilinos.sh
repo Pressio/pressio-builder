@@ -20,15 +20,16 @@ function build_trilinos(){
     cd trilinos
 
     # clone repo
-    if [ ! -d Trilinos ]; then
-	git clone ${TRILINOSGITURL}
-    fi
-    cd Trilinos
-    git checkout ${TRILINOSBRANCH}
-    git checkout ${TRILINOSCOMMITHASH}
-    cd ..
-
     # TRILINOSGITURL and TRILINOSVERSION are defined in tpls_versions_details
+    if [ $DRYRUN == no ]; then
+	if [ ! -d Trilinos ]; then
+	    git clone ${TRILINOSGITURL}
+	fi
+	cd Trilinos
+	git checkout ${TRILINOSBRANCH}
+	git checkout ${TRILINOSCOMMITHASH}
+	cd ..
+    fi
 
     # create build
     mkdir build && cd build
@@ -48,7 +49,7 @@ function build_trilinos(){
 
     # print the cmake commnad that will be used
     echo ""
-    echo "For ${TPLname}, the cmake command to use is:"
+    echo "For ${TPLname}, the cmake command is:"
     echo "${fgcyan}cmake ${CMAKELINE}${fgrst}"
 
     if [ $DRYRUN == no ];
@@ -79,7 +80,7 @@ function build_trilinos(){
 	fi
 	echo "Install output written to ${PWD}/${IFName}"
     else
-	echo "${fgyellow}with dryrun=no, here I would config, build and install ${TPLname} ${fgrst}"
+	print_message_dryrun_no
     fi
 
     cd ${PARENTDIR}

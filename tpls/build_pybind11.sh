@@ -19,13 +19,15 @@ function build_pybind11(){
     cd pybind11
 
     # clone repo
-    if [ ! -d pybind11 ]; then
-	git clone ${PYBINDGITURL}
-	cd pybind11
-	git checkout ${PYBINDBRANCH}
-	cd ..
-    fi
     # PYBINDGITURL and PYBINDBRANCH are defined in tpls_versions_details
+    if [ $DRYRUN == no ]; then
+	if [ ! -d pybind11 ]; then
+	    git clone ${PYBINDGITURL}
+	    cd pybind11
+	    git checkout ${PYBINDBRANCH}
+	    cd ..
+	fi
+    fi
 
     # I don't need to make a build, just copy source to install
     if [ ! -d install ]; then
@@ -83,7 +85,7 @@ function build_pybind11(){
 	fi
 	echo "Install output written to ${PWD}/${IFName}"
     else
-	echo "${fgyellow}with dryrun=no, here I would config, build and install ${TPLname} ${fgrst}"
+	print_message_dryrun_no
     fi
     cd ${PARENTDIR}
 }

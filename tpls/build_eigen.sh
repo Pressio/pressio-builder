@@ -20,10 +20,12 @@ function build_eigen(){
     cd eigen
 
     # clone repo
-    if [ ! -d ${EIGENUNPACKEDDIRNAME} ]; then
-	# EIGENURL is defined in tpls_versions_details
-	wget ${EIGENURL}.tar.bz2
-	tar xf ${EIGENVERSION}.tar.bz2
+    if [ $DRYRUN == no ]; then
+	if [ ! -d ${EIGENUNPACKEDDIRNAME} ]; then
+	    # EIGENURL is defined in tpls_versions_details
+	    wget ${EIGENURL}.tar.bz2
+	    tar xf ${EIGENVERSION}.tar.bz2
+	fi
     fi
 
     # I don't need to make a build, just copy source to install
@@ -40,7 +42,7 @@ function build_eigen(){
 	mkdir -p ./install/include/eigen3/Eigen
 	cp -rf ./${EIGENUNPACKEDDIRNAME}/Eigen/* ./install/include/eigen3/Eigen
     else
-	echo "${fgyellow}with dryrun=no, here I would config, build and install ${TPLname} ${fgrst}"
+	print_message_dryrun_no
     fi
 
     cd ${PARENTDIR}

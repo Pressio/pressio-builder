@@ -80,7 +80,6 @@ for option; do
 
     esac
 done
-echo "${fgyellow}+++ done with cmdline arguments +++${fgrst}"
 
 
 if test "$want_help" = yes; then

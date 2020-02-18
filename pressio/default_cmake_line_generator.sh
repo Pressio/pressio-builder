@@ -7,7 +7,6 @@ function default() {
     pressio_build_type
     pressio_cmake_verbose
     pressio_serial_c_cxx_compilers
-    pressio_tests_on
     pressio_enable_eigen
     pressio_enable_gtest
     pressio_enable_debug_print
@@ -27,6 +26,15 @@ function default_mpi_trilinos() {
     pressio_lapack_on
     pressio_enable_debug_print
 }
+
+function default_pybind() {
+    pressio_build_type
+    pressio_cmake_verbose
+    pressio_serial_c_cxx_compilers
+    pressio_enable_eigen
+    pressio_enable_pybind11
+}
+
 
 #------------------------------------------
 # default generator function for tutorials

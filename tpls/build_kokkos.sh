@@ -24,15 +24,15 @@ function build_kokkos(){
     [[ ! -d kokkos ]] && mkdir kokkos
     cd kokkos
 
-    # clone repo (yes, trilinos because we build kokkos from there)
-    if [ ! -d kokkos-tril ]; then
-	git clone ${TRILINOSGITURL}
-	# the unpacked dir is called trilinos, rename it to kokkos-tril
-	mv Trilinos kokkos-tril
+    if [ $DRYRUN == no ]; then
+	# clone repo (yes, trilinos because we build kokkos from there)
+	if [ ! -d kokkos-tril ]; then
+	    git clone ${TRILINOSGITURL}
+	    # the unpacked dir is called trilinos, rename it to kokkos-tril
+	    mv Trilinos kokkos-tril
+	fi
+	cd kokkos-tril && git checkout ${TRILINOSBRANCH} && cd ..
     fi
-
-    # enter and co right branch
-    cd kokkos-tril && git checkout ${TRILINOSBRANCH} && cd ..
 
     # create build
     mkdir build && cd build
@@ -83,7 +83,7 @@ function build_kokkos(){
 	fi
 	echo "Install output written to ${PWD}/${IFName}"
     else
-	echo "${fgyellow}with dryrun=no, here I would config, build and install ${TPLname} ${fgrst}"
+	print_message_dryrun_no
     fi
 
     cd ${PARENTDIR}
