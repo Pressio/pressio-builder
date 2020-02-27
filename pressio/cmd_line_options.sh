@@ -47,6 +47,10 @@ for option; do
 	    GTESTPATH=`expr "x$option" : "x-*gtest-path=\(.*\)"`
 	    ;;
 
+	-pybind11-path=* | --pybind11-path=* )
+	    PYBIND11PATH=`expr "x$option" : "x-*pybind11-path=\(.*\)"`
+	    ;;
+
 	-trilinos-path=* | --trilinos-path=* )
 	    TRILINOSPATH=`expr "x$option" : "x-*trilinos-path=\(.*\)"`
 	    ;;
@@ -158,9 +162,9 @@ NOTE: Does not matter if you prepend Args with - or --, it is the same.
 						   should (almost) always get you a long way.
 						   If building Pressio with Trilinos/Kokkos enabled, then this might not be as smooth.
 
-If you only configure pressio to install, you only not need to pass info about which TPLs you want to enable. But not info about where
-to find headers and libs of those TPLs. The headers and lib of TPLs are ONLY needed at configure time if you build the pressio tests.
-To specify to find the TPLs that you plan to enable, use the following.
+If you only configure pressio to install, you only not need to tell me which TPLs you want to enable.
+I don't need to know where to find headers and libs of those TPLs unless you have enabled pressio tests/examples
+For the second case, i.e. pressio tests and/or examples are enabled, to specify where to find the TPLs, use the following.
 --eigen-path=				WHAT:	   the full path to eigen installation directory with an include subdir
 					OPTIONAL:  no, must be set because pressio requires it
 
@@ -174,6 +178,9 @@ To specify to find the TPLs that you plan to enable, use the following.
 					OPTIONAL:  yes, because it is optional
 					NOTE:	   if you set --trilinos-path, I will use the kokkos from there.
 						   --kokkos-path is only needed when building Pressio with Kokkos but NOT Trilinos.
+
+--pybind11-path=			WHAT:	   the full path to pybind11 installation directory with an include subdir
+					OPTIONAL:  yes, must be set because pressio requires it
 EOF
   exit 0
 fi
