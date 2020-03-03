@@ -1,9 +1,18 @@
 #!/bin/bash
 
 #-------------------------------------
-# default: serial, tests on
+# default: serial
 #-------------------------------------
 function default() {
+    pressio_build_type
+    pressio_cmake_verbose
+    pressio_serial_c_cxx_compilers
+    pressio_enable_eigen
+    pressio_enable_gtest
+    pressio_enable_debug_print
+}
+
+function default_with_tests() {
     pressio_build_type
     pressio_cmake_verbose
     pressio_serial_c_cxx_compilers
