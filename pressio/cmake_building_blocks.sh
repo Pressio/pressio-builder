@@ -53,7 +53,7 @@ function pressio_openblaslapack(){
 	exit 0
     fi
     CMAKELINE+="-DBLAS_DIR=${BLAS_ROOT} "
-    CMAKELINE+="-DBLA_VENDOR=OpenBLAS "
+    CMAKELINE+="-DBLAS_VENDOR=OpenBLAS "
 
     CMAKELINE+="-D PRESSIO_ENABLE_TPL_LAPACK=ON "
     # note that LAPACK_ROOT needs to be set by environemnt

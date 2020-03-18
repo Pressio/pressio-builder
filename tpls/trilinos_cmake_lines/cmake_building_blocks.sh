@@ -77,6 +77,7 @@ function trilinos_packages_for_pressio(){
     CMAKELINE+="-D Trilinos_ENABLE_AztecOO:BOOL=ON "
     CMAKELINE+="-D Trilinos_ENABLE_Ifpack:BOOL=ON "
     CMAKELINE+="-D Trilinos_ENABLE_Ifpack2:BOOL=ON "
+    CMAKELINE+="-D Trilinos_ENABLE_ROL:BOOL=ON "
 }
 
 function trilinos_all_packages_on(){
