@@ -12,7 +12,7 @@ EIGENUNPACKEDDIRNAME=eigen-eigen-323c052e1731
 #----------
 # gtest
 #----------
-GTESTGITURL=https://github.com/google/googletest.git
+GTESTGITURL=git@github.com:google/googletest.git
 GTESTBRANCH=master
 
 #----------
