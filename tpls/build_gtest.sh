@@ -40,6 +40,8 @@ function build_gtest(){
     # this will append to the global var CMAKELINE
     ${CMAKELINEGEN}
 
+    CMAKELINE+="-D CMAKE_CXX_FLAGS:STRING=-std=c++11 "
+
     # append prefix
     CMAKELINE+="-D CMAKE_INSTALL_PREFIX:PATH=../install "
 
