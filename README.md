@@ -24,6 +24,8 @@ and follow the directions.
 -->
 
 ### Current versions of tpls used:
+Details about the versions used for the tpls can be found [here](https://github.com/Pressio/pressio-builder/blob/master/tpls/tpls_versions_details.sh).
+<!--
 * eigen:
   - cloned from: `http://bitbucket.org/eigen/eigen/get/3.3.7.tar.bz2`
   - using version 3.3.7
@@ -40,7 +42,7 @@ and follow the directions.
 * pybind11:
   - cloned from: `git@github.com:pybind/pybind11.git`
   - using branch: origin/v23
-
+-->
 
 
 *More details coming soon*
