@@ -8,21 +8,20 @@ function print_message_dryrun_no(){
 }
 
 function check_and_clean(){
-    local parentdir=$1
-    if [ $WIPEEXISTING == yes ];
-    then
+    local targetdir=$1
+    if [ $WIPEEXISTING == yes ]; then
 	if [ ${DRYRUN} == no ]; then
-	    echo "wiping ${PWD}/$parentdir/build"
-	    echo "wiping ${PWD}/$parentdir/install"
-	    rm -rf ${parentdir}/build ${parentdir}/install
+	    echo "wiping ${PWD}/$targetdir/build"
+	    echo "wiping ${PWD}/$targetdir/install"
+	    rm -rf ${targetdir}/build ${targetdir}/install
 	else
-	    echo "with dryrun=no, I would wipe ${PWD}/$parentdir/build"
-	    echo "with dryrun=no, I would wipe ${PWD}/$parentdir/install"
+	    echo "with dryrun=no, I would wipe ${PWD}/$targetdir/build"
+	    echo "with dryrun=no, I would wipe ${PWD}/$targetdir/install"
 	fi
 	DOBUILD=ON
     else
-	echo "${PWD}/$parentdir already exists: skipping"
-	echo "If you want to re-build $parentdir, turn wipe-existing=1 and dryrun=0"
+	echo "${PWD}/$targetdir already exists: skipping"
+	echo "If you want to re-build $targetdir, set wipe-existing=yes and dryrun=no"
     fi
 }
 
@@ -68,5 +67,50 @@ function have_admissible_cmake(){
     	else
 	    return 0
     	fi
+    fi
+}
+
+function print_shared_global_vars(){
+    echo "ORIGDIR               = $ORIGDIR"
+    echo "OS Running            = $ARCH"
+    echo "WORKDIR               = $WORKDIR"
+    echo "WIPEEXISTING          = ${WIPEEXISTING}"
+    echo "DRYUN                 = ${DRYRUN}"
+
+    if [ ! -z $MODEbuild ]; then
+	echo "MODEbuild             = $MODEbuild"
+    else
+	echo "MODEbuild             = -"
+    fi
+
+    if [ ! -z $LINKTYPE ]; then
+	echo "LINKTYPE              = $LINKTYPE"
+    else
+	echo "LINKTYPE              = -"
+    fi
+
+    if [ ! -z $SETENVscript ]; then
+	echo "SETENVscript          = $SETENVscript"
+    else
+	echo "SETENVscript          = -"
+    fi
+
+    if [ ! -z $CMAKELINEGENFNCscript ]; then
+	echo "CMAKELINEGENFNCscript = $CMAKELINEGENFNCscript"
+    else
+	echo "CMAKELINEGENFNCscript = -"
+    fi
+
+    if [ ! -z $DUMPTOFILEONLY ]; then
+	echo "DUMPTOFILEONLY        = $DUMPTOFILEONLY"
+    else
+	echo "DUMPTOFILEONLY        = -"
+    fi
+}
+
+function check_minimum_shared_vars_set(){
+    if [ -z $WORKDIR ]; then
+	echo "${fgred}--target-dir is empty, must be set. Terminating. ${fgrst}"
+	exit 12
     fi
 }

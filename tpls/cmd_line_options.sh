@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 echo ""
-echo "${fgyellow}+++ parsing cmdline arguments +++${fgrst}"
+echo "${fgyellow}+++ Parsing cmdline arguments +++${fgrst}"
 
 for option; do
     echo $option
@@ -88,8 +88,6 @@ if test "$want_help" = yes; then
 
 Usage: $0 <args>...
 
-NOTE: Does not matter if you prepend Args with - or --, it is the same.
-
 -h, --help				display help and exit
 
 --dryrun=[yes/no]			WHAT:	  if dryrun=yes, I create the target directory tree and print
@@ -99,16 +97,16 @@ NOTE: Does not matter if you prepend Args with - or --, it is the same.
 					default   = yes
 
 --tpls=					WHAT:	   comma-separated list of the library names to build.
+					CHOICES:   gtest,eigen,pybind11,trilinos,kokkos
 					ATTENTION: do not put a space after the commas
-					CHOICES:   eigen,gtest,pybind11,trilinos,kokkos
 					Note:	   if you build trilinos with one of the default settings, no need
 						   to build kokkos separately because I build trilinos with Kokkos enabled
 					OPTIONAL:  yes
-					default    = eigen,gtest,pybind11,trilinos,kokkos
+					default    = gtest,eigen,pybind11,trilinos
 
 --target-dir=				WHAT:	   the target directory where I will build/install all tpls.
 					ATTENTION: you must provide a full path
-					OPTIONAL:  no. You MUST set it, otherwise script exits.
+					OPTIONAL:  no. You MUST set it, otherwise script terminates.
 					EXAMPLE:   if you use:
 							--target-dir=/home/user/tpls
 						   and you set
@@ -135,25 +133,23 @@ NOTE: Does not matter if you prepend Args with - or --, it is the same.
 --wipe-existing=[yes/no]		WHAT:	   if yes, I will delete all the build and installation subdirectories
 						   under the destination folder --target-dir and redo things from scratch.
 					OPTIONAL:  yes
-					default    = yes
+					default    = no
 
 --link-type=[dynamic/static]		WHAT:	   what link type to use, static or dynamic libraries.
 					OPTIONAL:  yes
 					default    = dynamic
 
 --cmake-custom-generator-file=		WHAT:	   full path to bash file containing custom functions to generate cmake configure lines for tpls.
-						   More specifically, a cmake generator function is supposed to store in the
-						   global variable CMAKELINE a string containing the cmake command to configure a specific tpl.
+						   A cmake generator function is supposed to store in the global variable CMAKELINE a string
+						   containing the cmake command to configure a specific tpl.
 						   CMAKELINE is simply a string holding the full cmake command you want to use for configuring a tpl.
 						   CMAKELINE is a global variable that I own, and since I build TPLs sequentially,
 						   every time a new tpl needs to be built, the CMAKELINE is reset. So in your custom generators
 						   you can assume that on entry, CMAKELINE is empty.
 						   After you overwrite the CMAKELINE, I will execute the command using: ``cmake eval ${CMAKELINE}''.
 					OPTIONAL:  yes, you can use one of my default generators.
-					EXAMPLE:   look at "sample_scripts/example_tpls_cmake_generators.sh" shipped with this
-						   repo as a reference to see how to build custom ones.
-						   To build custom generator functions, you can either use the tpl-specific building blocks
-						   <tplname>_cmake_lines/cmake_building_blocks.sh, or (if you know what you are doing) you can
+					EXAMPLE:   To build custom generator functions, you can either use the tpl-specific building blocks
+						   pressio-builder/tpls/all/<tplname>/cmake_building_blocks.sh, or (if you know what you are doing) you can
 						   just overwrite the CMAKELINE with commands you know.
 
 --cmake-generator-names=		WHAT:	   comma-separated list of bash function names generating the cmake line string for configuring.
@@ -162,17 +158,11 @@ NOTE: Does not matter if you prepend Args with - or --, it is the same.
 						   If you pass a custom file to -cmake-generators-file, then the function names passed in
 						   cmake-generators-names can be taken from those in that custom bash file.
 					OPTIONAL:  yes
-					default	   = default,default,default,default,default
+					default	   = default,default,default,default
 						   List of DEFAULT admissible functions can be found in <tplname>_cmake_lines/default_cmake_line_generator.sh
 					NOTE:	   for eigen,gtest,pybind using the default should (almost) always be successful.
 						   For Trilinos and Kokkos things are more complex, you can try the default and in most
 						   cases it should work, but it might not work straight out of the box.
-
---print-logs-to-file-only=[yes/no]	WHAT:	   if yes, I will print all configure/build/install logs, to files
-						   that are specific for each TPL built and I will NOT print anything to screen.
-						   if no, I will both print to files and to screen.
-					OPTIONAL:  yes
-					default    = no
 
 EOF
   exit 0

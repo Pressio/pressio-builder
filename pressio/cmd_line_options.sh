@@ -150,9 +150,9 @@ NOTE: Does not matter if you prepend Args with - or --, it is the same.
 					OPTIONAL:  yes, not needed if you want to use my default generators.
 					EXAMPLE:   look at the example "example_pressio_cmake_generators.sh" shipped with this
 						   repo as a reference to see how to build custom ones.
-						   To build custom generator functions, you can either use the tpl-specific building blocks
-						   pressio/cmake_building_blocks.sh, or (if you know what you are doing) you can
-						   just overwriting the CMAKELINE with commands you know.
+						   To build custom generator functions, you can either use the specific building blocks
+						   pressio-builder/pressio/cmake_building_blocks.sh, or (if you know what you are doing) you can
+						   just overwrite the CMAKELINE with commands you know.
 
 --cmake-generator-name=			WHAT:	   name of bash function name generating the cmake line string for configuring Pressio.
 					OPTIONAL:  yes

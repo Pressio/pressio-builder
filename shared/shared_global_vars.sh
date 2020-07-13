@@ -20,7 +20,7 @@ fi
 WORKDIR=
 
 # wipe existing content of target directory
-WIPEEXISTING=yes
+WIPEEXISTING=no
 
 # build mode: Debug/Release
 MODEbuild=Debug
@@ -51,49 +51,4 @@ DRYRUN=yes
 
 # myhostname
 MYHOSTNAME=$(hostname)
-echo "${fgpurple}My hostname = ${MYHOSTNAME}${fgrst}"
-
-function print_shared_global_vars(){
-    echo "ORIGDIR               = $ORIGDIR"
-    echo "OS Running            = $ARCH"
-    echo "WORKDIR               = $WORKDIR"
-    echo "WIPEEXISTING          = ${WIPEEXISTING}"
-    echo "DRYUN                 = ${DRYRUN}"
-
-    if [ ! -z $MODEbuild ]; then
-	echo "MODEbuild             = $MODEbuild"
-    else
-	echo "MODEbuild             = -"
-    fi
-
-    if [ ! -z $LINKTYPE ]; then
-	echo "LINKTYPE              = $LINKTYPE"
-    else
-	echo "LINKTYPE              = -"
-    fi
-
-    if [ ! -z $SETENVscript ]; then
-	echo "SETENVscript          = $SETENVscript"
-    else
-	echo "SETENVscript          = -"
-    fi
-
-    if [ ! -z $CMAKELINEGENFNCscript ]; then
-	echo "CMAKELINEGENFNCscript = $CMAKELINEGENFNCscript"
-    else
-	echo "CMAKELINEGENFNCscript = -"
-    fi
-
-    if [ ! -z $DUMPTOFILEONLY ]; then
-	echo "DUMPTOFILEONLY        = $DUMPTOFILEONLY"
-    else
-	echo "DUMPTOFILEONLY        = -"
-    fi
-}
-
-function check_minimum_shared_vars_set(){
-    if [ -z $WORKDIR ]; then
-	echo "${fgred}--target-dir is empty, must be set. Terminating. ${fgrst}"
-	exit 12
-    fi
-}
+echo "${fggreen}Detected hostname: ${MYHOSTNAME}${fgrst}"

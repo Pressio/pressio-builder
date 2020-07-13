@@ -1,54 +1,71 @@
 #!/usr/bin/env bash
 
-function build_kokkos(){
+function build_kokkos-kernels(){
     local PWD=`pwd`
     local PARENTDIR=$PWD
-    local TPLname=kokkos
+    local TPLname=kokkos-kernels
     local CMAKELINEGEN=$1
     local nCoreMake=4
 
     if [ -z $CMAKELINEGEN ]; then
-	echo "build_kokkos called without specifying cmake_line_generator_function"
+	echo "build_kokkos-kernels called without specifying cmake_line_generator_function"
 	echo "usage:"
-	echo "build_kokkos name_of_cmake_line_generator_function"
+	echo "build_kokkos-kernels name_of_cmake_line_generator_function"
 	exit 0
     fi
     #-----------------------------------
 
-    # for the time being, we build kokkos via Trilinos which means:
-    # (a) cloning trilinos
-    # (b) and enabling only kokkos packages
-    # later on, we can change this by building kokkos directly
-
-    # create dir
-    [[ ! -d kokkos ]] && mkdir kokkos
-    cd kokkos
-
-    if [ $DRYRUN == no ]; then
-	# clone repo (yes, trilinos because we build kokkos from there)
-	if [ ! -d kokkos-tril ]; then
-	    git clone ${TRILINOSGITURL}
-	    # the unpacked dir is called trilinos, rename it to kokkos-tril
-	    mv Trilinos kokkos-tril
-	fi
-	cd kokkos-tril && git checkout ${TRILINOSBRANCH} && cd ..
+    # check that blas and lapack are set
+    if [[ -z ${BLAS_ROOT} ]]; then
+	echo "error: kokkos-kernels need BLAS_ROOT to be found in the environment, exiting"
+	exit 2
+    fi
+    if [[ -z ${BLAS_LIBRARIES} ]]; then
+	echo "error: kokkos-kernels need BLAS_LIBRARIES to be found in the environment, exiting"
+	exit 2
+    fi
+    if [[ -z ${LAPACK_ROOT} ]]; then
+	echo "error: kokkos-kernels need LAPACK_ROOT to be found in the environment, exiting"
+	exit 2
+    fi
+    if [[ -z ${LAPACK_LIBRARIES} ]]; then
+	echo "error: kokkos-kernels need LAPACK_LIBRARIES to be found in the environment, exiting"
+	exit 2
     fi
 
+    # create dir
+    [[ ! -d kokkos-kernels ]] && mkdir kokkos-kernels
+    cd kokkos-kernels
+
+    # clone repos (see tpls_versions_details)
+    if [ $DRYRUN == no ]; then
+	if [ ! -d kokkos-kernels ]; then
+	    git clone ${KOKKOSKERURL}
+	fi
+	cd kokkos-kernels
+	git checkout ${KOKKOSTAG}
+	cd ..
+    fi
+
+    # -----------------
+    # BUILD
+    # -----------------
     # create build
     mkdir build && cd build
 
-    # make sure the global var CMAKELINE is empty
     CMAKELINE=""
-
     # call the generator to build the string for cmake line
     # this will append to the global var CMAKELINE
     ${CMAKELINEGEN}
+
+    # append where Kokkos installation is
+    CMAKELINE+="-D Kokkos_ROOT=../../kokkos/install "
 
     # append prefix
     CMAKELINE+="-D CMAKE_INSTALL_PREFIX:PATH=../install "
 
     # append the location of the source
-    CMAKELINE+="../kokkos-tril"
+    CMAKELINE+="../kokkos-kernels"
 
     # print the cmake commnad that will be used
     echo ""

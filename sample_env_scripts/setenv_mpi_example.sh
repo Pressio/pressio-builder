@@ -11,6 +11,11 @@ export CXX=${MPIPATH}/bin/mpic++
 # FC is used by scripts inside
 export FC=${MPIPATH}/bin/mpifort
 
-# This is only used if you plan to run "ctest". If you DO not plan to use ctest,
-# and run tests manually, then this is useless.
-export MPIRUNe=${MPIPATH}/bin/mpirun
+# MPIRUN executable
+export MPIRUNexe=${MPIPATH}/bin/mpirun
+
+# BLAS AND LAPACK required for: trilinos, Kokkos-kernels
+export BLAS_ROOT=/opt/local
+export BLAS_LIBRARIES=openblas
+export LAPACK_ROOT=/opt/local
+export LAPACK_LIBRARIES=openblas

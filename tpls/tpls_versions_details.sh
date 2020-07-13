@@ -13,7 +13,6 @@ EIGENUNPACKEDDIRNAME=eigen-eigen-323c052e1731
 # gtest
 #----------
 GTESTGITURL=https://github.com/google/googletest.git
-#git@github.com:google/googletest.git
 GTESTBRANCH=master
 
 #----------
@@ -22,7 +21,13 @@ GTESTBRANCH=master
 TRILINOSGITURL=git@github.com:trilinos/Trilinos.git
 TRILINOSBRANCH=master
 TRILINOSCOMMITHASH=d5abc894f1052682c4933b9b6951d904e74aa7fe
-#trilinos-release-12-18-branch
+
+#----------
+# kokkos core and kernels
+#----------
+KOKKOSURL=git@github.com:kokkos/kokkos.git
+KOKKOSKERURL=git@github.com:kokkos/kokkos-kernels.git
+KOKKOSTAG=3.1.00
 
 #----------
 # pybind11

@@ -96,7 +96,7 @@ function build_trilinos(){
     # 	  -D TPL_ENABLE_MPI:BOOL=ON \
     # 	  -D MPI_C_COMPILER:FILEPATH=${CC} \
     # 	  -D MPI_CXX_COMPILER:FILEPATH=${CXX} \
-    # 	  -D MPI_EXEC:FILEPATH=${MPIRUNe} \
+    # 	  -D MPI_EXEC:FILEPATH=${MPIRUNexe} \
     # 	  -D MPI_USE_COMPILER_WRAPPERS:BOOL=ON \
     # 	  \
     # 	  -D Trilinos_ENABLE_EXPORT_MAKEFILES:BOOL=OFF \

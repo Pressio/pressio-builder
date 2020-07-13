@@ -1,8 +1,7 @@
 #!/bin/bash
 
 function default(){
-    # Note: the C compiler is not forgotten, it is NOT used by pybind11
-    #CMAKELINE+="-D CMAKE_C_COMPILER:FILEPATH=${CC} "
+    # Note: the C compiler is not set because it is NOT used by pybind11
 
     CMAKELINE+="-D CMAKE_CXX_COMPILER:FILEPATH=${CXX} "
     CMAKELINE+="-D CMAKE_BUILD_TYPE:STRING=${MODEbuild} "

@@ -10,7 +10,7 @@ echo "Bash version ${BASH_VERSION}"
 source ./shared/colors.sh
 
 ############################################
-# set up few things and read cmd line args
+# load helpers
 ############################################
 
 # source the shared global vars
@@ -18,6 +18,13 @@ source ./shared/shared_global_vars.sh
 
 # load the global variables
 source ./pressio/global_vars.sh
+
+# source helper functions
+source ./shared/helper_fncs.sh
+
+############################################
+# parse agrs
+############################################
 
 # parse cline arguments
 source ./pressio/cmd_line_options.sh
@@ -31,11 +38,8 @@ echo "${fgyellow}+++ Setup is as follows: +++ ${fgrst}"
 print_global_vars
 echo ""
 
-# source TPLs info (versions, URLs, etc.)
-source ./tpls/tpls_versions_details.sh
-
-# source helper functions
-source ./shared/help_fncs.sh
+# # source TPLs info (versions, URLs, etc.)
+# source ./tpls/tpls_versions_details.sh
 
 # set env if not already set
 call_env_script

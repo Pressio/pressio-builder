@@ -10,32 +10,37 @@ echo "Using bash version ${BASH_VERSION}"
 source ./shared/colors.sh
 
 ############################################
-# set up few things and read args
+# load helpers
 ############################################
 
 # source the shared global vars
 source ./shared/shared_global_vars.sh
+# load the shared helpers fncs
+source ./shared/helper_fncs.sh
 
 # load the global variables defined for TPLs
 source ./tpls/global_vars.sh
+# load the helpers for TPLs
+source ./tpls/helper_fncs.sh
+
+# source TPLs info (versions, URLs, etc.)
+source ./tpls/tpls_versions_details.sh
+
+############################################
+# parse agrs
+############################################
 
 # parse cline arguments
 source ./tpls/cmd_line_options.sh
 
 # check basic variables are set (if not, script exits)
-check_minimum_vars_set
+check_minimum_vars_are_set
 
 # print the current setting
 echo ""
-echo "${fgyellow}+++ The setting is as follows: +++ ${fgrst}"
+echo "${fgyellow}+++ Using the following setup: +++ ${fgrst}"
 print_global_vars
 echo ""
-
-# source TPLs info (versions, URLs, etc.)
-source ./tpls/tpls_versions_details.sh
-
-# source helper functions
-source ./shared/help_fncs.sh
 
 # set env if not already set
 call_env_script
@@ -57,19 +62,30 @@ for ((i=0;i<${#tpl_names[@]};++i)); do
 	   [ ${name} != gtest ] &&\
 	   [ ${name} != trilinos ] &&\
 	   [ ${name} != kokkos ] &&\
+	   [ ${name} != kokkos-kernels ] &&\
 	   [ ${name} != pybind11 ];
     then
 	echo "found at least one non-admissible tpl name passed"
-	echo "valid choices: eigen, gtest, trilinos, kokkos, pybind11"
+	echo "valid choices: eigen, gtest, trilinos, kokkos, kokkos-kernels, pybind11"
 	exit 1
     fi
 done
+
+# if user selects (a) trilinos, kokkos or (b) trilinos and kokkos-kernels
+# or (c) trilinos, kokkos, kokkos-kernels
+# we drop the standalone kokkos/kernels because these already built as part of trilinos
+check_if_both_trilinos_kokkos_are_selected
+
+# the order with which you build tpls matters in some cases.
+# e.g. kokkos must be built before kokkos-kernels, so make sure the order of the tpls list is correct
+check_tpls_order_is_admissible
+
 print_target_tpl_names
 print_target_tpl_cmake_fncs
-echo "${fggreen}All TPL names seem valid: ok! ${fgrst}"
+echo "${fggreen}All TPL names are valid! ${fgrst}"
 
 #################################
-# building all TPLs happens below
+# build all target TPLs
 #################################
 
 # test is workdir exists if not create it
@@ -86,22 +102,25 @@ fi
 
 # now loop through TPLS and build
 for ((i=0;i<${#tpl_names[@]};++i)); do
+    # name of current tpls to build
     name=${tpl_names[i]}
-    fnc=${tpl_cmake_fncs[i]}
     echo ""
     echo "${fgyellow}+++ Processing tpl=${name} +++${fgrst}"
 
+    # cmake generator function to use (see tpls/global_vars.sh for default setting)
+    fnc=${tpl_cmake_fncs[i]}
+
     # do the actual build
     DOBUILD=OFF
-    # the following is short syntax for if then else
+    # check if we need to wipe and redo
     [[ -d ${name} ]] && check_and_clean ${name} || DOBUILD=ON
     if [ $DOBUILD = "ON" ]; then
 	# source all generator functions
-	source ${ORIGDIR}/tpls/${name}_cmake_lines/cmake_building_blocks.sh
-	source ${ORIGDIR}/tpls/${name}_cmake_lines/default_cmake_line_generator.sh
+	source ${ORIGDIR}/tpls/all/${name}/cmake_building_blocks.sh
+	source ${ORIGDIR}/tpls/all/${name}/default_cmake_line_generator.sh
 
 	# source and call build function
-	source ${ORIGDIR}/tpls/build_${name}.sh
+	source ${ORIGDIR}/tpls/all/${name}/build_${name}.sh
 	build_${name} ${fnc}
     fi
 done
