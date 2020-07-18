@@ -61,7 +61,7 @@ function default_pybind() {
     pressio_enable_debug_print
 }
 
-function pybind_with_tests() {
+function pybind11_with_tests() {
     pressio_build_type
     pressio_cmake_verbose
     pressio_serial_c_cxx_compilers
