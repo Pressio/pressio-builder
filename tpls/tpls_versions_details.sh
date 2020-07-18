@@ -33,7 +33,7 @@ KOKKOSTAG=3.1.00
 # pybind11
 #----------
 PYBINDGITURL=git@github.com:pybind/pybind11.git
-PYBINDBRANCH=origin/v2.3
+PYBINDBRANCH=origin/v2.5
 
 #----------
 # cmake
