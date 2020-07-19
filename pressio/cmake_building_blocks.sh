@@ -76,21 +76,17 @@ function pressio_enable_eigen(){
 
 function pressio_enable_trilinos(){
     CMAKELINE+="-D PRESSIO_ENABLE_TPL_TRILINOS=ON "
-    CMAKELINE+="-D TRILINOS_INC_DIR=${TRILINOSPATH}/include "
-    # the following is equivalent to doing:
-    #-D TRILINOS_LIBRARY_DIRS="${TRILINOSPATH}/lib64;${TRILINOSPATH}/lib"
-    local TRILLIBstiched="${TRILINOSPATH}/lib64;${TRILINOSPATH}/lib"
-    CMAKELINE+="-D TRILINOS_LIB_DIR='${TRILLIBstiched}' "
+    CMAKELINE+="-D TRILINOS_ROOT=${TRILINOSPATH} "
+    # # the following is equivalent to doing:
+    # #-D TRILINOS_LIBRARY_DIRS="${TRILINOSPATH}/lib64;${TRILINOSPATH}/lib"
+    # local TRILLIBstiched="${TRILINOSPATH}/lib64;${TRILINOSPATH}/lib"
+    # CMAKELINE+="-D TRILINOS_LIB_DIR='${TRILLIBstiched}' "
 }
 
-
 function pressio_enable_kokkos(){
-     CMAKELINE+="-D PRESSIO_ENABLE_TPL_KOKKOS=ON "
-#     CMAKELINE+="-D KOKKOS_INCLUDE_DIRS:PATH=${KOKKOSPATH}/include "
-#     # the following is equivalent to doing:
-#     #-D KOKKOS_LIBRARY_DIRS="${KOKKOSPATH}/lib64;${KOKKOSPATH}/lib"
-#     local stiched="${KOKKOSPATH}/lib64;${KOKKOSPATH}/lib"
-#     CMAKELINE+="-D KOKKOS_LIBRARY_DIRS='${stiched}' "
+    CMAKELINE+="-D PRESSIO_ENABLE_TPL_KOKKOS=ON "
+    CMAKELINE+="-D KOKKOS_ROOT=${KOKKOSPATH} "
+    CMAKELINE+="-D KOKKOS_KERNELS_ROOT=${KOKKOSKERNELSPATH} "
 }
 
 function pressio_enable_pybind11(){
