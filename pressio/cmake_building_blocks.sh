@@ -91,8 +91,7 @@ function pressio_enable_kokkos(){
 
 function pressio_enable_pybind11(){
     CMAKELINE+="-D PRESSIO_ENABLE_TPL_PYBIND11=ON "
-    CMAKELINE+="-D PYBIND11_INCLUDE_DIR:PATH=${PYBIND11PATH}/include "
-    CMAKELINE+="-D PYBIND11_DIR:PATH=${PYBIND11PATH} "
+    CMAKELINE+="-D PYBIND11_ROOT:PATH=${PYBIND11PATH} "
 }
 
 
