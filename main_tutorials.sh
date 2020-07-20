@@ -16,6 +16,9 @@ echo "Bash version ${BASH_VERSION}"
 # source the shared global vars
 source ./shared/shared_global_vars.sh
 
+# # source helper functions
+source ./shared/helper_fncs.sh
+
 # load the global variables defined for TPLs
 source ./tutorials/global_vars.sh
 
@@ -31,9 +34,6 @@ echo ""
 echo "${fgyellow}+++ The setting is as follows: +++ ${fgrst}"
 print_global_vars
 echo ""
-
-# source helper functions
-source ./shared/help_fncs.sh
 
 # set env if not already set
 call_env_script
