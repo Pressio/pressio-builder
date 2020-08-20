@@ -22,9 +22,8 @@ function build_eigen(){
     # clone repo
     if [ $DRYRUN == no ]; then
 	if [ ! -d ${EIGENUNPACKEDDIRNAME} ]; then
-	    # EIGENURL is defined in tpls_versions_details
-	    wget ${EIGENURL}.tar.bz2
-	    tar xf ${EIGENVERSION}.tar.bz2
+	    wget ${EIGENTARURL}
+	    tar zxf eigen-${EIGENVERSION}.tar.gz
 	fi
     fi
 

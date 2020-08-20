@@ -4,10 +4,8 @@
 # eigen
 #----------
 EIGENVERSION=3.3.7
-EIGENURL=http://bitbucket.org/eigen/eigen/get/${EIGENVERSION}
-# specify the name of the unpacked dir when unpacking the tar
-# make sure you update this if updating the version above
-EIGENUNPACKEDDIRNAME=eigen-eigen-323c052e1731
+EIGENTARURL=https://gitlab.com/libeigen/eigen/-/archive/${EIGENVERSION}/eigen-${EIGENVERSION}.tar.gz
+EIGENUNPACKEDDIRNAME=eigen-${EIGENVERSION}
 
 #----------
 # gtest
