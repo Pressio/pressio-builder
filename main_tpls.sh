@@ -4,7 +4,7 @@
 set -e
 
 # print version of bash
-echo "pressio4py: Using bash version ${BASH_VERSION}"
+echo "Using bash version ${BASH_VERSION}"
 
 # source colors for printing
 source ./shared/colors.sh
