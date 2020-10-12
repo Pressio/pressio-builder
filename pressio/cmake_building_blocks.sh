@@ -52,8 +52,7 @@ function pressio_openblaslapack(){
 	echo "BLAS_ROOT needs to be set in the environment"
 	exit 0
     fi
-    CMAKELINE+="-DBLAS_DIR=${BLAS_ROOT} "
-    CMAKELINE+="-DBLA_VENDOR=OpenBLAS "
+    #CMAKELINE+="-DBLAS_DIR=${BLAS_ROOT} "
 
     CMAKELINE+="-D PRESSIO_ENABLE_TPL_LAPACK=ON "
     # note that LAPACK_ROOT needs to be set by environemnt
@@ -61,7 +60,7 @@ function pressio_openblaslapack(){
 	echo "LAPACK_ROOT needs to be set in the environment"
 	exit 0
     fi
-    CMAKELINE+="-DLAPACK_DIR=${BLAS_ROOT} "
+    #CMAKELINE+="-DLAPACK_DIR=${BLAS_ROOT} "
 }
 
 function pressio_enable_gtest(){
