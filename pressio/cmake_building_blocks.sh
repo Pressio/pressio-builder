@@ -74,6 +74,10 @@ function pressio_enable_eigen(){
     CMAKELINE+="-D EIGEN_INCLUDE_DIR='${LINE}' "
 }
 
+function pressio_disable_eigen(){
+    CMAKELINE+="-D PRESSIO_ENABLE_TPL_EIGEN=OFF "
+}
+
 function pressio_enable_trilinos(){
     CMAKELINE+="-D PRESSIO_ENABLE_TPL_TRILINOS=ON "
     CMAKELINE+="-D TRILINOS_ROOT=${TRILINOSPATH} "
