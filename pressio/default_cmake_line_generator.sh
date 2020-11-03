@@ -67,7 +67,6 @@ function default_pybind() {
     pressio_build_type
     pressio_cmake_verbose
     pressio_serial_c_cxx_compilers
-    pressio_enable_eigen
     pressio_enable_pybind11
     pressio_enable_debug_print
 }
@@ -76,13 +75,11 @@ function pybind11_with_tests() {
     pressio_build_type
     pressio_cmake_verbose
     pressio_serial_c_cxx_compilers
-    pressio_enable_eigen
     pressio_enable_pybind11
     pressio_enable_gtest
     pressio_tests_on
     pressio_enable_debug_print
 }
-
 
 #------------------------------------------
 # default generator function for tutorials
