@@ -19,6 +19,17 @@ function default_with_tests() {
     pressio_tests_on
 }
 
+function default_with_tests_codecov() {
+    pressio_build_type
+    pressio_cmake_verbose
+    pressio_serial_c_cxx_compilers
+    pressio_enable_eigen
+    pressio_enable_gtest
+    pressio_enable_debug_print
+    pressio_tests_on
+    CXXFLAGS+="-fprofile-arcs -ftest-coverage "
+}
+
 function default_mpi_trilinos() {
     pressio_build_type
     pressio_cmake_verbose

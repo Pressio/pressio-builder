@@ -124,20 +124,16 @@ fi
 # this will append to the global var CMAKELINE
 ${CMAKELINEGEN}
 
-# after generator was called, now finalize cmakeline
-# append cxx flags
-CMAKELINE+="-D CMAKE_CXX_FLAGS:STRING='${CXXFLAGS}' "
-
 # append prefix
 CMAKELINE+="-D CMAKE_INSTALL_PREFIX:PATH=../install "
-# append the location of the source
-CMAKELINE+="${PRESSIOSRC}"
 
 # print the cmake commnad that will be used
 echo ""
 echo "Here is the cmake command I am going to use:"
-echo "${fgcyan}cmake ${CMAKELINE}${fgrst}"
+echo "${fgcyan}cmake ${PRESSIOSRC} ${CMAKELINE} -D CMAKE_CXX_FLAGS='${CXXFLAGS}'${fgrst}"
 echo ""
+
+#exit 6
 
 ############################################
 # configured, build and install
@@ -145,8 +141,8 @@ echo ""
 if [ $DRYRUN == no ]; then
     echo "${fgyellow}Starting config, build and install of Pressio ${fgrst}"
 
-    # configure
-    cmake eval ${CMAKELINE}
+    # do configure
+    eval "cmake ${PRESSIOSRC} ${CMAKELINE} -D CMAKE_CXX_FLAGS='${CXXFLAGS}' "
 
     # build
     echo "build with" make -j ${njmake}
