@@ -30,8 +30,8 @@ KOKKOSTAG=3.1.00
 #----------
 # pybind11
 #----------
-PYBINDGITURL=https://github.com/pybind/pybind11.git
-PYBINDBRANCH=origin/v2.5
+PYBINDGITURL=git@github.com:Pressio/pybind11.git
+PYBINDBRANCH=pressio_v2.6
 
 #----------
 # cmake
