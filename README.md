@@ -1,7 +1,8 @@
 
 ## pressio-builder
 
-This repo provides scripts and tools to simplify and automate the build/installation process of the TPLs needed to build/run `pressio` unit and regression tests. (Note that if you just want to use `pressio` in your code, no building process is needed, as explained [here](https://github.com/Pressio/pressio)).
+This repo provides scripts and tools to simplify and automate some of the building process of `pressio` unit and regression tests.
+(Note that if you just want to use `pressio` in your code, no building process is needed, as explained [here](https://pressio.github.io/pressio/html/md_pages_getstarted_build_and_install.html)).
 
 ### Step-by-step guides
 - Follow [this](https://github.com/Pressio/pressio/wiki/Serial-build-of-Pressio-with-tests-enabled) for a step-by-step guide on using `pressio-builder` to build GTest, Eigen, and build the tests in `pressio`, *without* MPI.
@@ -13,7 +14,7 @@ This repo provides scripts and tools to simplify and automate the build/installa
 To build the TPLs, do the following:
 - cd into ./tpls
 - bash ./main_tpls.sh -h
-and follow the directions. 
+and follow the directions.
 -->
 
 <!--

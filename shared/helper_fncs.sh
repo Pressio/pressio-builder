@@ -40,6 +40,9 @@ function version {
     echo "$@" | awk -F. '{ printf("%d%02d%02d\n", $1,$2,$3); }';
 }
 
+################################
+#	CMAKE
+################################
 function detect_cmake(){
     # check if cmake is found in PATH
     if [ -x "$(command -v cmake)" ]; then
@@ -57,6 +60,7 @@ function have_admissible_cmake(){
     if [ -z $CMAKEVERSIONDETECTED ]; then
 	# if cmakeversion is empty
 	echo "${fgred}No Cmake found. Terminating. ${fgrst}"
+	echo "${fgred}You need cmake >= ${CMAKEVERSIONMIN}. ${fgrst}"
 	exit 15
     else
 	# if cmakeversion is NOT empty but wrong version
@@ -69,6 +73,101 @@ function have_admissible_cmake(){
     	fi
     fi
 }
+
+################################
+#	PYTHON
+################################
+function detect_python(){
+    if [ -x "$(command -v cmake)" ]; then
+	PYTHONVERSIONDETECTED="$(python --version | perl -pe '($_)=/([0-9]+([.][0-9]+)+)/')"
+    fi
+}
+
+function have_admissible_python(){
+    detect_python
+    echo ""
+    echo "${fgyellow}+++ Detecting if you have python +++${fgrst}"
+    echo "PYTHONVERSIONDETECTED=$PYTHONVERSIONDETECTED"
+
+    if [ -z $PYTHONVERSIONDETECTED ]; then
+	echo "${fgred}No Python found. Terminating. ${fgrst}"
+	echo "${fgred}You need python >= ${PYTHONVERSIONMIN}. ${fgrst}"
+	exit 15
+    else
+	# if pythonversion is NOT empty but wrong version
+    	if [ $(version $PYTHONVERSIONDETECTED) -lt $(version "$PYTHONVERSIONMIN") ]; then
+	    echo "${fgred}You have python ${PYTHONVERSIONDETECTED} ${fgrst}"
+	    echo "${fgred}while I need >=${PYTHONVERSIONMIN}. Terminate.${fgrst}"
+    	    exit 15
+    	else
+	    return 0
+    	fi
+    fi
+}
+
+
+################################
+#	PIP
+################################
+function detect_pip(){
+    if [ -x "$(command -v cmake)" ]; then
+	PIPVERSIONDETECTED="$(pip --version | perl -pe '($_)=/([0-9]+([.][0-9]+)+)/')"
+    fi
+}
+
+function have_admissible_pip(){
+    detect_pip
+    echo ""
+    echo "${fgyellow}+++ Detecting if you have pip +++${fgrst}"
+    echo "PIPVERSIONDETECTED=$PIPVERSIONDETECTED"
+
+    if [ -z $PIPVERSIONDETECTED ]; then
+	echo "${fgred}No Pip found. Terminating. ${fgrst}"
+	echo "${fgred}You need pip. ${fgrst}"
+	exit 15
+    # else
+    # 	# if pipversion is NOT empty but wrong version
+    # 	if [ $(version $PIPVERSIONDETECTED) -lt $(version "$PIPVERSIONMIN") ]; then
+    # 	    echo "${fgred}You have pip ${PIPVERSIONDETECTED} ${fgrst}"
+    # 	    echo "${fgred}while I need >=${PIPVERSIONMIN}. Terminate.${fgrst}"
+    # 	    exit 15
+    # 	else
+    # 	    return 0
+    # 	fi
+    fi
+}
+
+################################
+#	DOXYGEN
+################################
+function detect_doxygen(){
+    if [ -x "$(command -v cmake)" ]; then
+	DOXYGENVERSIONDETECTED="$(doxygen --version | perl -pe '($_)=/([0-9]+([.][0-9]+)+)/')"
+    fi
+}
+
+function have_admissible_doxygen(){
+    detect_doxygen
+    echo ""
+    echo "${fgyellow}+++ Detecting if you have doxygen +++${fgrst}"
+    echo "DOXYGENVERSIONDETECTED=$DOXYGENVERSIONDETECTED"
+
+    if [ -z $DOXYGENVERSIONDETECTED ]; then
+	echo "${fgred}No Doxygen found. You need to install it! Terminating. ${fgrst}"
+	echo "${fgred}You need doxygen >= ${DOXYGENVERSIONMIN}. ${fgrst}"
+	exit 15
+    else
+	# if doxygenversion is NOT empty but wrong version
+    	if [ $(version $DOXYGENVERSIONDETECTED) -lt $(version "$DOXYGENVERSIONMIN") ]; then
+	    echo "${fgred}You have doxygen ${DOXYGENVERSIONDETECTED} ${fgrst}"
+	    echo "${fgred}while I need >=${DOXYGENVERSIONMIN}. Terminate.${fgrst}"
+    	    exit 15
+    	else
+	    return 0
+    	fi
+    fi
+}
+
 
 function print_shared_global_vars(){
     echo "ORIGDIR               = $ORIGDIR"

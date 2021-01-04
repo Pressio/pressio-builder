@@ -38,3 +38,13 @@ PYBINDBRANCH=pressio_v2.6
 #----------
 # needed minimum cmake version
 CMAKEVERSIONMIN=3.11.0
+
+#----------
+# python (needed for website building)
+#----------
+PYTHONVERSIONMIN=3.7.0
+
+#----------
+# doxygen (needed for website building)
+#----------
+DOXYGENVERSIONMIN=1.8.20
