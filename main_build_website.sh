@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-# exit when there is error code
 set -e
 
 # print version of bash
@@ -30,13 +29,13 @@ source ./website_build/cmd_line_options.sh
 # check that workdir is set
 if [ -z $WORKDIR ]; then
     echo "${fgred}--target-repo is empty, must be set. Terminating. ${fgrst}"
-    exit 12
+    exit 1
 fi
 
 # check that mcss path is set
 if [ -z $MCSSPATH ]; then
     echo "${fgred}--mcss-path is empty, must be set. Terminating. ${fgrst}"
-    exit 12
+    exit 1
 fi
 
 # print the current setting
@@ -84,8 +83,7 @@ do
 	files=(`ls ${CURRPATH}`)
 	for i in "${files[@]}"
 	do
-	    echo $i
-	    replace_code_snippets_in_file "${CURRPATH}/$i"
+	    replace_code_snippets_in_file "${CURRPATH}/$i" || true
 	done
     fi
 done
@@ -93,14 +91,21 @@ done
 ### build website ###
 CONFPATH="${WORKDIR}/docs/conf.py"
 cd "${MCSSPATH}/documentation"
-./doxygen.py ${CONFPATH}
 
-# after website is complete, checkout the source files inside
+echo ""
+echo "${fgyellow}+++ Building website as: +++ ${fgrst}"
+echo ".${MCSSPATH}/documentation/doxygen.py ${CONFPATH}"
+echo ""
+./doxygen.py ${CONFPATH} || true
+
+# after website build is complete, checkout the source files inside
 # the demos becaue we don't want to leave them with the code
 # snippets embedded inside, we want to leave the md files with
 # just the "commands" for doing the code extraction
+# Note that we have to do this no matter what, even if the
+# build of the website failed otherwise the source files
+# will be left in a wrong state.
 cd ${WORKDIR}
-
 for k in "${targets[@]}"
 do
     CURRPATH="${WORKDIR}/docs/pages/$k"
