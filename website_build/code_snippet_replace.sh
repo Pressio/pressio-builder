@@ -46,13 +46,16 @@ function replace_code_snippets_in_file()
     # find how many instances I have to replace
     items=($(grep -n "@codesnippet" $1))
     N=${#items[@]}
-    for i in $(seq 0 1 $(($N-1)))
-    do
-	# every time I loop i have to regrep since files changes
-	items2=($(grep -n "@codesnippet" $1))
-	entry=${items2[0]}
-	echo $entry
-	startline=(${entry//:/ })
-	replace_single_code_snippet $startline $1
-    done
+    echo $N
+    if [ "$N" -gt "0" ]; then
+	for i in $(seq 0 1 $(($N-1)))
+	do
+	    # every time I loop i have to regrep since files changes
+	    items2=($(grep -n "@codesnippet" $1))
+	    entry=${items2[0]}
+	    echo $entry
+	    startline=(${entry//:/ })
+	    replace_single_code_snippet $startline $1
+	done
+    fi
 }
