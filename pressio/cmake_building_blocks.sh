@@ -33,6 +33,18 @@ function pressio_tests_on(){
     CMAKELINE+="-D PRESSIO_ENABLE_TESTS:BOOL=ON "
 }
 
+function pressio_functional_small_tests_on(){
+    CMAKELINE+="-D PRESSIO_ENABLE_FUNCTIONAL_SMALL_TESTS:BOOL=ON "
+}
+
+function pressio_functional_medium_tests_on(){
+    CMAKELINE+="-D PRESSIO_ENABLE_FUNCTIONAL_MEDIUM_TESTS:BOOL=ON "
+}
+
+function pressio_functional_large_tests_on(){
+    CMAKELINE+="-D PRESSIO_ENABLE_FUNCTIONAL_LARGE_TESTS:BOOL=ON "
+}
+
 function pressio_enable_debug_print(){
     CMAKELINE+="-D PRESSIO_ENABLE_DEBUG_PRINT=ON "
 }

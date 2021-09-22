@@ -144,12 +144,15 @@ if [ $DRYRUN == no ]; then
     # do configure
     eval "cmake ${PRESSIOSRC} ${CMAKELINE} -D CMAKE_CXX_FLAGS='${CXXFLAGS}' "
 
-    # build
-    echo "build with" make -j ${njmake}
-    make -j ${njmake}
+    if [[ $CONFIGURE_ONLY == no ]]; then
+	# build
+	echo "build with" make -j ${njmake}
+	make -j ${njmake}
 
-    # install
-    make install
+	# install
+	make install
+    fi
+
 else
     print_message_dryrun_no
 fi

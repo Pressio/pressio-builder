@@ -92,7 +92,7 @@ then
     #   ((++cnt))
     # done
     # cd -
-    targets=(ode rom swe)
+    targets=(utils solvers_nonlinear ode rom) 
 elif [ ${repoName} == "pressio4py" ];
 then
     targets=(demos tutorials)
@@ -148,7 +148,6 @@ do
 	    echo $i
 	    mv $i.backup $i
 	done
-	#git checkout ${CURRPATH}/*
     fi
     echo ${CURRPATH}
 done

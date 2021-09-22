@@ -15,6 +15,10 @@ for option; do
 	    DRYRUN=`expr "x$option" : "x-*dryrun=\(.*\)"`
 	    ;;
 
+	-config-only=* | --config-only=* )
+	    CONFIGURE_ONLY=`expr "x$option" : "x-*config-only=\(.*\)"`
+	    ;;
+
 	-target-dir=* | --target-dir=* )
 	    WORKDIR=`expr "x$option" : "x-*target-dir=\(.*\)"`
 	    ;;
@@ -113,6 +117,10 @@ NOTE: Does not matter if you prepend Args with - or --, it is the same.
 --pressio-src=				WHAT:	   the FULL path to the Pressio source directory
 					OPTIONAL:  yes, if you do not set it, I will clone Pressio and place it
 						   inside the directory set by --target-dir
+
+--config-only=[yes/no]			WHAT:	  if yes, it only configures, if no it also builds
+					OPTIONAL: yes
+					default   = no
 
 --target-dir=				WHAT:	   the target directory where Pressio will be configured and/or built and/or installed.
 					ATTENTION: it must be a full path. I will make the dir if not existing already.

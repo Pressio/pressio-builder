@@ -20,6 +20,8 @@ PRESSIOBRANCH=master
 # name of the cmake configuring line
 CMAKELINEGEN=default
 
+CONFIGURE_ONLY=no
+
 # n to use for parallelizing make
 njmake=6
 
@@ -27,13 +29,14 @@ function print_global_vars(){
     print_shared_global_vars
 
     echo "CMAKELINEGEN	      = $CMAKELINEGEN"
+    echo "CONFIGURE_ONLY      = $CONFIGURE_ONLY"
     echo "PRESSIOSRC	      = $PRESSIOSRC"
     echo "EIGENPATH	      = $EIGENPATH"
     echo "GTESTPATH	      = $GTESTPATH"
     echo "TRILINOSPATH	      = $TRILINOSPATH"
     echo "KOKKOSPATH	      = $KOKKOSPATH"
     echo "PYBIND11PATH	      = $PYBIND11PATH"
-    echo "#cpu for make         = ${njmake}"
+    echo "#cpu for make       = ${njmake}"
 }
 
 function check_minimum_vars_set(){
