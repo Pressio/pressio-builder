@@ -37,7 +37,7 @@ PYBINDBRANCH=pressio_v2.6
 # cmake
 #----------
 # needed minimum cmake version
-CMAKEVERSIONMIN=3.11.0
+CMAKEVERSIONMIN=3.16.0
 
 #----------
 # python (needed for website building)
