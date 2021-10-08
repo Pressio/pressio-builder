@@ -76,6 +76,12 @@ function default_mpi_trilinos_with_tests_codecov() {
     CXXFLAGS+="-fprofile-arcs -ftest-coverage "
 }
 
+# Enables pedantic errors to detect features newer than C++14
+function trilinos_mpi_with_tests_pedantic() {
+    default_mpi_trilinos_with_tests
+    pressio_enable_cxx_pedantic_errors
+}
+
 function fnrizzitrilinos() {
     pressio_build_type
     pressio_cmake_verbose
