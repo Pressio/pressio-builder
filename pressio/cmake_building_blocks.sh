@@ -134,6 +134,10 @@ function pressio_enable_pybind11(){
 #     EXTRALINKFLAGS+=";dl"
 # }
 
+function pressio_enable_cxx_pedantic_errors(){
+    CXXFLAGS+="-Werror=pedantic -pedantic-errors "
+}
+
 # function pressio_add_gfortran_cxx_flag(){
 #     CXXFLAGS+="-gfortran "
 # }
