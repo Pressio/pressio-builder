@@ -18,7 +18,8 @@ GTESTBRANCH=master
 #----------
 TRILINOSGITURL=https://github.com/trilinos/Trilinos.git
 TRILINOSBRANCH=master
-TRILINOSCOMMITHASH=9fec35276d846a667bc668ff4cbdfd8be0dfea08
+TRILINOSCOMMITHASH=ef73d14babf6e7556b0420add98cce257ccaa56b
+#9fec35276d846a667bc668ff4cbdfd8be0dfea08
 
 #----------
 # kokkos core and kernels
