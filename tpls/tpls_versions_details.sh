@@ -11,7 +11,7 @@ EIGENUNPACKEDDIRNAME=eigen-${EIGENVERSION}
 # gtest
 #----------
 GTESTGITURL=https://github.com/google/googletest.git
-GTESTBRANCH=master
+GTESTBRANCH=main
 
 #----------
 # trilinos
